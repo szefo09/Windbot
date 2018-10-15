@@ -1,164 +1,155 @@
 {
     "windbots": [
       {
-        "name": "琪露诺",
+        "name": "Toadally",
         "deck": "Toadally Awesome",
-        "dialog": "cirno.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "琪露诺",
+        "name": "Rainbow",
         "deck": "Rainbow",
-        "dialog": "cirno.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "谜之剑士LV4",
+        "name": "Dragunity",
         "deck": "Dragunity",
-        "dialog": "swordsman.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "谜之剑士LV4",
+        "name": "RankV",
         "deck": "Rank V",
-        "dialog": "swordsman.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "谜之剑士LV4",
+        "name": "Zexal",
         "deck": "Zexal Weapons",
-        "dialog": "swordsman.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "复制植物",
+        "name": "Zoodiac",
         "deck": "Zoodiac",
-        "dialog": "copy.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "复制植物",
+        "name": "Blue-Eyes",
         "deck": "Blue-Eyes",
-        "dialog": "copy.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "尼亚",
+        "name": "Yosenju",
         "deck": "Yosenju",
-        "dialog": "near.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "尼亚",
+        "name": "Qliphort",
         "deck": "Qliphort",
-        "dialog": "near.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "尼亚",
+        "name": "Trickstar",
         "deck": "Trickstar",
-        "dialog": "near.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "尼亚",
+        "name": "Altergeist",
         "deck": "Altergeist",
-        "dialog": "near.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "千奈",
+        "name": "Nekroz",
         "deck": "Nekroz",
-        "dialog": "sennai.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "千奈",
+        "name": "ST1732",
         "deck": "ST1732",
-        "dialog": "sennai.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "千奈",
+        "name": "Lightsworn",
         "deck": "Lightsworn",
-        "dialog": "sennai.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "弥音",
+        "name": "Blackwing",
         "deck": "Blackwing",
-        "dialog": "meon.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "弥音",
+        "name": "CyberDragon",
         "deck": "CyberDragon",
-        "dialog": "meon.zh-CN"
+        "dialog": "kagari.en-US"
       },
 	{
-        "name": "弥音",
+        "name": "Evilswarm",
         "deck": "Evilswarm",
-        "dialog": "meon.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "早苗",
+        "name": "Gravekeeper",
         "deck": "Gravekeeper",
-        "dialog": "sanae.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "早苗",
+        "name": "Graydle",
         "deck": "Graydle",
-        "dialog": "sanae.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "早苗",
+        "name": "OldSchool",
         "deck": "Old School",
-        "dialog": "sanae.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "彩音",
+        "name": "SkyStriker",
         "deck": "SkyStriker",
-        "dialog": "ayane.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "彩音",
+        "name": "DarkMagician",
         "deck": "DarkMagician",
-        "dialog": "ayane.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "永远之魂",
+        "name": "Burn",
         "deck": "Burn",
-        "dialog": "soul.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "永远之魂",
+        "name": "Frog",
         "deck": "Frog",
-        "dialog": "soul.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "永远之魂",
+        "name": "Horus",
         "deck": "Horus",
-        "dialog": "soul.zh-CN"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "奇異果",
+        "name": "60Cards",
         "deck": "LightswornShaddoldinosour",
-        "dialog": "kiwi.zh-TW"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "MAX龍果",
+        "name": "ChaosMAX",
         "deck": "BlueEyesMaxDragon",
-        "dialog": "kiwi.zh-TW"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "MAX龍果",
-        "deck": "BlueEyesMaxDragon",
-        "dialog": "kiwi.zh-TW"
-      },
-      {
-        "name": "幻煌果",
+        "name": "Phantasm",
         "deck": "Phantasm",
-        "dialog": "kiwi.zh-TW"
+        "dialog": "kagari.en-US"
       },
+
       {
-        "name": "幻煌果",
-        "deck": "Phantasm",
-        "dialog": "kiwi.zh-TW"
-      },
-      {
-        "name": "報社鬥士",
+        "name": "GrenMaju",
         "deck": "GrenMajuThunderBoarder",
-        "dialog": "kiwi.zh-TW"
+        "dialog": "kagari.en-US"
       },
       {
-        "name": "燃血鬥士",
+        "name": "ChainBurn",
         "deck": "ChainBurn",
-        "dialog": "kiwi.zh-TW"
+        "dialog": "kagari.en-US"
       }
     ]
 }

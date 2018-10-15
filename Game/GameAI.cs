@@ -58,6 +58,7 @@ namespace WindBot.Game
         /// <returns>1 for Scissors, 2 for Rock, 3 for Paper.</returns>
         public int OnRockPaperScissors()
         {
+            _dialogs.SendRps();
             return Executor.OnRockPaperScissors();
         }
 
@@ -67,6 +68,7 @@ namespace WindBot.Game
         /// <returns>True if the AI should begin first, false otherwise.</returns>
         public bool OnSelectHand()
         {
+            _dialogs.sendRpsWin();
             return Executor.OnSelectHand();
         }
 
@@ -236,8 +238,10 @@ namespace WindBot.Game
             // Check for the executor.
             IList<ClientCard> result = Executor.OnSelectCard(cards, min, max, hint, cancelable);
             if (result != null)
+            {
+                _dialogs.SendChoiceSelect();
                 return result;
-
+            }
             if (hint == HINTMSG_SPSUMMON && min == 1 && max > min) // pendulum summon
             {
                 result = Executor.OnSelectPendulumSummon(cards, max);
@@ -266,7 +270,6 @@ namespace WindBot.Game
 
                     if (result != null)
                         return result;
-
                     // Update the next selector.
                     selector = GetSelectedCards();
                 }
@@ -279,8 +282,10 @@ namespace WindBot.Game
 
             // If we selected a card, use this card.
             if (selector != null)
+            {
+                _dialogs.SendChoiceSelect();
                 return selector.Select(cards, min, max);
-
+            }
             // Always select the first available cards and choose the minimum.
             IList<ClientCard> selected = new List<ClientCard>();
 
@@ -344,6 +349,7 @@ namespace WindBot.Game
                 }
                 i++;
             }
+            _dialogs.sendcounter();
             return used;
         }
 
@@ -427,7 +433,16 @@ namespace WindBot.Game
                 {
                     if (ShouldExecute(exec, card, ExecutorType.SpSummon))
                     {
-                        _dialogs.SendSummon(card.Name);
+                        if (card.Attack>=2500)
+                        {
+                            //_dialogs.SendBossSummon(card.Name);
+                        }
+                        else
+                        {
+                            _dialogs.SendSummon(card.Name);
+                        }
+                        
+                     
                         return new MainPhaseAction(MainPhaseAction.MainAction.SpSummon, card.ActionIndex);
                     }
                 }
@@ -435,7 +450,15 @@ namespace WindBot.Game
                 {
                     if (ShouldExecute(exec, card, ExecutorType.Summon))
                     {
-                        _dialogs.SendSummon(card.Name);
+                        if (card.Attack >= 2500)
+                        {
+                            //_dialogs.SendBossSummon(card.Name);
+                        }
+                        else
+                        {
+                            _dialogs.SendSummon(card.Name);
+                        }
+                        
                         return new MainPhaseAction(MainPhaseAction.MainAction.Summon, card.ActionIndex);
                     }
                     if (ShouldExecute(exec, card, ExecutorType.SummonOrSet))
@@ -446,7 +469,15 @@ namespace WindBot.Game
                             _dialogs.SendSetMonster();
                             return new MainPhaseAction(MainPhaseAction.MainAction.SetMonster, card.ActionIndex);
                         }
-                        _dialogs.SendSummon(card.Name);
+                        if (card.Attack>=2500)
+                        {
+                            //_dialogs.SendBossSummon(card.Name);
+                        }
+                        else
+                        {
+                            _dialogs.SendSummon(card.Name);
+                        }
+                        
                         return new MainPhaseAction(MainPhaseAction.MainAction.Summon, card.ActionIndex);
                     }
                 }                
@@ -471,6 +502,7 @@ namespace WindBot.Game
         /// <returns>Index of the selected option.</returns>
         public int OnSelectOption(IList<int> options)
         {
+            _dialogs.SendChoiceAdd();
             if (m_option != -1 && m_option < options.Count)
                 return m_option;
 
@@ -553,6 +585,7 @@ namespace WindBot.Game
                             selected = Executor.OnSelectSynchroMaterial(cards, sum, min, max);
                             break;
                         case HINTMSG_RELEASE:
+                            _dialogs.SendTribute();
                             selected = Executor.OnSelectRitualTribute(cards, sum, min, max);
                             break;
                     }
@@ -699,6 +732,7 @@ namespace WindBot.Game
         /// <returns>A new list containing the tributed cards.</returns>
         public IList<ClientCard> OnSelectTribute(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
+            _dialogs.SendTribute();
             // Always choose the minimum and lowest atk.
             List<ClientCard> sorted = new List<ClientCard>();
             sorted.AddRange(cards);
@@ -719,6 +753,7 @@ namespace WindBot.Game
         /// <returns>True for yes, false for no.</returns>
         public bool OnSelectYesNo(int desc)
         {
+            _dialogs.SendChoiceSelect();
             if (m_yesno != -1)
                 return m_yesno > 0;
             return Executor.OnSelectYesNo(desc);
@@ -1031,6 +1066,7 @@ namespace WindBot.Game
         /// <returns>Index of the selected number.</returns>
         public int OnAnnounceNumber(IList<int> numbers)
         {
+            _dialogs.SendChoiceSelect();
             if (numbers.Contains(m_number))
                 return numbers.IndexOf(m_number);
 
@@ -1045,6 +1081,7 @@ namespace WindBot.Game
         /// <returns>A list of the selected attributes.</returns>
         public virtual IList<CardAttribute> OnAnnounceAttrib(int count, IList<CardAttribute> attributes)
         {
+            _dialogs.SendChoiceSelect();
             IList<CardAttribute> foundAttributes = m_attributes.Where(attributes.Contains).ToList();
             if (foundAttributes.Count > 0)
                 return foundAttributes;
@@ -1060,6 +1097,7 @@ namespace WindBot.Game
         /// <returns>A list of the selected races.</returns>
         public virtual IList<CardRace> OnAnnounceRace(int count, IList<CardRace> races)
         {
+            _dialogs.SendChoiceSelect();
             IList<CardRace> foundRaces = m_races.Where(races.Contains).ToList();
             if (foundRaces.Count > 0)
                 return foundRaces;

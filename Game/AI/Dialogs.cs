@@ -34,7 +34,21 @@ namespace WindBot.Game.AI
         [DataMember]
         public string[] setmonster { get; set; }
         [DataMember]
-        public string[] chaining { get; set; }                                          
+        public string[] chaining { get; set; }   
+        [DataMember]
+        public string[] choiceadd { get; set; }
+        [DataMember]
+        public string[] choiceselect { get; set; }
+        [DataMember]
+        public string[] counter { get; set; }
+        [DataMember]
+        public string[] rps { get; set; }
+        [DataMember]
+        public string[] rpswin { get; set; }
+        [DataMember]
+        public string[] tribute { get; set; }
+        [DataMember]
+        public string[] bosssummon { get; set; }
     }
     public class Dialogs
     {
@@ -53,7 +67,13 @@ namespace WindBot.Game.AI
         private string[] _summon;
         private string[] _setmonster;
         private string[] _chaining;
-        
+        private string[] _choiceadd;
+        private string[] _choiceselect;
+        private string[] _counter;
+        private string[] _rps;
+        private string[] _rpswin;
+        private string[] _tribute;
+        private string[] _bosssummon;
         public Dialogs(GameClient game)
         {
             _game = game;
@@ -75,6 +95,13 @@ namespace WindBot.Game.AI
                 _summon = data.summon;
                 _setmonster = data.setmonster;
                 _chaining = data.chaining;
+                _choiceadd = data.choiceadd;
+                _choiceselect = data.choiceselect;
+                _counter = data.counter;
+                _rps = data.rps;
+                _rpswin = data.rpswin;
+                _tribute = data.tribute;
+                _bosssummon = data.bosssummon;
             }
         }
 
@@ -156,6 +183,34 @@ namespace WindBot.Game.AI
         public void SendChaining(string card)
         {
             InternalSendMessage(_chaining, card);
+        }
+        public void SendChoiceAdd()
+        {
+            InternalSendMessage(_choiceadd);
+        }
+        public void SendChoiceSelect()
+        {
+            InternalSendMessage(_choiceselect);
+        }
+        public void sendcounter()
+        {
+            InternalSendMessage(_counter);
+        }
+        public void SendRps()
+        {
+            InternalSendMessage(_rps);
+        }
+        public void sendRpsWin()
+        {
+            InternalSendMessage(_rpswin);
+        }
+        public void SendTribute()
+        {
+            InternalSendMessage(_tribute);
+        }
+        public void SendBossSummon(string card)
+        {
+            InternalSendMessage(_bosssummon, card);
         }
 
         private void InternalSendMessage(IList<string> array, params object[] opts)
