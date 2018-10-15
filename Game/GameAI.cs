@@ -435,7 +435,7 @@ namespace WindBot.Game
                     {
                         if (card.Attack>=2500)
                         {
-                            //_dialogs.SendBossSummon(card.Name);
+                            _dialogs.SendBossSummon(card.Name);
                         }
                         else
                         {
@@ -452,7 +452,7 @@ namespace WindBot.Game
                     {
                         if (card.Attack >= 2500)
                         {
-                            //_dialogs.SendBossSummon(card.Name);
+                            _dialogs.SendBossSummon(card.Name);
                         }
                         else
                         {
@@ -471,7 +471,7 @@ namespace WindBot.Game
                         }
                         if (card.Attack>=2500)
                         {
-                            //_dialogs.SendBossSummon(card.Name);
+                            _dialogs.SendBossSummon(card.Name);
                         }
                         else
                         {
