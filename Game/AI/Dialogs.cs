@@ -40,7 +40,11 @@ namespace WindBot.Game.AI
         [DataMember]
         public string[] choiceselect { get; set; }
         [DataMember]
+        public string[] counter { get; set; }
+        [DataMember]
         public string[] rps { get; set; }
+        [DataMember]
+        public string[] rpswin { get; set; }
         [DataMember]
         public string[] tribute { get; set; }
     }
@@ -63,7 +67,9 @@ namespace WindBot.Game.AI
         private string[] _chaining;
         private string[] _choiceadd;
         private string[] _choiceselect;
+        private string[] _counter;
         private string[] _rps;
+        private string[] _rpswin;
         private string[] _tribute;
         
         public Dialogs(GameClient game)
@@ -89,7 +95,9 @@ namespace WindBot.Game.AI
                 _chaining = data.chaining;
                 _choiceadd = data.choiceadd;
                 _choiceselect = data.choiceselect;
+                _counter = data.counter;
                 _rps = data.rps;
+                _rpswin = data.rpswin;
                 _tribute = data.tribute;
             }
         }
@@ -181,9 +189,17 @@ namespace WindBot.Game.AI
         {
             InternalSendMessage(_choiceselect);
         }
+        public void sendcounter()
+        {
+            InternalSendMessage(_counter);
+        }
         public void SendRps()
         {
             InternalSendMessage(_rps);
+        }
+        public void sendRpsWin()
+        {
+            InternalSendMessage(_rpswin);
         }
         public void SendTribute()
         {

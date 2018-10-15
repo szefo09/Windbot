@@ -68,6 +68,7 @@ namespace WindBot.Game
         /// <returns>True if the AI should begin first, false otherwise.</returns>
         public bool OnSelectHand()
         {
+            _dialogs.sendRpsWin();
             return Executor.OnSelectHand();
         }
 
@@ -238,7 +239,7 @@ namespace WindBot.Game
             IList<ClientCard> result = Executor.OnSelectCard(cards, min, max, hint, cancelable);
             if (result != null)
             {
-                _dialogs.SendChoiceAdd();
+                _dialogs.SendChoiceSelect();
                 return result;
             }
             if (hint == HINTMSG_SPSUMMON && min == 1 && max > min) // pendulum summon
@@ -348,6 +349,7 @@ namespace WindBot.Game
                 }
                 i++;
             }
+            _dialogs.sendcounter();
             return used;
         }
 
