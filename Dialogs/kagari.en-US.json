@@ -78,7 +78,7 @@
     "I call the invincible {0} to the battle!",
     "I'm calling the destroyer of worlds {0}.",
     "Come forth, omnipotent {0}!",
-    "Appear, supreme {0}"
+    "Appear, supreme {0}."
   ],
   "setmonster": [
     "I'm setting a monster.",
@@ -95,7 +95,7 @@
     "Did you consider the fact I have {0}?",
     "I still have something up my sleeve!",
     "Let me show you the power of {0}!",
-    "You just fell into my trap"
+    "You just fell into my trap."
   ],
   "tribute": [
     "Now I'll exchange the lives of these fools for more power!",
@@ -111,24 +111,24 @@
   "rpswin": [
     "Ha! I won!",
     "I won!",
-    "Now I'll decide how this duel will go",
-    "One step closer to winning the duel"
+    "Now I'll decide how this duel will go.",
+    "One step closer to winning the duel."
   ],
   "choiceadd": [
-    "I'll add this one",
-    "I'm choosing this one",
-    "Let me pick this one",
+    "I'll add this one.",
+    "I'm choosing this one.",
+    "Let me pick this one.",
     "Maybe I'll add this one..."
   ],
   "choiceselect": [
-    "I'm choosing this one",
-    "Let me pick this one",
-    "Maybe I'll choose this one",
-    "I'll pick this one",
-    "This should suffice",
-    "I'll take this one",
-    "I select this one",
-    "This one should do it"
+    "I'm choosing this one.",
+    "Let me pick this one.",
+    "Maybe I'll choose this one.",
+    "I'll pick this one.",
+    "This should suffice.",
+    "I'll take this one.",
+    "I select this one.",
+    "This one should do it."
   ],
   "counter": [
     "I'll use some of my stored power!",
