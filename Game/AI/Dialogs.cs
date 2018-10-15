@@ -47,6 +47,8 @@ namespace WindBot.Game.AI
         public string[] rpswin { get; set; }
         [DataMember]
         public string[] tribute { get; set; }
+        [DataMember]
+        public string[] bosssummon { get; set; }
     }
     public class Dialogs
     {
@@ -71,7 +73,7 @@ namespace WindBot.Game.AI
         private string[] _rps;
         private string[] _rpswin;
         private string[] _tribute;
-        
+        private string[] _bosssummon;
         public Dialogs(GameClient game)
         {
             _game = game;
@@ -99,6 +101,7 @@ namespace WindBot.Game.AI
                 _rps = data.rps;
                 _rpswin = data.rpswin;
                 _tribute = data.tribute;
+                _bosssummon = data.bosssummon;
             }
         }
 
@@ -205,6 +208,11 @@ namespace WindBot.Game.AI
         {
             InternalSendMessage(_tribute);
         }
+        public void SendBossSummon(string card)
+        {
+            InternalSendMessage(_bosssummon, card);
+        }
+
         private void InternalSendMessage(IList<string> array, params object[] opts)
         {
             if (!_game._chat)
