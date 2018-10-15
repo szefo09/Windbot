@@ -35,14 +35,10 @@ namespace WindBot.Game
         {
             _dialogs.SendDeckSorry(card);
         }
-        public void OnSummon(ClientCard card){
-            if(card.BaseAttack>=2500)
-                {
-                    _dialogs.SendBossSummon(card.Name);
-                }else
-                {
-                   _dialogs.SendSummon(card.Name);
-                }
+        public void OnSummon(ClientCard card)
+        {
+    
+                  _dialogs.SendSummon(card.Name);
 
         }
 
