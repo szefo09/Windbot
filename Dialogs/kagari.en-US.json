@@ -20,12 +20,12 @@
     "Draw!",
     "My turn begins.",
     "My turn, I draw.",
-    "I just topdecked the perfect answer!"
+    "I just topdecked the perfect card!"
   ],
   "endturn": [
-    "I allow you to play",
-    "Go ahead and play",
-    "Go ahead, make my day",
+    "I allow you to play.",
+    "Go ahead and play.",
+    "Go ahead, make my day.",
     "I'm curious in what moves you can pull.",
     "Entertain me."
   ],
@@ -48,7 +48,7 @@
     "{0}, charge the {1}!",
     "{0}, strike that useless {1}!",
     "{0}, unleash your power on this worthless {1}!",
-    "{1} will soon be destroyed by my {0}"
+    "{1} will soon be destroyed by my {0}."
   ],
   "ondirectattack": [
     "This won't change anything.",
@@ -67,16 +67,24 @@
     "I'm summoning {0}.",
     "Come on, {0}!",
     "Appear, {0}!",
-    "I summon the powerful {0}.",
+    "I summon {0}.",
     "I call {0} to the battle!",
     "I'm calling {0}.",
     "Come forth {0}."
+  ],
+  "bosssummon": [
+    "I'm summoning the all-mighty {0}.",
+    "I summon the powerful {0}.",
+    "I call the invincible {0} to the battle!",
+    "I'm calling the destroyer of worlds {0}.",
+    "Come forth, omnipotent {0}!",
+    "Appear, supreme {0}"
   ],
   "setmonster": [
     "I'm setting a monster.",
     "I set a face-down monster.",
     "I place a hidden monster.",
-    "Let's see if you can guess this one"
+    "Let's see if you can guess this one."
   ],
   "chaining": [
     "Look at that! I'm activating {0}.",

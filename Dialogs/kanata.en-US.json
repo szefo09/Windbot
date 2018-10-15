@@ -30,7 +30,7 @@
     "My {0} is going to smash your life points!",
     "Show your power to my opponent, {0}!",
     "Yield!",
-	"No Mercy!"
+	  "No Mercy!"
   ],
   "attack": [
     "{0}, Don't show mercy!",
@@ -57,9 +57,9 @@
     "I call {0} to the battle!",
     "I'm calling {0}.",
     "Let's summon {0}.",
-	"Monster Summon.",
-	"Don't mind me.",
-	"Let's see.."
+	  "Monster Summon.",
+	  "Don't mind me.",
+	  "Let's see.."
   ],
   "setmonster": [
     "I'm setting a monster.",
