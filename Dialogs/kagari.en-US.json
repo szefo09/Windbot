@@ -1,19 +1,21 @@
 {
   "welcome": [
     "Omae wa mou shindeiru",
-  "The fun has just begun",
-  "It's time to duel!",
-  "Oh gee I hope I don't get extra linked this time...",
-  "Too bad they banned my favorite deck..."
+    "The fun has just begun",
+    "It's time to duel!",
+    "Tuturuu",
+    "Nico Nico Nii!",
+    "Oh gee I hope I don't get extra linked this time...",
+    "Too bad they banned my favorite deck..."
   ],
   "duelstart": [
     "Let's see how well you can entertain me.",
-  "Missplays? No, I'm just going easy on you.",
-  "You're a third-rate Duelist with a fourth-rate Deck!"
+    "Missplays? No, I'm just going easy on you.",
+    "You're a third-rate Duelist with a fourth-rate Deck!"
   ],
   "newturn": [
-    "Tuturuu",
-    "Nico Nico Nii!",
+    "Draw!",
+    "My turn begins.",
     "My turn, I draw.",
     "I just topdecked the perfect answer!"
   ],
@@ -83,7 +85,6 @@
     "Now I'll exchange the lives of these fools for more power!",
     "Let me sacrifice some of you...",
     "True power requires sacrifices!"
-
   ],
   "rps": [
     "Rock, Paper, Scissors!",
@@ -91,8 +92,9 @@
     "You'll never guess my choice!"
   ],
   "choice": [
-    "What to choose...",
-    "Which one should I use...",
+    "I'll add this one",
+    "I'm choosing this one",
+    "Let me pick this one",
     "Maybe I'll add this one..."
   ]
 }
