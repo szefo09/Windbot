@@ -228,7 +228,6 @@ namespace WindBot.Game
         /// <returns>A new list containing the selected cards.</returns>
         public IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
-            _dialogs.SendChoiceSelect();
             const int HINTMSG_FMATERIAL = 511;
             const int HINTMSG_SMATERIAL = 512;
             const int HINTMSG_XMATERIAL = 513;
@@ -238,8 +237,10 @@ namespace WindBot.Game
             // Check for the executor.
             IList<ClientCard> result = Executor.OnSelectCard(cards, min, max, hint, cancelable);
             if (result != null)
+            {
+                _dialogs.SendChoiceAdd();
                 return result;
-
+            }
             if (hint == HINTMSG_SPSUMMON && min == 1 && max > min) // pendulum summon
             {
                 result = Executor.OnSelectPendulumSummon(cards, max);
@@ -267,10 +268,7 @@ namespace WindBot.Game
                         result = Executor.OnSelectLinkMaterial(cards, min, max);
 
                     if (result != null)
-                    {
-                        _dialogs.SendTribute();
                         return result;
-                    }
                     // Update the next selector.
                     selector = GetSelectedCards();
                 }
@@ -535,7 +533,6 @@ namespace WindBot.Game
         /// <returns></returns>
         public IList<ClientCard> OnSelectSum(IList<ClientCard> cards, int sum, int min, int max, int hint, bool mode)
         {
-            _dialogs.SendTribute();
             const int HINTMSG_RELEASE = 500;
             const int HINTMSG_SMATERIAL = 512;
 
@@ -559,6 +556,7 @@ namespace WindBot.Game
                             selected = Executor.OnSelectSynchroMaterial(cards, sum, min, max);
                             break;
                         case HINTMSG_RELEASE:
+                            _dialogs.SendTribute();
                             selected = Executor.OnSelectRitualTribute(cards, sum, min, max);
                             break;
                     }
