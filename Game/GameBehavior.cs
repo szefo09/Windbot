@@ -1557,6 +1557,7 @@ namespace WindBot.Game
         {
             foreach (ClientCard card in _duel.SummoningCards)
             {
+                _ai.OnSummon(card);
                 _duel.LastSummonedCards.Add(card);
             }
             _duel.SummoningCards.Clear();
@@ -1581,6 +1582,7 @@ namespace WindBot.Game
             foreach (ClientCard card in _duel.SummoningCards)
             {
                 card.IsSpecialSummoned = true;
+                _ai.OnSummon(card);
                 _duel.LastSummonedCards.Add(card);
             }
             _duel.SummoningCards.Clear();

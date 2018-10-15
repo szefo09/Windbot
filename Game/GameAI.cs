@@ -35,6 +35,17 @@ namespace WindBot.Game
         {
             _dialogs.SendDeckSorry(card);
         }
+        public void OnSummon(ClientCard card){
+            if(card.BaseAttack>=2500)
+                {
+                   // _dialogs.SendBossSummon(card.Name);
+                }else
+                {
+                   // _dialogs.SendSummon(card.Name);
+                }
+
+        }
+
 
         /// <summary>
         /// Called when the AI join the game.
@@ -435,11 +446,11 @@ namespace WindBot.Game
                     {
                         if (card.BaseAttack>=2500)
                         {
-                            _dialogs.SendBossSummon(card.Name);
+                            //_dialogs.SendBossSummon(card.Name);
                         }
                         else
                         {
-                            _dialogs.SendSummon(card.Name);
+                          // _dialogs.SendSummon(card.Name);
                         }
                         
                      
@@ -452,11 +463,11 @@ namespace WindBot.Game
                     {
                         if (card.BaseAttack >= 2500)
                         {
-                            _dialogs.SendBossSummon(card.Name);
+                           // _dialogs.SendBossSummon(card.Name);
                         }
                         else
                         {
-                            _dialogs.SendSummon(card.Name);
+                           // _dialogs.SendSummon(card.Name);
                         }
                         
                         return new MainPhaseAction(MainPhaseAction.MainAction.Summon, card.ActionIndex);
@@ -471,11 +482,11 @@ namespace WindBot.Game
                         }
                         if (card.BaseAttack>=2500)
                         {
-                            _dialogs.SendBossSummon(card.Name);
+                           // _dialogs.SendBossSummon(card.Name);
                         }
                         else
                         {
-                            _dialogs.SendSummon(card.Name);
+                           // _dialogs.SendSummon(card.Name);
                         }
                         
                         return new MainPhaseAction(MainPhaseAction.MainAction.Summon, card.ActionIndex);
