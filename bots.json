@@ -16,6 +16,11 @@
         "dialog": "kagari.en-US"
       },
       {
+        "name": "MokeyMokey",
+        "deck": "MokeyMokey",
+        "dialog": "kagari.en-US"
+      },
+      {
         "name": "RankV",
         "deck": "Rank V",
         "dialog": "kagari.en-US"
