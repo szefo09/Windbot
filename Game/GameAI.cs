@@ -281,8 +281,10 @@ namespace WindBot.Game
 
             // If we selected a card, use this card.
             if (selector != null)
+            {
+                _dialogs.SendChoiceSelect();
                 return selector.Select(cards, min, max);
-
+            }
             // Always select the first available cards and choose the minimum.
             IList<ClientCard> selected = new List<ClientCard>();
 

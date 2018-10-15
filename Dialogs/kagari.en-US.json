@@ -1,9 +1,9 @@
 {
   "welcome": [
-    "Omae wa mou shindeiru",
-    "The fun has just begun",
+    "Omae wa mou shindeiru.",
+    "The fun has just begun.",
     "It's time to duel!",
-    "Tuturuu",
+    "Tuturuu.",
     "Nico Nico Nii!",
     "Oh gee I hope I don't get extra linked this time...",
     "Too bad they banned my favorite deck..."
@@ -11,7 +11,10 @@
   "duelstart": [
     "Let's see how well you can entertain me.",
     "Missplays? No, I'm just going easy on you.",
-    "You're a third-rate Duelist with a fourth-rate Deck!"
+    "You're a third-rate Duelist with a fourth-rate Deck!",
+    "I wonder if you'll last more than 5 minutes.",
+    "Show me what you're made of.",
+    "Maybe I'll play seriously this time.'"
   ],
   "newturn": [
     "Draw!",
@@ -22,7 +25,9 @@
   "endturn": [
     "I allow you to play",
     "Go ahead and play",
-    "I'm curious in what moves you can pull."
+    "Go ahead, make my day",
+    "I'm curious in what moves you can pull.",
+    "Entertain me."
   ],
   "directattack": [
     "{0}, attack him directly my darling!",
@@ -33,7 +38,7 @@
     "{0}, attack him using a direct attack!",
     "{0}, unleash your power on him!",
     "My darling is going to pass down a judgement!",
-    "Show your power to my onii-chan, {0}!",
+    "Show your power to this fool, {0}!",
     "Explosion!",
     "I'll send you to the Shadow Realm!"
   ],
@@ -46,14 +51,16 @@
     "{1} will soon be destroyed by my {0}"
   ],
   "ondirectattack": [
-    "This won't change anything",
+    "This won't change anything.",
     "Just a lowly {0} ...",
-    "B-baka!"
+    "B-baka!",
+    "Tis but a scratch."
   ],
   "activate": [
     "I'm activating {0}.",
     "I'm using the effect of {0}.",
-    "I use the power of {0}."
+    "I use the power of {0}.",
+    "{0}, activate."
   ],
   "summon": [
     "I'm summoning {0}.",
@@ -84,7 +91,8 @@
   "tribute": [
     "Now I'll exchange the lives of these fools for more power!",
     "Let me sacrifice some of you...",
-    "True power requires sacrifices!"
+    "True power requires sacrifices!",
+    "Some need to be left behind to allow others to soar above them..."
   ],
   "rps": [
     "Rock, Paper, Scissors!",
@@ -101,6 +109,8 @@
     "I'm choosing this one",
     "Let me pick this one",
     "Maybe I'll choose this one",
-    "I'll pick this one"
+    "I'll pick this one",
+    "I'll use this one",
+    "This should suffice"
   ]
 }
