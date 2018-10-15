@@ -433,7 +433,7 @@ namespace WindBot.Game
                 {
                     if (ShouldExecute(exec, card, ExecutorType.SpSummon))
                     {
-                        if (card.Attack>=2500)
+                        if (card.BaseAttack>=2500)
                         {
                             _dialogs.SendBossSummon(card.Name);
                         }
@@ -450,7 +450,7 @@ namespace WindBot.Game
                 {
                     if (ShouldExecute(exec, card, ExecutorType.Summon))
                     {
-                        if (card.Attack >= 2500)
+                        if (card.BaseAttack >= 2500)
                         {
                             _dialogs.SendBossSummon(card.Name);
                         }
@@ -469,7 +469,7 @@ namespace WindBot.Game
                             _dialogs.SendSetMonster();
                             return new MainPhaseAction(MainPhaseAction.MainAction.SetMonster, card.ActionIndex);
                         }
-                        if (card.Attack>=2500)
+                        if (card.BaseAttack>=2500)
                         {
                             _dialogs.SendBossSummon(card.Name);
                         }
