@@ -36,7 +36,8 @@ namespace WindBot.Game
             _dialogs.SendDeckSorry(card);
         }
         public void OnSummon(ClientCard card)
-        {
+        {      if(card.Owner==1)
+                {
                 if(card.Attack>=2500)
                     {
                     _dialogs.SendBossSummon(card.Name);
@@ -44,8 +45,7 @@ namespace WindBot.Game
                     {
                              _dialogs.SendSummon(card.Name);
                     }                                     
-                  
-
+                }
         }
 
 
