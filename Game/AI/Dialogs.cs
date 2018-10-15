@@ -36,7 +36,9 @@ namespace WindBot.Game.AI
         [DataMember]
         public string[] chaining { get; set; }   
         [DataMember]
-        public string[] choice { get; set; }
+        public string[] choice1 { get; set; }
+        [DataMember]
+        public string[] choice2 { get; set; }
         [DataMember]
         public string[] rps { get; set; }
         [DataMember]
@@ -59,7 +61,8 @@ namespace WindBot.Game.AI
         private string[] _summon;
         private string[] _setmonster;
         private string[] _chaining;
-        private string[] _choice;
+        private string[] _choice1;
+        private string[] _choice2;
         private string[] _rps;
         private string[] _tribute;
         
@@ -84,7 +87,8 @@ namespace WindBot.Game.AI
                 _summon = data.summon;
                 _setmonster = data.setmonster;
                 _chaining = data.chaining;
-                _choice = data.choice;
+                _choice1 = data.choice1;
+                _choice2 = data.choice2;
                 _rps = data.rps;
                 _tribute = data.tribute;
             }
@@ -169,9 +173,13 @@ namespace WindBot.Game.AI
         {
             InternalSendMessage(_chaining, card);
         }
-        public void SendChoice()
+        public void SendChoice1()
         {
-            InternalSendMessage(_choice);
+            InternalSendMessage(_choice1);
+        }
+        public void SendChoice2()
+        {
+            InternalSendMessage(_choice2);
         }
         public void SendRps()
         {

@@ -228,7 +228,6 @@ namespace WindBot.Game
         /// <returns>A new list containing the selected cards.</returns>
         public IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
-            _dialogs.SendChoice();
             const int HINTMSG_FMATERIAL = 511;
             const int HINTMSG_SMATERIAL = 512;
             const int HINTMSG_XMATERIAL = 513;
@@ -242,6 +241,7 @@ namespace WindBot.Game
 
             if (hint == HINTMSG_SPSUMMON && min == 1 && max > min) // pendulum summon
             {
+                _dialogs.SendChoice2();
                 result = Executor.OnSelectPendulumSummon(cards, max);
                 if (result != null)
                     return result;
@@ -250,6 +250,7 @@ namespace WindBot.Game
             CardSelector selector = null;
             if (hint == HINTMSG_FMATERIAL || hint == HINTMSG_SMATERIAL || hint == HINTMSG_XMATERIAL || hint == HINTMSG_LMATERIAL)
             {
+                _dialogs.SendTribute();
                 if (m_materialSelector != null)
                 {
                     //Logger.DebugWriteLine("m_materialSelector");
@@ -280,6 +281,7 @@ namespace WindBot.Game
             }
 
             // If we selected a card, use this card.
+            _dialogs.SendChoice1();
             if (selector != null)
                 return selector.Select(cards, min, max);
 
@@ -291,6 +293,7 @@ namespace WindBot.Game
                 for (int i = 0; i < min; ++i)
                     selected.Add(cards[i]);
             }
+            _dialogs.SendChoice2();
             return selected;
         }
 
@@ -473,7 +476,7 @@ namespace WindBot.Game
         /// <returns>Index of the selected option.</returns>
         public int OnSelectOption(IList<int> options)
         {
-            _dialogs.SendChoice();
+            _dialogs.SendChoice1();
             if (m_option != -1 && m_option < options.Count)
                 return m_option;
 
@@ -533,6 +536,7 @@ namespace WindBot.Game
         /// <returns></returns>
         public IList<ClientCard> OnSelectSum(IList<ClientCard> cards, int sum, int min, int max, int hint, bool mode)
         {
+            _dialogs.SendTribute();
             const int HINTMSG_RELEASE = 500;
             const int HINTMSG_SMATERIAL = 512;
 
@@ -723,7 +727,7 @@ namespace WindBot.Game
         /// <returns>True for yes, false for no.</returns>
         public bool OnSelectYesNo(int desc)
         {
-            _dialogs.SendChoice();
+            _dialogs.SendChoice2();
             if (m_yesno != -1)
                 return m_yesno > 0;
             return Executor.OnSelectYesNo(desc);
@@ -1036,7 +1040,7 @@ namespace WindBot.Game
         /// <returns>Index of the selected number.</returns>
         public int OnAnnounceNumber(IList<int> numbers)
         {
-            _dialogs.SendChoice();
+            _dialogs.SendChoice2();
             if (numbers.Contains(m_number))
                 return numbers.IndexOf(m_number);
 
@@ -1051,7 +1055,7 @@ namespace WindBot.Game
         /// <returns>A list of the selected attributes.</returns>
         public virtual IList<CardAttribute> OnAnnounceAttrib(int count, IList<CardAttribute> attributes)
         {
-            _dialogs.SendChoice();
+            _dialogs.SendChoice2();
             IList<CardAttribute> foundAttributes = m_attributes.Where(attributes.Contains).ToList();
             if (foundAttributes.Count > 0)
                 return foundAttributes;
@@ -1067,7 +1071,7 @@ namespace WindBot.Game
         /// <returns>A list of the selected races.</returns>
         public virtual IList<CardRace> OnAnnounceRace(int count, IList<CardRace> races)
         {
-            _dialogs.SendChoice();
+            _dialogs.SendChoice2();
             IList<CardRace> foundRaces = m_races.Where(races.Contains).ToList();
             if (foundRaces.Count > 0)
                 return foundRaces;
