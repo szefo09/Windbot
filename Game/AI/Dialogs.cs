@@ -34,7 +34,13 @@ namespace WindBot.Game.AI
         [DataMember]
         public string[] setmonster { get; set; }
         [DataMember]
-        public string[] chaining { get; set; }                                          
+        public string[] chaining { get; set; }   
+        [DataMember]
+        public string[] choice { get; set; }
+        [DataMember]
+        public string[] rps { get; set; }
+        [DataMember]
+        public string[] tribute { get; set; }
     }
     public class Dialogs
     {
@@ -53,6 +59,9 @@ namespace WindBot.Game.AI
         private string[] _summon;
         private string[] _setmonster;
         private string[] _chaining;
+        private string[] _choice;
+        private string[] _rps;
+        private string[] _tribute;
         
         public Dialogs(GameClient game)
         {
@@ -75,6 +84,9 @@ namespace WindBot.Game.AI
                 _summon = data.summon;
                 _setmonster = data.setmonster;
                 _chaining = data.chaining;
+                _choice = data.choice;
+                _rps = data.rps;
+                _tribute = data.tribute;
             }
         }
 
@@ -157,7 +169,18 @@ namespace WindBot.Game.AI
         {
             InternalSendMessage(_chaining, card);
         }
-
+        public void SendChoice()
+        {
+            InternalSendMessage(_choice);
+        }
+        public void SendRps()
+        {
+            InternalSendMessage(_rps);
+        }
+        public void SendTribute()
+        {
+            InternalSendMessage(_tribute);
+        }
         private void InternalSendMessage(IList<string> array, params object[] opts)
         {
             if (!_game._chat)

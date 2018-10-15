@@ -58,6 +58,7 @@ namespace WindBot.Game
         /// <returns>1 for Scissors, 2 for Rock, 3 for Paper.</returns>
         public int OnRockPaperScissors()
         {
+            _dialogs.SendRps();
             return Executor.OnRockPaperScissors();
         }
 
@@ -227,6 +228,7 @@ namespace WindBot.Game
         /// <returns>A new list containing the selected cards.</returns>
         public IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
+            _dialogs.SendChoice();
             const int HINTMSG_FMATERIAL = 511;
             const int HINTMSG_SMATERIAL = 512;
             const int HINTMSG_XMATERIAL = 513;
@@ -471,6 +473,7 @@ namespace WindBot.Game
         /// <returns>Index of the selected option.</returns>
         public int OnSelectOption(IList<int> options)
         {
+            _dialogs.SendChoice();
             if (m_option != -1 && m_option < options.Count)
                 return m_option;
 
@@ -699,6 +702,7 @@ namespace WindBot.Game
         /// <returns>A new list containing the tributed cards.</returns>
         public IList<ClientCard> OnSelectTribute(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
+            _dialogs.SendTribute();
             // Always choose the minimum and lowest atk.
             List<ClientCard> sorted = new List<ClientCard>();
             sorted.AddRange(cards);
@@ -719,6 +723,7 @@ namespace WindBot.Game
         /// <returns>True for yes, false for no.</returns>
         public bool OnSelectYesNo(int desc)
         {
+            _dialogs.SendChoice();
             if (m_yesno != -1)
                 return m_yesno > 0;
             return Executor.OnSelectYesNo(desc);
@@ -1031,6 +1036,7 @@ namespace WindBot.Game
         /// <returns>Index of the selected number.</returns>
         public int OnAnnounceNumber(IList<int> numbers)
         {
+            _dialogs.SendChoice();
             if (numbers.Contains(m_number))
                 return numbers.IndexOf(m_number);
 
@@ -1045,6 +1051,7 @@ namespace WindBot.Game
         /// <returns>A list of the selected attributes.</returns>
         public virtual IList<CardAttribute> OnAnnounceAttrib(int count, IList<CardAttribute> attributes)
         {
+            _dialogs.SendChoice();
             IList<CardAttribute> foundAttributes = m_attributes.Where(attributes.Contains).ToList();
             if (foundAttributes.Count > 0)
                 return foundAttributes;
@@ -1060,6 +1067,7 @@ namespace WindBot.Game
         /// <returns>A list of the selected races.</returns>
         public virtual IList<CardRace> OnAnnounceRace(int count, IList<CardRace> races)
         {
+            _dialogs.SendChoice();
             IList<CardRace> foundRaces = m_races.Where(races.Contains).ToList();
             if (foundRaces.Count > 0)
                 return foundRaces;
