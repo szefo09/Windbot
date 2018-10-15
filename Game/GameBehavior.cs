@@ -1557,7 +1557,7 @@ namespace WindBot.Game
         {
             foreach (ClientCard card in _duel.SummoningCards)
             {
-                if(GetLocalPlayer(packet.ReadByte)==1)
+                if(GetLocalPlayer(packet.ReadByte())==1)
                 {
                      _ai.OnSummon(card);
                 }
@@ -1585,7 +1585,7 @@ namespace WindBot.Game
             foreach (ClientCard card in _duel.SummoningCards)
             {
                 card.IsSpecialSummoned = true;
-                if(GetLocalPlayer(packet.ReadByte)==1)
+                if(GetLocalPlayer(packet.ReadByte())==1)
                 {
                      _ai.OnSummon(card);
                 }
