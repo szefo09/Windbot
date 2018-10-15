@@ -91,13 +91,13 @@
     "Jan-Ken-Pon!",
     "You'll never guess my choice!"
   ],
-  "choice1": [
+  "choiceadd": [
     "I'll add this one",
     "I'm choosing this one",
     "Let me pick this one",
     "Maybe I'll add this one..."
   ],
-  "choice2": [
+  "choiceselect": [
     "I'm choosing this one",
     "Let me pick this one",
     "Maybe I'll choose this one",
