@@ -43,7 +43,7 @@ namespace WindBot.Game
                     _dialogs.SendBossSummon(card.Name);
                     }else
                     {
-                             _dialogs.SendSummon(card.Name);
+                     _dialogs.SendSummon(card.Name);
                     }                                     
                 
         }
@@ -446,16 +446,6 @@ namespace WindBot.Game
                 {
                     if (ShouldExecute(exec, card, ExecutorType.SpSummon))
                     {
-                        if (card.BaseAttack>=2500)
-                        {
-                            //_dialogs.SendBossSummon(card.Name);
-                        }
-                        else
-                        {
-                          // _dialogs.SendSummon(card.Name);
-                        }
-                        
-                     
                         return new MainPhaseAction(MainPhaseAction.MainAction.SpSummon, card.ActionIndex);
                     }
                 }
@@ -463,15 +453,6 @@ namespace WindBot.Game
                 {
                     if (ShouldExecute(exec, card, ExecutorType.Summon))
                     {
-                        if (card.BaseAttack >= 2500)
-                        {
-                           // _dialogs.SendBossSummon(card.Name);
-                        }
-                        else
-                        {
-                           // _dialogs.SendSummon(card.Name);
-                        }
-                        
                         return new MainPhaseAction(MainPhaseAction.MainAction.Summon, card.ActionIndex);
                     }
                     if (ShouldExecute(exec, card, ExecutorType.SummonOrSet))
@@ -482,15 +463,6 @@ namespace WindBot.Game
                             _dialogs.SendSetMonster();
                             return new MainPhaseAction(MainPhaseAction.MainAction.SetMonster, card.ActionIndex);
                         }
-                        if (card.BaseAttack>=2500)
-                        {
-                           // _dialogs.SendBossSummon(card.Name);
-                        }
-                        else
-                        {
-                           // _dialogs.SendSummon(card.Name);
-                        }
-                        
                         return new MainPhaseAction(MainPhaseAction.MainAction.Summon, card.ActionIndex);
                     }
                 }                
