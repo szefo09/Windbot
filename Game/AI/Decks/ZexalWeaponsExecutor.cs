@@ -80,9 +80,9 @@ namespace WindBot.Game.AI.Decks
 
             // Weapons
             
-            AddExecutor(ExecutorType.Activate, CardId.ZwTornadoBringer,WasCardUsedMoreThan9Times);
-            AddExecutor(ExecutorType.Activate, CardId.ZwLightningBlade, WasCardUsedMoreThan9Times);
-            AddExecutor(ExecutorType.Activate, CardId.ZwAsuraStrike, WasCardUsedMoreThan9Times);
+            AddExecutor(ExecutorType.Activate, CardId.ZwTornadoBringer,WasCardUsedMoreThan5Times);
+            AddExecutor(ExecutorType.Activate, CardId.ZwLightningBlade, WasCardUsedMoreThan5Times);
+            AddExecutor(ExecutorType.Activate, CardId.ZwAsuraStrike, WasCardUsedMoreThan5Times);
 
 
             // Special summons
@@ -232,10 +232,10 @@ namespace WindBot.Game.AI.Decks
                 );
             return true;
         }
-        private bool WasCardUsedMoreThan9Times()
+        private bool WasCardUsedMoreThan5Times()
         {
             EquipUsed++;
-            if (EquipUsed>9)
+            if (EquipUsed>4)
             {
                 return false;
             }
