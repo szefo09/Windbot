@@ -39,19 +39,19 @@ namespace WindBot.Game.AI.Decks
             public const int HeraldOfTheArcLight = 79606837;
         }
 
-        List<int> NekrozRituelCard = new List<int>();
+        List<int> NekrozRitualCard = new List<int>();
         List<int> NekrozSpellCard = new List<int>();
 
         public NekrozExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
-            NekrozRituelCard.Add(CardId.Clausolas);
-            NekrozRituelCard.Add(CardId.Unicore);
-            NekrozRituelCard.Add(CardId.DecisiveArmor);
-            NekrozRituelCard.Add(CardId.Brionac);
-            NekrozRituelCard.Add(CardId.Trishula);
-            NekrozRituelCard.Add(CardId.Gungnir);
-            NekrozRituelCard.Add(CardId.Valkyrus);
+            NekrozRitualCard.Add(CardId.Clausolas);
+            NekrozRitualCard.Add(CardId.Unicore);
+            NekrozRitualCard.Add(CardId.DecisiveArmor);
+            NekrozRitualCard.Add(CardId.Brionac);
+            NekrozRitualCard.Add(CardId.Trishula);
+            NekrozRitualCard.Add(CardId.Gungnir);
+            NekrozRitualCard.Add(CardId.Valkyrus);
 
             NekrozSpellCard.Add(CardId.Mirror);
             NekrozSpellCard.Add(CardId.Kaleidoscope);
@@ -59,7 +59,7 @@ namespace WindBot.Game.AI.Decks
 
             AddExecutor(ExecutorType.SpellSet, DefaultSpellSet);
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
-
+            
             AddExecutor(ExecutorType.Activate, CardId.DarkHole, DefaultDarkHole);
             AddExecutor(ExecutorType.Activate, CardId.ReinforcementOfTheArmy, ReinforcementOfTheArmyEffect);
             AddExecutor(ExecutorType.Activate, CardId.TradeIn);
@@ -103,7 +103,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool ThousandHandsSummon()
         {
-            if (!Bot.HasInHand(NekrozRituelCard) || Bot.HasInHand(CardId.Shurit) || !Bot.HasInHand(NekrozSpellCard))
+            if (!Bot.HasInHand(NekrozRitualCard) || Bot.HasInHand(CardId.Shurit) || !Bot.HasInHand(NekrozSpellCard))
                 return true;
             foreach (ClientCard Card in Bot.Hand)
                 if (Card != null && Card.IsCode(CardId.Kaleidoscope) && !Bot.HasInHand(CardId.Unicore))
@@ -139,7 +139,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool PhantomOfChaosSummon()
         {
-            if (Bot.HasInGraveyard(CardId.Shurit) && Bot.HasInHand(NekrozSpellCard) && Bot.HasInHand(NekrozRituelCard))
+            if (Bot.HasInGraveyard(CardId.Shurit) && Bot.HasInHand(NekrozSpellCard) && Bot.HasInHand(NekrozRitualCard))
                 return true;
             return false;
         }
@@ -272,7 +272,7 @@ namespace WindBot.Game.AI.Decks
             try
             {
                 foreach (ClientCard card in Bot.Hand)
-                    if (card != null && card.IsCode(NekrozRituelCard))
+                    if (card != null && card.IsCode(NekrozRitualCard))
                         NekrozCard.Add(card.Id);
 
                 foreach (int Id in NekrozCard)

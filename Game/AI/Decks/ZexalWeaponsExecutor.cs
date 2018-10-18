@@ -49,7 +49,7 @@ namespace WindBot.Game.AI.Decks
             public const int MaestrokeTheSymphonyDjinn = 25341652;
             public const int GagagaCowboy = 12014404;
         }
-
+        int EquipUsed = 0;
         public ZexalWeaponsExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
@@ -79,9 +79,10 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Number61Volcasaurus);
 
             // Weapons
-            AddExecutor(ExecutorType.Activate, CardId.ZwTornadoBringer);
-            AddExecutor(ExecutorType.Activate, CardId.ZwLightningBlade);
-            AddExecutor(ExecutorType.Activate, CardId.ZwAsuraStrike);
+            
+            AddExecutor(ExecutorType.Activate, CardId.ZwTornadoBringer,WasCardUsedMoreThan9Times);
+            AddExecutor(ExecutorType.Activate, CardId.ZwLightningBlade, WasCardUsedMoreThan9Times);
+            AddExecutor(ExecutorType.Activate, CardId.ZwAsuraStrike, WasCardUsedMoreThan9Times);
 
 
             // Special summons
@@ -231,6 +232,15 @@ namespace WindBot.Game.AI.Decks
                 );
             return true;
         }
+        private bool WasCardUsedMoreThan9Times()
+        {
+            EquipUsed++;
+            if (EquipUsed>9)
+            {
+                return false;
+            }
+            return true;
+        }
 
         private bool KagetokageEffect()
         {
@@ -280,5 +290,10 @@ namespace WindBot.Game.AI.Decks
                 return false;
             return base.DefaultMonsterRepos();
         }
+        public override void OnNewTurn()
+        {
+           EquipUsed = 0;
+        }
+
     }
 }
