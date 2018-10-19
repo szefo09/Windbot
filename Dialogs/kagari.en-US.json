@@ -6,7 +6,10 @@
     "Tuturuu.",
     "Nico Nico Nii!",
     "Oh gee I hope I don't get extra linked this time...",
-    "Too bad they banned my favorite deck..."
+    "Too bad they banned my favorite deck...",
+    "I've been waiting for you",
+    "What took you so long?",
+    "It's not like I missed you or anything... b-baka!"
   ],
   "duelstart": [
     "Let's see how well you can entertain me.",
@@ -14,20 +17,25 @@
     "You're a third-rate Duelist with a fourth-rate Deck!",
     "I wonder if you'll last more than 5 minutes.",
     "Show me what you're made of.",
-    "Maybe I'll play seriously this time."
+    "Maybe I'll play seriously this time.",
+    "Let's see if you are worthy of my time"
   ],
   "newturn": [
     "Draw!",
     "My turn begins.",
     "My turn, I draw.",
-    "I just topdecked the perfect card!"
+    "I just topdecked the perfect card!",
+    "One step closer to victory.",
+    "Now see how this game is meant to be played.",
+    "I've got this game in the bag"
   ],
   "endturn": [
     "I allow you to play.",
     "Go ahead and play.",
     "Go ahead, make my day.",
     "I'm curious in what moves you can pull.",
-    "Entertain me."
+    "Entertain me.",
+    "Impress me."
   ],
   "directattack": [
     "{0}, attack him directly my darling!",
@@ -40,7 +48,9 @@
     "My darling is going to pass down a judgement!",
     "Show your power to this fool, {0}!",
     "Explosion!",
-    "I'll send you to the Shadow Realm!"
+    "I'll send you to the Shadow Realm!",
+    "Prepare to meet your maker!",
+    "Show him your wrath, {0}!"
   ],
   "attack": [
     "{0}, attack this pitiful {1}!",
@@ -73,18 +83,19 @@
     "Come forth {0}."
   ],
   "bosssummon": [
-    "I'm summoning the all-mighty {0}.",
-    "I summon the powerful {0}.",
-    "I call the invincible {0} to the battle!",
-    "I'm calling the destroyer of worlds {0}.",
-    "Come forth, omnipotent {0}!",
-    "Appear, supreme {0}."
+    "I'm summoning the All-mighty {0}.",
+    "I summon the Powerful {0}.",
+    "I call the Invincible {0} to the battle!",
+    "I'm calling the Destroyer of Worlds {0}.",
+    "Come forth, Omnipotent {0}!",
+    "Appear, Supreme {0}."
   ],
   "setmonster": [
     "I'm setting a monster.",
     "I set a face-down monster.",
     "I place a hidden monster.",
-    "Let's see if you can guess this one."
+    "Let's see if you can guess this one.",
+    "What could it be?"
   ],
   "chaining": [
     "Look at that! I'm activating {0}.",
@@ -95,18 +106,22 @@
     "Did you consider the fact I have {0}?",
     "I still have something up my sleeve!",
     "Let me show you the power of {0}!",
-    "You just fell into my trap."
+    "You just fell into my trap.",
+    "How about that?"
+  ],
   ],
   "tribute": [
     "Now I'll exchange the lives of these fools for more power!",
     "Let me sacrifice some of you...",
     "True power requires sacrifices!",
-    "Some need to be left behind to allow others to soar above them..."
+    "Some need to be left behind to allow others to soar above them...",
+    "These cards are no longer useful to me"
   ],
   "rps": [
     "Rock, Paper, Scissors!",
     "Jan-Ken-Pon!",
-    "You'll never guess my choice!"
+    "You'll never guess my choice!",
+    "Try to guess my choice!"
   ],
   "rpswin": [
     "Ha! I won!",
@@ -116,9 +131,10 @@
   ],
   "choiceadd": [
     "I'll add this one.",
-    "I'm choosing this one.",
     "Let me pick this one.",
-    "Maybe I'll add this one..."
+    "Maybe I'll add this one...",
+    "I add this one",
+    "Let me add this one to my hand"
   ],
   "choiceselect": [
     "I'm choosing this one.",
@@ -128,7 +144,11 @@
     "This should suffice.",
     "I'll take this one.",
     "I select this one.",
-    "This one should do it."
+    "This one should do it.",
+    "I choose this one",
+    "Hmm how about this one",
+    "I'll pick that",
+    "I'll choose this"
   ],
   "counter": [
     "I'll use some of my stored power!",
