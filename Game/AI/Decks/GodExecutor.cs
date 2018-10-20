@@ -62,13 +62,13 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 2)
             {
-                if (WindBot.HasInHand(CardId.HopeForEscape))
+                if (Bot.HasInHand(CardId.HopeForEscape))
                     AI.SelectCard(CardId.HopeForEscape);
-            else if (WindBot.HasInHand(CardId.JarOfAvarice))
+            else if (Bot.HasInHand(CardId.JarOfAvarice))
                     AI.SelectCard(CardId.JarOfAvarice);
-            else if (WindBot.HasInHand(CardId.RecklessGreed))
+            else if (Bot.HasInHand(CardId.RecklessGreed))
                     AI.SelectCard(CardId.RecklessGreed);
-            else if (WindBot.HasInHand(CardId.PainfulChoice))
+            else if (Bot.HasInHand(CardId.PainfulChoice))
                     AI.SelectCard(CardId.PainfulChoice);
                 return true;
             }
@@ -77,55 +77,55 @@ namespace WindBot.Game.AI.Decks
 
         private bool MagicalMalletEffect()
         {
-            if (WindBot.HasInHand(CardId.Makyura))
+            if (Bot.HasInHand(CardId.Makyura))
                 AI.SelectCard(CardId.Makyura);
-            else if (WindBot.HasInHand(CardId.MagicalMallet))
+            else if (Bot.HasInHand(CardId.MagicalMallet))
                 AI.SelectCard(CardId.MagicalMallet);
-            else if (WindBot.HasInHand(CardId.Exodia))
+            else if (Bot.HasInHand(CardId.Exodia))
                 AI.SelectCard(CardId.Exodia);
-            else if (WindBot.HasInHand(CardId.RightArm))
+            else if (Bot.HasInHand(CardId.RightArm))
                 AI.SelectCard(CardId.RightArm);
-            else if (WindBot.HasInHand(CardId.LeftArm))
+            else if (Bot.HasInHand(CardId.LeftArm))
                 AI.SelectCard(CardId.LeftArm);
-            else if (WindBot.HasInHand(CardId.RightLeg))
+            else if (Bot.HasInHand(CardId.RightLeg))
                 AI.SelectCard(CardId.RightLeg);
-            else if (WindBot.HasInHand(CardId.LeftLeg))
+            else if (Bot.HasInHand(CardId.LeftLeg))
                 AI.SelectCard(CardId.LeftLeg);
-            else if (WindBot.HasInHand(CardId.SixthSense))
+            else if (Bot.HasInHand(CardId.SixthSense))
                 AI.SelectCard(CardId.SixthSense);
-            else if (WindBot.HasInHand(CardId.HopeForEscape))
+            else if (Bot.HasInHand(CardId.HopeForEscape))
                 AI.SelectCard(CardId.HopeForEscape);
-            else if (WindBot.HasInHand(CardId.JarOfAvarice))
+            else if (Bot.HasInHand(CardId.JarOfAvarice))
                 AI.SelectCard(CardId.JarOfAvarice);
-            else if (WindBot.HasInHand(CardId.RecklessGreed))
+            else if (Bot.HasInHand(CardId.RecklessGreed))
                 AI.SelectCard(CardId.RecklessGreed);
             return true;
         }
 
         private bool PainfulChoiceEffect()
         {
-            if (WindBot.HasInDeck(CardId.Makyura))
+            if (Bot.HasInHand (CardId.Makyura))
                 AI.SelectCard(CardId.Makyura);
-            else if (WindBot.HasInDeck(CardId.MagicalMallet))
+            else if (Bot.HasInHand(CardId.MagicalMallet))
                 AI.SelectCard(CardId.MagicalMallet);
-            else if (WindBot.HasInDeck(CardId.PainfulChoice))
+            else if (Bot.HasInDeck(CardId.PainfulChoice))
                 AI.SelectCard(CardId.PainfulChoice);
-            else if (WindBot.HasInDeck(CardId.OneDayOfPeace))
+            else if (Bot.HasInDeck(CardId.OneDayOfPeace))
                 AI.SelectCard(CardId.OneDayOfPeace);
-            else if (WindBot.HasInDeck(CardId.ChickenGame))
+            else if (Bot.HasInDeck(CardId.ChickenGame))
                 AI.SelectCard(CardId.ChickenGame);
-            else if (WindBot.HasInDeck(CardId.UpstartGoblin))
+            else if (Bot.HasInDeck(CardId.UpstartGoblin))
                 AI.SelectCard(CardId.UpstartGoblin);
-            else if (WindBot.HasInDeck(CardId.HopeForEscape))
+            else if (Bot.HasInDeck(CardId.HopeForEscape))
                 AI.SelectCard(CardId.HopeForEscape);
-            else if (WindBot.HasInDeck(CardId.SixthSense))
+            else if (Bot.HasInDeck(CardId.SixthSense))
                 AI.Selectcard(CardId.SixthSense);
             return true;
         }
 
         private bool RecklessGreedEffect()
         {
-            if (WindBot.HasInGraveyard(CardId.Makyura))
+            if (Bot.HasInGraveyard(CardId.Makyura))
                 return true;
             else return false;
         }
@@ -134,7 +134,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (WindBot.deck.count > 5)
             {
-                if (WindBot.HasInGraveyard(CardId.Makyura))
+                if (Bot.HasInGraveyard(CardId.Makyura))
                     return true;
             }
             else return false;
@@ -144,7 +144,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 5)
             {
-                if (WindBot.HasInGraveyard(CardId.Makyura)&&WindBot.HasInHand(CardId.JarOfAvarice))
+                if (Bot.HasInGraveyard(CardId.Makyura)&&Bot.HasInHand(CardId.JarOfAvarice))
                     return true;
             }
             else return false;
@@ -152,13 +152,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool JarOfAvariceEffect()
         {
-            if (!WindBot.HasInGraveyard(CardId.Makyura))
+            if (!Bot.HasInGraveyard(CardId.Makyura))
                 return true;
             else return false;
         }
-
-    }
-
         public override int OnRockPaperScissors()
         {
             RockCount++;
@@ -168,4 +165,6 @@ namespace WindBot.Game.AI.Decks
                 return base.OnRockPaperScissors();
         }
     }
+
+
 }
