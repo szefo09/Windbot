@@ -43,13 +43,13 @@ namespace WindBot.Game.AI.Decks
             : base(ai, duel)
         {
             // Cycle begins
-            AddExecutor(ExecutorType.Activate, CardId.PotOfGreed);
             AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
+            AddExecutor(ExecutorType.Activate, CardId.PotOfGreed);
+            AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
+            AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameEffect);
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
-            AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
-            AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
 
             // Power Overwhelming
             AddExecutor(ExecutorType.Activate, CardId.RecklessGreed, RecklessGreedEffect);
@@ -62,13 +62,13 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 2)
             {
-                if (!WindBot.HasInHand(CardId.HopeForEscape))
+                if (WindBot.HasInHand(CardId.HopeForEscape))
                     AI.SelectCard(CardId.HopeForEscape);
-            else if (!WindBot.HasInHand(CardId.JarOfAvarice))
+            else if (WindBot.HasInHand(CardId.JarOfAvarice))
                     AI.SelectCard(CardId.JarOfAvarice);
-            else if (!WindBot.HasInHand(CardId.RecklessGreed))
+            else if (WindBot.HasInHand(CardId.RecklessGreed))
                     AI.SelectCard(CardId.RecklessGreed);
-            else if (!WindBot.HasInHand(CardId.PainfulChoice))
+            else if (WindBot.HasInHand(CardId.PainfulChoice))
                     AI.SelectCard(CardId.PainfulChoice);
                 return true;
             }
@@ -118,6 +118,8 @@ namespace WindBot.Game.AI.Decks
                 AI.SelectCard(CardId.UpstartGoblin);
             else if (WindBot.HasInDeck(CardId.HopeForEscape))
                 AI.SelectCard(CardId.HopeForEscape);
+            else if (WindBot.HasInDeck(CardId.SixthSense))
+                AI.Selectcard(CardId.SixthSense);
             return true;
         }
 
@@ -130,8 +132,11 @@ namespace WindBot.Game.AI.Decks
 
         private bool HopeForEscapeEffect()
         {
-            if (WindBot.HasInGraveyard(CardId.Makyura))
-                return true;
+            if (WindBot.deck.count > 5)
+            {
+                if (WindBot.HasInGraveyard(CardId.Makyura))
+                    return true;
+            }
             else return false;
         }
 
