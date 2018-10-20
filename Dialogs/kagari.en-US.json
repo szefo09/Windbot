@@ -18,7 +18,7 @@
     "I wonder if you'll last more than 5 minutes.",
     "Show me what you're made of.",
     "Maybe I'll play seriously this time.",
-    "Let's see if you are worthy of my time"
+    "Let's see if you are worthy of my time."
   ],
   "newturn": [
     "Draw!",
@@ -27,7 +27,7 @@
     "I just topdecked the perfect card!",
     "One step closer to victory.",
     "Now see how this game is meant to be played.",
-    "I've got this game in the bag"
+    "I've got this game in the bag."
   ],
   "endturn": [
     "I allow you to play.",
@@ -109,13 +109,12 @@
     "You just fell into my trap.",
     "How about that?"
   ],
-  ],
   "tribute": [
     "Now I'll exchange the lives of these fools for more power!",
     "Let me sacrifice some of you...",
     "True power requires sacrifices!",
     "Some need to be left behind to allow others to soar above them...",
-    "These cards are no longer useful to me"
+    "These cards are no longer useful to me."
   ],
   "rps": [
     "Rock, Paper, Scissors!",
@@ -133,8 +132,8 @@
     "I'll add this one.",
     "Let me pick this one.",
     "Maybe I'll add this one...",
-    "I add this one",
-    "Let me add this one to my hand"
+    "I add this one.",
+    "Let me add this one to my hand."
   ],
   "choiceselect": [
     "I'm choosing this one.",
@@ -145,10 +144,10 @@
     "I'll take this one.",
     "I select this one.",
     "This one should do it.",
-    "I choose this one",
-    "Hmm how about this one",
-    "I'll pick that",
-    "I'll choose this"
+    "I choose this one.",
+    "Hmm how about this one.",
+    "I'll pick that.",
+    "I'll choose this."
   ],
   "counter": [
     "I'll use some of my stored power!",
