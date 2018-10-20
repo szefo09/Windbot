@@ -104,7 +104,9 @@ namespace WindBot.Game.AI.Decks
 
         private bool PainfulChoiceEffect()
         {
-            if (Bot.HasInHand (CardId.Makyura))
+            if (Bot.Deck.Count > 5)
+            {
+                if (Bot.HasInHand (CardId.Makyura))
                 AI.SelectCard(CardId.Makyura);
             else if (Bot.HasInHand(CardId.MagicalMallet))
                 AI.SelectCard(CardId.MagicalMallet);
@@ -121,6 +123,8 @@ namespace WindBot.Game.AI.Decks
             else if (Bot.HasInDeck(CardId.SixthSense))
                 AI.Selectcard(CardId.SixthSense);
             return true;
+            }
+            else return false;
         }
 
         private bool RecklessGreedEffect()
