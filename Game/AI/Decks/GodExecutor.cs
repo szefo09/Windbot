@@ -9,8 +9,8 @@ namespace WindBot.Game.AI.Decks
     [Deck("God", "AI_God")]  
     public class GodExecutor : DefaultExecutor
     {
-        private bool wasChickenActivated = false;
-        private bool firstChicken = true;
+        private bool wasChickenGameActivated = false;
+        private bool noFieldSpell = true;
         public class CardId
         {
             public const int Makyura = 21593977;
@@ -36,9 +36,9 @@ namespace WindBot.Game.AI.Decks
         public GodExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
-            
-            // Cycle begins
-            AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
+         
+        // Cycle begins
+        AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
             AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfGreed, PotOfGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
@@ -55,13 +55,14 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.SixthSense, SixthSenseEffect);
             AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
         }
+        private int[] ExodiaPieces = { CardId.Exodia, CardId.RightArm, CardId.RightLeg, CardId.LeftLeg, CardId.LeftArm };
 
         private bool ChickenGameField()
         {        
-            if ((wasChickenActivated || firstChicken) && Card.Location == CardLocation.Hand)
+            if ((wasChickenGameActivated || noFieldSpell) && Card.Location == CardLocation.Hand)
             {
-                wasChickenActivated = false;
-                firstChicken = false;
+                wasChickenGameActivated = false;
+                noFieldSpell = false;
                 return true;
             }
             return false;
@@ -69,10 +70,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool ChickenGameEffect()
         {
-            if (!wasChickenActivated&&Card.Location==CardLocation.SpellZone)
+            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone)
             {
                 AI.SelectOption(0);
-                wasChickenActivated = true;
+                wasChickenGameActivated = true;
                 return true;
             }
             return false;
@@ -109,8 +110,25 @@ namespace WindBot.Game.AI.Decks
             }
             else return false;
         }
+        private int ExodiaPiecesInHand()
+        {
+           int result = 0;
+         foreach(int piece in ExodiaPieces)
+            {
+                if (Bot.HasInHand(piece))
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
         private bool PotOfDualityEffect()
         {
+            if (ExodiaPiecesInHand()==4)
+            {
+                AI.SelectCard(ExodiaPieces);
+                return true;
+            }
             AI.SelectCard(
                 CardId.PainfulChoice,
                 CardId.PotOfGreed,
@@ -149,10 +167,23 @@ namespace WindBot.Game.AI.Decks
                 );
             return true;
         }
+        private int TargetsForPainfulChoise()
+        {
+            int result = 0;
+            result += Bot.GetRemainingCount(CardId.Makyura, 3);
+            result += Bot.GetRemainingCount(CardId.MagicalMallet, 3);
+            result += Bot.GetRemainingCount(CardId.PainfulChoice, 3);
+            result += Bot.GetRemainingCount(CardId.OneDayOfPeace, 2);
+            result += Bot.GetRemainingCount(CardId.ChickenGame, 3);
+            result += Bot.GetRemainingCount(CardId.UpstartGoblin, 3);
+            result += Bot.GetRemainingCount(CardId.HopeForEscape, 3);
+            result += Bot.GetRemainingCount(CardId.SixthSense, 3);
 
+            return result;
+        }
         private bool PainfulChoiceEffect()
         {
-            if (Bot.Deck.Count > 5)
+            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>=5)
             {
                 AI.SelectCard(
                 CardId.Makyura,
@@ -167,9 +198,6 @@ namespace WindBot.Game.AI.Decks
                 CardId.PotOfGreed,
                 CardId.RecklessGreed
                 );
-                
-              
-               
             return true;
             }
             else return false;
@@ -177,17 +205,22 @@ namespace WindBot.Game.AI.Decks
 
         private bool RecklessGreedEffect()
         {
-            if (Bot.HasInGraveyard(CardId.Makyura))
-               
-                return true;
-            else return false;
+            return Bot.HasInGraveyard(CardId.Makyura);
         }
 
         private bool HopeForEscapeEffect()
         {
-            if (Bot.Deck.Count > 5 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
+            if (Bot.Deck.Count > 5 && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
             {
-                if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenActivated)
+                if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenGameActivated)
+                {
+                    return false;
+                }
+                if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 >= 1000))
+                {
+                    return true;
+                }
+                else if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 < 1000))
                 {
                     return false;
                 }
@@ -240,8 +273,8 @@ namespace WindBot.Game.AI.Decks
         public override void OnNewTurn()
         {
             base.OnNewTurn();
-            wasChickenActivated = false;
-            firstChicken = !Bot.HasInSpellZone(CardId.ChickenGame);
+            wasChickenGameActivated = false;
+            noFieldSpell = !Bot.HasInSpellZone(CardId.ChickenGame);
         }
     }
 
