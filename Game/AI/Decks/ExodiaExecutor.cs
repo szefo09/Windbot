@@ -40,6 +40,7 @@ namespace WindBot.Game.AI.Decks
             // Cycle begins
             AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
             AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
+            AddExecutor(ExecutorType.Activate, CardId.OneDayOfPeace);
             AddExecutor(ExecutorType.Activate, CardId.PotOfGreed, PotOfGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameField);
