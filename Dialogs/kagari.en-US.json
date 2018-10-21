@@ -50,7 +50,8 @@
     "Explosion!",
     "I'll send you to the Shadow Realm!",
     "Prepare to meet your maker!",
-    "Show him your wrath, {0}!"
+    "Show him your wrath, {0}!",
+    "{0}, attack!"
   ],
   "attack": [
     "{0}, attack this pitiful {1}!",
@@ -58,7 +59,8 @@
     "{0}, charge the {1}!",
     "{0}, strike that useless {1}!",
     "{0}, unleash your power on this worthless {1}!",
-    "{1} will soon be destroyed by my {0}."
+    "{1} will soon be destroyed by my {0}.",
+    "Say goodbye to your {1}!"
   ],
   "ondirectattack": [
     "This won't change anything.",
@@ -126,7 +128,8 @@
     "Ha! I won!",
     "I won!",
     "Now I'll decide how this duel will go.",
-    "One step closer to winning the duel."
+    "One step closer to winning the duel.",
+    "See? You already lost."
   ],
   "choiceadd": [
     "I'll add this one.",
@@ -147,7 +150,8 @@
     "I choose this one.",
     "Hmm how about this one.",
     "I'll pick that.",
-    "I'll choose this."
+    "I'll choose this.",
+    "That's my pick."
   ],
   "counter": [
     "I'll use some of my stored power!",
