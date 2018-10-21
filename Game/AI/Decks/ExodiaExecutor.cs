@@ -6,7 +6,7 @@ using WindBot.Game.AI;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("God", "AI_God")]
+    [Deck("God", "AI_God")]  
     public class ExodiaExecutor : DefaultExecutor
     {
         private bool wasChickenActivated = false;
