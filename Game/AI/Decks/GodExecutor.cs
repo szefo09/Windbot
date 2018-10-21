@@ -152,20 +152,35 @@ namespace WindBot.Game.AI.Decks
 
         private bool MagicalMalletEffect()
         {
-           AI.SelectCard(
-                CardId.Makyura,
-                CardId.MagicalMallet,
-                CardId.Exodia,
-                CardId.RightArm,
-                CardId.LeftArm,
-                CardId.RightLeg,
-                CardId.LeftLeg,
-                CardId.SixthSense,
-                CardId.HopeForEscape,
-                CardId.JarOfAvarice,
-                CardId.RecklessGreed
-                );
-            return true;
+            if (ExodiaPiecesInHand() < 4)
+            {
+                AI.SelectCard(
+                     CardId.Makyura,
+                     CardId.MagicalMallet,
+                     CardId.Exodia,
+                     CardId.RightArm,
+                     CardId.LeftArm,
+                     CardId.RightLeg,
+                     CardId.LeftLeg,
+                     CardId.SixthSense,
+                     CardId.HopeForEscape,
+                     CardId.JarOfAvarice,
+                     CardId.RecklessGreed
+                     );
+                return true;
+            }
+            else
+            {
+                    AI.SelectCard(
+                    CardId.Makyura,
+                    CardId.MagicalMallet,
+                    CardId.SixthSense,
+                    CardId.HopeForEscape,
+                    CardId.JarOfAvarice,
+                    CardId.RecklessGreed
+                    );
+                return true;
+            }
         }
         private int TargetsForPainfulChoise()
         {
