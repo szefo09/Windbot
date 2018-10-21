@@ -104,6 +104,7 @@ namespace WindBot.Game.AI.Decks
                 CardId.UpstartGoblin,
                 CardId.PainfulChoice,
                 CardId.MagicalMallet
+                
                 );
             return true;
             }
@@ -165,7 +166,8 @@ namespace WindBot.Game.AI.Decks
                 CardId.HopeForEscape,
                 CardId.SixthSense,
                 CardId.GracefulCharity,
-                CardId.PotOfGreed
+                CardId.PotOfGreed,
+                CardId.RecklessGreed
                 );
                 
               
@@ -216,6 +218,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool JarOfAvariceEffect()
         {
+            if (AI.Utils.ChainContainsCard(CardId.SixthSense) || AI.Utils.ChainContainsCard(CardId.PainfulChoice)) { return false; }
             if (Bot.HasInGraveyard(CardId.Makyura)&&Bot.HasInGraveyard(CardId.Exodia)||Bot.HasInGraveyard(CardId.LeftArm)||Bot.HasInGraveyard(CardId.RightArm)||Bot.HasInGraveyard(CardId.LeftLeg)||Bot.HasInGraveyard(CardId.RightLeg))
                 {
                 AI.SelectCard(
