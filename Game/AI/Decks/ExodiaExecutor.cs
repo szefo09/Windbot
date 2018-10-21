@@ -218,16 +218,7 @@ namespace WindBot.Game.AI.Decks
             else return false;
         }
         
-        private int RockCount = 0;
-
-        public override int OnRockPaperScissors()
-        {
-            RockCount++;
-            if (RockCount <= 3)
-                return 2;
-            else
-                return base.OnRockPaperScissors();
-        }
+        
         public override void OnNewTurn()
         {
             base.OnNewTurn();
