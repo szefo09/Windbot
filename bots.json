@@ -1,165 +1,165 @@
 {
-    "windbots": [
-      {
-        "name": "Toadally",
-        "deck": "Toadally Awesome",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Rainbow",
-        "deck": "Rainbow",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Dragunity",
-        "deck": "Dragunity",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "MokeyMokey",
-        "deck": "MokeyMokey",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "RankV",
-        "deck": "Rank V",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Zexal",
-        "deck": "Zexal Weapons",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Zoodiac",
-        "deck": "Zoodiac",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Blue-Eyes",
-        "deck": "Blue-Eyes",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Yosenju",
-        "deck": "Yosenju",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Qliphort",
-        "deck": "Qliphort",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Trickstar",
-        "deck": "Trickstar",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Altergeist",
-        "deck": "Altergeist",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Nekroz",
-        "deck": "Nekroz",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "ST1732",
-        "deck": "ST1732",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Lightsworn",
-        "deck": "Lightsworn",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Blackwing",
-        "deck": "Blackwing",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "CyberDragon",
-        "deck": "CyberDragon",
-        "dialog": "kagari.en-US"
-      },
-	{
-        "name": "Evilswarm",
-        "deck": "Evilswarm",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Gravekeeper",
-        "deck": "Gravekeeper",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Graydle",
-        "deck": "Graydle",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "OldSchool",
-        "deck": "Old School",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "SkyStriker",
-        "deck": "SkyStriker",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "DarkMagician",
-        "deck": "DarkMagician",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Burn",
-        "deck": "Burn",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Frog",
-        "deck": "Frog",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Horus",
-        "deck": "Horus",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "60Cards",
-        "deck": "LightswornShaddoldinosour",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "ChaosMAX",
-        "deck": "BlueEyesMaxDragon",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Phantasm",
-        "deck": "Phantasm",
-        "dialog": "kagari.en-US"
-      },
+  "windbots": [
+    {
+      "name": "Toadally",
+      "deck": "Toadally Awesome",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Rainbow",
+      "deck": "Rainbow",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Dragunity",
+      "deck": "Dragunity",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "MokeyMokey",
+      "deck": "MokeyMokey",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "RankV",
+      "deck": "Rank V",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Zexal",
+      "deck": "Zexal Weapons",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Zoodiac",
+      "deck": "Zoodiac",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Blue-Eyes",
+      "deck": "Blue-Eyes",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Yosenju",
+      "deck": "Yosenju",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Qliphort",
+      "deck": "Qliphort",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Trickstar",
+      "deck": "Trickstar",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Altergeist",
+      "deck": "Altergeist",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Nekroz",
+      "deck": "Nekroz",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "ST1732",
+      "deck": "ST1732",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Lightsworn",
+      "deck": "Lightsworn",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Blackwing",
+      "deck": "Blackwing",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "CyberDragon",
+      "deck": "CyberDragon",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Evilswarm",
+      "deck": "Evilswarm",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Gravekeeper",
+      "deck": "Gravekeeper",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Graydle",
+      "deck": "Graydle",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "OldSchool",
+      "deck": "Old School",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "SkyStriker",
+      "deck": "SkyStriker",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "DarkMagician",
+      "deck": "DarkMagician",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Burn",
+      "deck": "Burn",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Frog",
+      "deck": "Frog",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Horus",
+      "deck": "Horus",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "60Cards",
+      "deck": "LightswornShaddoldinosour",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "ChaosMAX",
+      "deck": "BlueEyesMaxDragon",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Phantasm",
+      "deck": "Phantasm",
+      "dialog": "kagari.en-US"
+    },
 
-      {
-        "name": "GrenMaju",
-        "deck": "GrenMajuThunderBoarder",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "ChainBurn",
-        "deck": "ChainBurn",
-        "dialog": "kagari.en-US"
-      },
-      {
-        "name": "Exodia",
-        "deck": "Exodia",
-        "dialog": "kagari.en-US"
-      }
-    ]
+    {
+      "name": "GrenMaju",
+      "deck": "GrenMajuThunderBoarder",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Exodia",
+      "deck": "Exodia",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "ChainBurn",
+      "deck": "ChainBurn",
+      "dialog": "kagari.en-US"
+    }
+  ]
 }
