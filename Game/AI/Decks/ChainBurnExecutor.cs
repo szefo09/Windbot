@@ -259,6 +259,7 @@ namespace WindBot.Game.AI.Decks
 
         public override void OnNewTurn()
         {
+            
             if (Bot.HasInHand(CardId.SandaionTheTimelord) ||Bot.HasInHand(CardId.MichionTimelord))
                 Logger.DebugWriteLine("2222222222222222SandaionTheTimelord");
             no_sp = false;

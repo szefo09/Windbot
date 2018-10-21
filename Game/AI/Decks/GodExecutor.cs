@@ -6,8 +6,8 @@ using WindBot.Game.AI;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("Exodia", "AI_Exodia")]
-    public class ExodiaExecutor : DefaultExecutor
+    [Deck("God", "AI_Exodia")]
+    public class GodExecutor : DefaultExecutor
     {
         private bool wasChickenActivated = false;
         private bool firstChicken = true;
@@ -33,7 +33,7 @@ namespace WindBot.Game.AI.Decks
             public const int SixthSense = 3280747;
         }
 
-        public ExodiaExecutor(GameAI ai, Duel duel)
+        public GodExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
             
@@ -92,7 +92,7 @@ namespace WindBot.Game.AI.Decks
         private bool GracefulCharityEffect()
         {
             if (Bot.Deck.Count > 2)
-            {
+            {   
                  AI.SelectCard(
                 CardId.Makyura,
                 CardId.SixthSense,
@@ -159,6 +159,9 @@ namespace WindBot.Game.AI.Decks
                 CardId.HopeForEscape,
                 CardId.SixthSense
                 );
+                
+              
+               
             return true;
             }
             else return false;
@@ -167,6 +170,7 @@ namespace WindBot.Game.AI.Decks
         private bool RecklessGreedEffect()
         {
             if (Bot.HasInGraveyard(CardId.Makyura))
+               
                 return true;
             else return false;
         }
