@@ -155,6 +155,11 @@
         "name": "ChainBurn",
         "deck": "ChainBurn",
         "dialog": "kagari.en-US"
+      },
+      {
+        "name": "Exodia",
+        "deck": "AI_Exodia",
+        "dialog": "kagari.en-US"
       }
     ]
 }
