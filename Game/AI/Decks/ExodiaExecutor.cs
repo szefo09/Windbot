@@ -175,6 +175,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 5 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
             {
+                if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenActivated) { return false; }
                 if (Bot.HasInGraveyard(CardId.Makyura))
                     return true;
                 else return false;
