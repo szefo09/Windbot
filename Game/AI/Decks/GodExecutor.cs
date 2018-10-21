@@ -13,11 +13,6 @@ namespace WindBot.Game.AI.Decks
         private bool firstChicken = true;
         public class CardId
         {
-            public const int Exodia = 33396948;
-            public const int RightArm = 70903634;
-            public const int LeftArm = 7902349;
-            public const int LeftLeg = 44519536;
-            public const int RightLeg = 8124921;
             public const int Makyura = 21593977;
             public const int PotOfGreed = 55144522;
             public const int GracefulCharity = 79571449;
@@ -31,6 +26,11 @@ namespace WindBot.Game.AI.Decks
             public const int HopeForEscape = 80036543;
             public const int JarOfAvarice = 98954106;
             public const int SixthSense = 3280747;
+            public const int Exodia = 33396948;
+            public const int RightArm = 70903634;
+            public const int LeftArm = 7902349;
+            public const int LeftLeg = 44519536;
+            public const int RightLeg = 8124921;
         }
 
         public GodExecutor(GameAI ai, Duel duel)
@@ -45,6 +45,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameField);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameEffect);
             AddExecutor(ExecutorType.Activate, CardId.OneDayOfPeace);
+            AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
 
@@ -108,7 +109,6 @@ namespace WindBot.Game.AI.Decks
             }
             else return false;
         }
-
         private bool PotOfDualityEffect()
         {
             AI.SelectCard(
@@ -191,9 +191,7 @@ namespace WindBot.Game.AI.Decks
                 {
                     return false;
                 }
-                if (Bot.HasInGraveyard(CardId.Makyura))
-                    return true;
-                else return false;
+                return Bot.HasInGraveyard(CardId.Makyura);
             }
             else return false;
         }
