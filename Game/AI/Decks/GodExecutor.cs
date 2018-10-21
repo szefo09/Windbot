@@ -49,8 +49,8 @@ namespace WindBot.Game.AI.Decks
             // Power Overwhelming
             AddExecutor(ExecutorType.Activate, CardId.RecklessGreed, RecklessGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.HopeForEscape, HopeForEscapeEffect);
-            AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
             AddExecutor(ExecutorType.Activate, CardId.SixthSense, SixthSenseEffect);
+            AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
         }
 
         private bool ChickenGameField()
