@@ -84,9 +84,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool PotOfGreedEffect()
             {
-            if (Bot.Deck.Count > 1)
-                return true;
-            else return false;
+            return Bot.Deck.Count > 1;
             }
 
         private bool GracefulCharityEffect()
@@ -245,6 +243,7 @@ namespace WindBot.Game.AI.Decks
         {
             base.OnNewTurn();
             wasChickenActivated = false;
+            firstChicken = !Bot.HasInSpellZone(CardId.ChickenGame);
         }
     }
 
