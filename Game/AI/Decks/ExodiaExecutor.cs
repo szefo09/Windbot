@@ -10,6 +10,7 @@ namespace WindBot.Game.AI.Decks
     public class ExodiaExecutor : DefaultExecutor
     {
         private bool wasChickenActivated = false;
+        private bool firstChicken = true;
         public class CardId
         {
             public const int Exodia = 33396948;
@@ -55,9 +56,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool ChickenGameField()
         {        
-            if (wasChickenActivated && Card.Location == CardLocation.Hand)
+            if (!wasChickenActivated||firstChicken && Card.Location == CardLocation.Hand)
             {
                 wasChickenActivated = false;
+                firstChicken = false;
                 return true;
             }
             return false;
@@ -71,7 +73,6 @@ namespace WindBot.Game.AI.Decks
                 wasChickenActivated = true;
                 return true;
             }
-            wasChickenActivated = false;
             return false;
         }
 
