@@ -40,11 +40,11 @@ namespace WindBot.Game.AI.Decks
             // Cycle begins
             AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
             AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
-            AddExecutor(ExecutorType.Activate, CardId.OneDayOfPeace);
             AddExecutor(ExecutorType.Activate, CardId.PotOfGreed, PotOfGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameField);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameEffect);
+            AddExecutor(ExecutorType.Activate, CardId.OneDayOfPeace);
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
 
@@ -118,11 +118,17 @@ namespace WindBot.Game.AI.Decks
                 CardId.GracefulCharity,
                 CardId.UpstartGoblin,
                 CardId.ChickenGame,
+                CardId.OneDayOfPeace,
                 CardId.MagicalMallet,
                 CardId.RecklessGreed,
                 CardId.HopeForEscape,
                 CardId.JarOfAvarice,
-                CardId.SixthSense
+                CardId.SixthSense,
+                CardId.Exodia,
+                CardId.RightArm,
+                CardId.LeftArm,
+                CardId.RightLeg,
+                CardId.LeftLeg
                 );
             return true;
         }
@@ -157,7 +163,9 @@ namespace WindBot.Game.AI.Decks
                 CardId.ChickenGame,
                 CardId.UpstartGoblin,
                 CardId.HopeForEscape,
-                CardId.SixthSense
+                CardId.SixthSense,
+                CardId.GracefulCharity,
+                CardId.PotOfGreed
                 );
                 
               
@@ -214,9 +222,11 @@ namespace WindBot.Game.AI.Decks
                 CardId.RightLeg,
                 CardId.UpstartGoblin,
                 CardId.ChickenGame,
+                CardId.OneDayOfPeace,
                 CardId.MagicalMallet,
                 CardId.PotOfGreed,
-                CardId.GracefulCharity
+                CardId.GracefulCharity,
+                CardId.RecklessGreed
                 );
                 return true;
                 }
