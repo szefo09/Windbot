@@ -170,7 +170,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool HopeForEscapeEffect()
         {
-            if (Bot.Deck.Count > 5)
+            if (Bot.Deck.Count > 5 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame))
             {
                 if (Bot.HasInGraveyard(CardId.Makyura))
                     return true;
