@@ -159,8 +159,12 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 5)
             {
-                if (Bot.HasInGraveyard(CardId.Makyura)&&Bot.HasInHand(CardId.JarOfAvarice))
+                if (Bot.HasInGraveyard(CardId.Makyura) && Bot.HasInHand(CardId.JarOfAvarice))
+                {
+                    AI.SelectNumber(6);
+                    AI.SelectNumber(5);
                     return true;
+                }
                 else return false;
             }
             else return false;
