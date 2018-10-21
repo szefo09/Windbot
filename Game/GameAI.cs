@@ -772,6 +772,7 @@ namespace WindBot.Game
         private int m_place;
         private int m_option;
         private int m_number;
+        private int mn_number=-1;
         private int m_announce;
         private int m_yesno;
         private IList<CardAttribute> m_attributes = new List<CardAttribute>();
@@ -1007,6 +1008,10 @@ namespace WindBot.Game
         {
             m_number = number;
         }
+        public void SelectNextNumber (int number)
+        {
+            mn_number = number;
+        }
 
         public void SelectAttribute(CardAttribute attribute)
         {
@@ -1052,9 +1057,13 @@ namespace WindBot.Game
         public int OnAnnounceNumber(IList<int> numbers)
         {
             _dialogs.SendChoiceSelect();
-            if (numbers.Contains(m_number))
-                return numbers.IndexOf(m_number);
-
+            if (numbers.Contains(m_number)) {
+            int m_number2 = m_number;
+            if (mn_number != -1) {
+                    m_number = mn_number;
+                    mn_number = -1; }
+            return numbers.IndexOf(m_number2);
+            }
             return Program.Rand.Next(0, numbers.Count); // Returns a random number.
         }
 

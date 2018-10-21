@@ -186,7 +186,8 @@ namespace WindBot.Game.AI.Decks
                 if (Bot.HasInGraveyard(CardId.Makyura) && Bot.HasInHand(CardId.JarOfAvarice))
                 {
                     AI.SelectNumber(6);
-                    AI.SelectNumber(5);
+                    
+                   AI.SelectNextNumber(5);
                     return true;
                 }
                 else return false;
