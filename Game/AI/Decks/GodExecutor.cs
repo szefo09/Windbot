@@ -233,11 +233,11 @@ namespace WindBot.Game.AI.Decks
                 }
                 if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 >= 1000))
                 {
-                    return true;
+                    return false;
                 }
                 else if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 < 1000))
                 {
-                    return false;
+                    return true;
                 }
                 return Bot.HasInGraveyard(CardId.Makyura);
             }
