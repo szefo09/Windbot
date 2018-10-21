@@ -7,7 +7,7 @@ using WindBot.Game.AI;
 namespace WindBot.Game.AI.Decks
 {
     [Deck("God", "AI_God")]  
-    public class ExodiaExecutor : DefaultExecutor
+    public class GodExecutor : DefaultExecutor
     {
         private bool wasChickenActivated = false;
         private bool firstChicken = true;
@@ -33,7 +33,7 @@ namespace WindBot.Game.AI.Decks
             public const int SixthSense = 3280747;
         }
 
-        public ExodiaExecutor(GameAI ai, Duel duel)
+        public GodExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
             
