@@ -67,10 +67,11 @@ namespace WindBot.Game.AI.Decks
         {
             if (!wasChickenActivated)
             {
-                wasChickenActivated = true;
                 AI.SelectOption(0);
+                wasChickenActivated = true;
                 return true;
             }
+            wasChickenActivated = false;
             return false;
         }
 
