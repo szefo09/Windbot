@@ -54,8 +54,8 @@ namespace WindBot.Game.AI.Decks
         }
 
         private bool ChickenGameField()
-        {
-            if (wasChickenActivated)
+        {        
+            if (wasChickenActivated || Card.Location == CardLocation.Hand)
             {
                 wasChickenActivated = false;
                 return true;
