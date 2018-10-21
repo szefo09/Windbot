@@ -6,8 +6,8 @@ using WindBot.Game.AI;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("Exodia", "AI_Exodia", "Death")]
-    public class GodExecutor : DefaultExecutor
+    [Deck("Exodia", "AI_Exodia")]
+    public class ExodiaExecutor : DefaultExecutor
     {
         private bool wasChickenActivated = false;
         public class CardId
@@ -32,7 +32,7 @@ namespace WindBot.Game.AI.Decks
             public const int SixthSense = 3280747;
         }
 
-        public GodExecutor(GameAI ai, Duel duel)
+        public ExodiaExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
             
