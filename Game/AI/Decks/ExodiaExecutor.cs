@@ -68,7 +68,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool ChickenGameEffect()
         {
-            if (!wasChickenActivated)
+            if (!wasChickenActivated&&Card.Location==CardLocation.SpellZone)
             {
                 AI.SelectOption(0);
                 wasChickenActivated = true;
