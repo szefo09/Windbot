@@ -182,7 +182,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool SixthSenseEffect()
         {
-            if (Bot.Deck.Count > 5)
+            if (Bot.Deck.Count > 5 && AI.Utils.GetLastChainCard()==null)
             {
                 if (Bot.HasInGraveyard(CardId.Makyura) && Bot.HasInHand(CardId.JarOfAvarice))
                 {
