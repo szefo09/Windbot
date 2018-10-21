@@ -9,6 +9,7 @@ namespace WindBot.Game.AI.Decks
     [Deck("Exodia", "AI_Exodia", "Death")]
     public class GodExecutor : DefaultExecutor
     {
+        private bool wasChickenActivated = false;
         public class CardId
         {
             public const int Exodia = 33396948;
@@ -34,11 +35,13 @@ namespace WindBot.Game.AI.Decks
         public GodExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
+            
             // Cycle begins
             AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
             AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfGreed, PotOfGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
+            AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameField);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameEffect);
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
@@ -50,7 +53,28 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.SixthSense, SixthSenseEffect);
         }
 
-         public override bool OnSelectHand()
+        private bool ChickenGameField()
+        {
+            if (wasChickenActivated)
+            {
+                wasChickenActivated = false;
+                return true;
+            }
+            return false;
+        }
+
+        private bool ChickenGameEffect()
+        {
+            if (!wasChickenActivated)
+            {
+                wasChickenActivated = true;
+                AI.SelectOption(0);
+                return true;
+            }
+            return false;
+        }
+
+        public override bool OnSelectHand()
         {
             return true;
         }
@@ -159,8 +183,12 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 5)
             {
-                if (Bot.HasInGraveyard(CardId.Makyura)&&Bot.HasInHand(CardId.JarOfAvarice))
+                if (Bot.HasInGraveyard(CardId.Makyura) && Bot.HasInHand(CardId.JarOfAvarice))
+                {
+                    AI.SelectNumber(6);
+                    AI.SelectNumber(5);
                     return true;
+                }
                 else return false;
             }
             else return false;
@@ -186,7 +214,7 @@ namespace WindBot.Game.AI.Decks
                 }
             else return false;
         }
-
+        
         private int RockCount = 0;
 
         public override int OnRockPaperScissors()
@@ -196,6 +224,11 @@ namespace WindBot.Game.AI.Decks
                 return 2;
             else
                 return base.OnRockPaperScissors();
+        }
+        public override void OnNewTurn()
+        {
+            base.OnNewTurn();
+            wasChickenActivated = false;
         }
     }
 
