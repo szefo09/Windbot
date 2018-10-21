@@ -225,7 +225,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool HopeForEscapeEffect()
         {
-            if (Bot.Deck.Count >=(((AI.Utils.Enemy.LifePoints - Bot.LifePoints)+1000)/2000) && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
+            if (Bot.Deck.Count >=((AI.Utils.Enemy.LifePoints - (Bot.LifePoints-1000))/2000) && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
             {
                 if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenGameActivated)
                 {
