@@ -322,13 +322,14 @@ namespace WindBot.Game.AI.Decks
 
             if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
             {
-                IList<ClientCard> result = Bot.Hand;
+                
                 Logger.WriteErrorLine("endphase result hand: ");
-                foreach(ClientCard card in result)
+                foreach(ClientCard card in cards)
                 {
                     Logger.WriteErrorLine(card.Name);
                 }
-                foreach (ClientCard card in Bot.Hand)
+                IList<ClientCard> result = cards;
+                foreach (ClientCard card in cards)
                 {
                     foreach(int piece in ExodiaPieces)
                     {
@@ -338,7 +339,7 @@ namespace WindBot.Game.AI.Decks
                         }
                     }
                 }
-                return result;
+                return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
