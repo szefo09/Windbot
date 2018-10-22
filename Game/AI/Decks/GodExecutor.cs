@@ -339,17 +339,6 @@ namespace WindBot.Game.AI.Decks
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
-        public override void OnNewPhase()
-        {
-            Logger.WriteErrorLine(AI.Utils.Duel.Phase.ToString());
-            foreach(ClientCard c in Bot.Hand)
-            {
-                Logger.WriteErrorLine(c.Name);
-            }
-            base.OnNewPhase();
-        }
-
-
     }
 
 
