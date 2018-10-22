@@ -89,6 +89,7 @@ namespace WindBot.Game.AI.Decks
             return Bot.Deck.Count > 1;
             }
 
+        //To rethink!
         private bool GracefulCharityEffect()
         {
             if (Bot.Deck.Count > 2)
@@ -149,7 +150,7 @@ namespace WindBot.Game.AI.Decks
                 );
             return true;
         }
-
+        //To Rethink
         private bool MagicalMalletEffect()
         {
             if (ExodiaPiecesInHand() < 4)
@@ -196,6 +197,7 @@ namespace WindBot.Game.AI.Decks
 
             return result;
         }
+        
         private bool PainfulChoiceEffect()
         {
             if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>=5)
@@ -220,7 +222,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool RecklessGreedEffect()
         {
-            if (AI.Utils.GetLastChainCard() == null && Bot.Deck.Count >= 2)
+            if (AI.Utils.GetLastChainCard() == null && Bot.Deck.Count >1)
             {
                 return Bot.HasInGraveyard(CardId.Makyura);
             }
@@ -263,7 +265,7 @@ namespace WindBot.Game.AI.Decks
             }
             else return false;
         }
-
+        //To Rethink!
         private bool JarOfAvariceEffect()
         {
             if (AI.Utils.ChainContainsCard(CardId.SixthSense) || AI.Utils.ChainContainsCard(CardId.PainfulChoice)) { return false; }
