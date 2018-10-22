@@ -55,6 +55,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
         }
         private int[] ExodiaPieces = { CardId.Exodia, CardId.RightArm, CardId.RightLeg, CardId.LeftLeg, CardId.LeftArm };
+        private int[] PainfulChoiceTargets = {CardId.Makyura,CardId.MagicalMallet,CardId.PainfulChoice,CardId.OneDayOfPeace,CardId.ChickenGame,CardId.UpstartGoblin,CardId.HopeForEscape,CardId.SixthSense,CardId.GracefulCharity,CardId.PotOfGreed,CardId.RecklessGreed};
 
         private bool ChickenGameField()
         {        
@@ -366,17 +367,18 @@ namespace WindBot.Game.AI.Decks
             if(cards[0].Location==CardLocation.Deck && AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.PainfulChoice))
             {
                 List<ClientCard> result = new List<ClientCard>();
-                result.AddRange(cards);
+                
                 foreach (ClientCard card in cards)
                 {
-                    foreach (int piece in ExodiaPieces)
+                    foreach (int target in PainfulChoiceTargets)
                     {
-                        if (card.IsCode(piece))
+                        if (card.IsCode(target))
                         {
-                            result.Remove(card);
+                            result.Add(card);
                         }
                     }
                 }
+                result.Sort();
                 return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
