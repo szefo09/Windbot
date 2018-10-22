@@ -154,7 +154,7 @@ namespace WindBot.Game.AI.Decks
         //To Rethink
         private bool MagicalMalletEffect()
         {
-            if (ExodiaPiecesInHand() < 4)
+            if (ExodiaPiecesInHand() < 4 || Bot.Hand.Count<=5)
             {
                 AI.SelectCard(
                      CardId.Makyura,
@@ -197,6 +197,11 @@ namespace WindBot.Game.AI.Decks
                 MakyuraCount = MakyuraGraveyardCount();
                 wasMakyuraUsedThisTurn = true;
             }
+            base.OnChainEnd();
+        }
+        public override void OnChaining(int player, ClientCard card)
+        {
+            base.OnChaining(player, card);
         }
         private int TargetsForPainfulChoise()
         {
@@ -318,8 +323,8 @@ namespace WindBot.Game.AI.Decks
 
             if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
             {
-                List<ClientCard> result = (List<ClientCard>)cards;
-                foreach (ClientCard card in cards)
+                List<ClientCard> result = (List<ClientCard>)Bot.Hand;
+                foreach (ClientCard card in Bot.Hand)
                 {
                     foreach(int piece in ExodiaPieces)
                     {
@@ -332,8 +337,7 @@ namespace WindBot.Game.AI.Decks
                  
                 return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
-
-            return null;
+           return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
 
     }
