@@ -220,7 +220,11 @@ namespace WindBot.Game.AI.Decks
 
         private bool RecklessGreedEffect()
         {
-            return Bot.HasInGraveyard(CardId.Makyura);
+            if (AI.Utils.GetLastChainCard() == null && Bot.Deck.Count >= 2)
+            {
+                return Bot.HasInGraveyard(CardId.Makyura);
+            }
+            return false;
         }
 
         private bool HopeForEscapeEffect()
