@@ -1,8 +1,5 @@
-﻿using YGOSharp.OCGWrapper.Enums;
-using System.Collections.Generic;
-using WindBot;
-using WindBot.Game;
-using WindBot.Game.AI;
+﻿using System.Collections.Generic;
+using YGOSharp.OCGWrapper.Enums;
 
 namespace WindBot.Game.AI.Decks
 {
@@ -12,6 +9,8 @@ namespace WindBot.Game.AI.Decks
         private bool wasChickenGameActivated = false;
         private bool noFieldSpell = true;
         private bool wasMakyuraUsedThisTurn=false;
+        private int MakyuraCount = 0;
+        
         public class CardId
         {
             public const int Makyura = 21593977;
@@ -89,6 +88,7 @@ namespace WindBot.Game.AI.Decks
             {
             return Bot.Deck.Count > 1;
             }
+
 
         //To rethink!
         private bool GracefulCharityEffect()
@@ -185,10 +185,18 @@ namespace WindBot.Game.AI.Decks
             }
         }
 
-        //NOT IMPLEMENTED
+
         private int MakyuraGraveyardCount()
         {
             return Bot.Graveyard.GetCardCount(CardId.Makyura);
+        }
+        public override void OnChainEnd()
+        {
+            if (MakyuraCount < MakyuraGraveyardCount())
+            {
+                MakyuraCount = MakyuraGraveyardCount();
+                wasMakyuraUsedThisTurn = true;
+            }
         }
         private int TargetsForPainfulChoise()
         {
@@ -305,6 +313,29 @@ namespace WindBot.Game.AI.Decks
             wasMakyuraUsedThisTurn = false;
             noFieldSpell = !Bot.HasInSpellZone(CardId.ChickenGame);
         }
+        public override IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
+        {
+
+            if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
+            {
+                List<ClientCard> result = (List<ClientCard>)cards;
+                foreach (ClientCard card in cards)
+                {
+                    foreach(int piece in ExodiaPieces)
+                    {
+                        if (card.IsCode(piece))
+                        {
+                            result.Remove(card);
+                        }
+                    }
+                }
+                 
+                return AI.Utils.CheckSelectCount(result, cards, min, max);
+            }
+
+            return null;
+        }
+
     }
 
 
