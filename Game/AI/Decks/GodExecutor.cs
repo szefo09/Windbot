@@ -328,7 +328,8 @@ namespace WindBot.Game.AI.Decks
                 {
                     Logger.WriteErrorLine(card.Name);
                 }
-                IList<ClientCard> result = cards;
+                List<ClientCard> result = new List<ClientCard>();
+                result.AddRange(cards);
                 foreach (ClientCard card in cards)
                 {
                     foreach(int piece in ExodiaPieces)
@@ -339,7 +340,7 @@ namespace WindBot.Game.AI.Decks
                         }
                     }
                 }
-                return result;
+                return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
