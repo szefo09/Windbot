@@ -341,6 +341,7 @@ namespace WindBot.Game.AI.Decks
         }
         public override void OnNewPhase()
         {
+            Logger.WriteErrorLine(AI.Utils.Duel.Phase.ToString());
             foreach(ClientCard c in Bot.Hand)
             {
                 Logger.WriteErrorLine(c.Name);
