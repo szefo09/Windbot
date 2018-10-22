@@ -239,7 +239,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (AI.Utils.GetLastChainCard() == null && Bot.Deck.Count >1)
             {
-                return Bot.HasInGraveyard(CardId.Makyura);
+                return wasMakyuraUsedThisTurn;
             }
             return false;
         }
@@ -260,7 +260,7 @@ namespace WindBot.Game.AI.Decks
                 {
                     return true;
                 }
-                return Bot.HasInGraveyard(CardId.Makyura);
+                return wasMakyuraUsedThisTurn;
             }
             else return false;
         }
@@ -269,7 +269,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.Deck.Count > 5 && AI.Utils.GetLastChainCard()==null)
             {
-                if (Bot.HasInGraveyard(CardId.Makyura) && Bot.HasInHand(CardId.JarOfAvarice))
+                if (wasMakyuraUsedThisTurn && Bot.HasInHand(CardId.JarOfAvarice))
                 {
                     AI.SelectNumber(6);
                     
@@ -284,7 +284,7 @@ namespace WindBot.Game.AI.Decks
         private bool JarOfAvariceEffect()
         {
             if (AI.Utils.ChainContainsCard(CardId.SixthSense) || AI.Utils.ChainContainsCard(CardId.PainfulChoice)) { return false; }
-            if (Bot.HasInGraveyard(CardId.Makyura)&&Bot.HasInGraveyard(CardId.Exodia)||Bot.HasInGraveyard(CardId.LeftArm)||Bot.HasInGraveyard(CardId.RightArm)||Bot.HasInGraveyard(CardId.LeftLeg)||Bot.HasInGraveyard(CardId.RightLeg))
+            if (wasMakyuraUsedThisTurn&&Bot.HasInGraveyard(CardId.Exodia)||Bot.HasInGraveyard(CardId.LeftArm)||Bot.HasInGraveyard(CardId.RightArm)||Bot.HasInGraveyard(CardId.LeftLeg)||Bot.HasInGraveyard(CardId.RightLeg))
                 {
                 AI.SelectCard(
                 CardId.Exodia,
