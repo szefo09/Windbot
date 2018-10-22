@@ -10,6 +10,7 @@ namespace WindBot.Game.AI.Decks
         private bool noFieldSpell = true;
         private bool wasMakyuraUsedThisTurn=false;
         private int MakyuraCount = 0;
+        private bool chickenGameCantDraw = false;
         
         public class CardId
         {
@@ -68,11 +69,17 @@ namespace WindBot.Game.AI.Decks
 
         private bool ChickenGameEffect()
         {
-            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone && Bot.LifePoints>1000)
+            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone && Bot.LifePoints>1000 && ActivateDescription == AI.Utils.GetStringId(CardId.ChickenGame, 0))
             {
                 AI.SelectOption(0);
                 wasChickenGameActivated = true;
                 return true;
+            }
+            if (ActivateDescription != AI.Utils.GetStringId(CardId.ChickenGame, 0))
+            {
+                wasChickenGameActivated = true;
+                chickenGameCantDraw = true;
+
             }
             return false;
         }
@@ -269,7 +276,7 @@ namespace WindBot.Game.AI.Decks
 
             if (Bot.Deck.Count >=((AI.Utils.Enemy.LifePoints - (Bot.LifePoints-1000))/2000) && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame)&& !AI.Utils.ChainContainsCard(CardId.PainfulChoice))
             {
-                if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenGameActivated)
+                if (Bot.HasInSpellZone(CardId.ChickenGame) && (!wasChickenGameActivated || chickenGameCantDraw))
                 {
                     return false;
                 }
@@ -334,6 +341,7 @@ namespace WindBot.Game.AI.Decks
             base.OnNewTurn();
             wasChickenGameActivated = false;
             wasMakyuraUsedThisTurn = false;
+            chickenGameCantDraw = false;
             noFieldSpell = !Bot.HasInSpellZone(CardId.ChickenGame);
         }
         public override IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
