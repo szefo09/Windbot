@@ -39,7 +39,7 @@ namespace WindBot.Game.AI.Decks
         {
          
         // Cycle begins
-        AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
+            AddExecutor(ExecutorType.Activate, CardId.UpstartGoblin);
             AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfGreed, PotOfGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.PotOfDuality, PotOfDualityEffect);
@@ -241,7 +241,7 @@ namespace WindBot.Game.AI.Decks
         
         private bool PainfulChoiceEffect()
         {
-            Logger.WriteErrorLine(TargetsForPainfulChoise().ToString());
+            Logger.WriteErrorLine("PainfulChoice targets in deck:"+TargetsForPainfulChoise().ToString());
             if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>5)
             {
                 AI.SelectCard(
