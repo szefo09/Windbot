@@ -75,11 +75,10 @@ namespace WindBot.Game.AI.Decks
                 wasChickenGameActivated = true;
                 return true;
             }
-            if (ActivateDescription != AI.Utils.GetStringId(CardId.ChickenGame, 0))
+            if (!wasChickenGameActivated && Card.Location == CardLocation.SpellZone && Bot.LifePoints > 1000 && ActivateDescription != AI.Utils.GetStringId(CardId.ChickenGame, 0))
             {
                 wasChickenGameActivated = true;
                 chickenGameCantDraw = true;
-
             }
             return false;
         }
