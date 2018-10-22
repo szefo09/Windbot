@@ -126,7 +126,24 @@ namespace WindBot.Game.AI.Decks
         {
             if (ExodiaPiecesInHand()==4)
             {
-                AI.SelectCard(ExodiaPieces);
+                AI.SelectCard(
+                CardId.Exodia,
+                CardId.RightArm,
+                CardId.LeftArm,
+                CardId.RightLeg,
+                CardId.LeftLeg,
+                CardId.PainfulChoice,
+                CardId.PotOfGreed,
+                CardId.GracefulCharity,
+                CardId.UpstartGoblin,
+                CardId.ChickenGame,
+                CardId.OneDayOfPeace,
+                CardId.MagicalMallet,
+                CardId.RecklessGreed,
+                CardId.HopeForEscape,
+                CardId.JarOfAvarice,
+                CardId.SixthSense
+                );
                 return true;
             }
             AI.SelectCard(
