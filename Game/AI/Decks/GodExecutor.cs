@@ -334,7 +334,7 @@ namespace WindBot.Game.AI.Decks
                         }
                     }
                 }
-                AI.SelectCard(result);
+                return result;
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
