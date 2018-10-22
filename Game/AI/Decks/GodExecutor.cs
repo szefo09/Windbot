@@ -236,7 +236,7 @@ namespace WindBot.Game.AI.Decks
         private bool PainfulChoiceEffect()
         {
             Logger.WriteErrorLine(TargetsForPainfulChoise().ToString());
-            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>5)
+            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>=5)
             {
                 AI.SelectCard(
                 CardId.Makyura,
