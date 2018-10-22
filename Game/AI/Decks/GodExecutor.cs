@@ -11,6 +11,7 @@ namespace WindBot.Game.AI.Decks
     {
         private bool wasChickenGameActivated = false;
         private bool noFieldSpell = true;
+        private bool wasMakyuraUsedThisTurn=false;
         public class CardId
         {
             public const int Makyura = 21593977;
@@ -183,6 +184,12 @@ namespace WindBot.Game.AI.Decks
                 return true;
             }
         }
+
+        //NOT IMPLEMENTED
+        private int MakyuraGraveyardCount()
+        {
+            return Bot.Graveyard.GetCardCount(CardId.Makyura);
+        }
         private int TargetsForPainfulChoise()
         {
             int result = 0;
@@ -295,6 +302,7 @@ namespace WindBot.Game.AI.Decks
         {
             base.OnNewTurn();
             wasChickenGameActivated = false;
+            wasMakyuraUsedThisTurn = false;
             noFieldSpell = !Bot.HasInSpellZone(CardId.ChickenGame);
         }
     }
