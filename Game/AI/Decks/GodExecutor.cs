@@ -46,12 +46,11 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameEffect);
             AddExecutor(ExecutorType.Activate, CardId.OneDayOfPeace);
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
-            AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
-
             // Power Overwhelming
             AddExecutor(ExecutorType.Activate, CardId.RecklessGreed, RecklessGreedEffect);
             AddExecutor(ExecutorType.Activate, CardId.HopeForEscape, HopeForEscapeEffect);
             AddExecutor(ExecutorType.Activate, CardId.SixthSense, SixthSenseEffect);
+            AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
             AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
         }
         private int[] ExodiaPieces = { CardId.Exodia, CardId.RightArm, CardId.RightLeg, CardId.LeftLeg, CardId.LeftArm };
