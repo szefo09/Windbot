@@ -275,7 +275,6 @@ namespace WindBot.Game.AI.Decks
         private bool PainfulChoiceEffect()
         {
             updatePotentialDraw(5);
-            Logger.WriteErrorLine("PainfulChoice targets in deck:"+TargetsForPainfulChoise().ToString());
             if (Bot.Deck.Count > potentialDraw && TargetsForPainfulChoise()> potentialDraw)
             {
                 AI.SelectCard(
