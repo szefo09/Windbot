@@ -249,20 +249,22 @@ namespace WindBot.Game.AI.Decks
 
         private bool HopeForEscapeEffect()
         {
+            int i = (AI.Utils.Enemy.LifePoints - Bot.LifePoints) % 2000;
             if (Bot.Deck.Count >=((AI.Utils.Enemy.LifePoints - (Bot.LifePoints-1000))/2000) && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
             {
                 if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenGameActivated)
                 {
                     return false;
                 }
-                if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 >= 1000))
+                if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (i >= 1000))
                 {
-                    Logger.WriteErrorLine((AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000).ToString()+ " = next chain will try to activate");
+                    
+                    Logger.WriteErrorLine(i.ToString()+ " = next chain will try to activate");
                     return false;
                 }
-                else if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 < 1000))
+                else if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (i < 1000))
                 {
-                    Logger.WriteErrorLine((AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000).ToString()+" = activating another");
+                    Logger.WriteErrorLine(i.ToString()+" = activating another");
                     return true;
                 }
                 return wasMakyuraUsedThisTurn;
