@@ -58,7 +58,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool ChickenGameField()
         {        
-            if ((wasChickenGameActivated || noFieldSpell) && Card.Location == CardLocation.Hand)
+            if ((wasChickenGameActivated || noFieldSpell) && Card.Location == CardLocation.Hand &&!chickenGameCantDraw)
             {
                 wasChickenGameActivated = false;
                 noFieldSpell = false;
