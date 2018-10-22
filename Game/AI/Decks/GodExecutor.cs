@@ -341,8 +341,13 @@ namespace WindBot.Game.AI.Decks
         }
         public override void OnNewPhase()
         {
+            foreach(ClientCard c in Bot.Hand)
+            {
+                Logger.WriteErrorLine(c.Name);
+            }
             base.OnNewPhase();
         }
+
 
     }
 
