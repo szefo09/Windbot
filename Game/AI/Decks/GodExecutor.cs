@@ -362,6 +362,23 @@ namespace WindBot.Game.AI.Decks
                 }
                 return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
+            //Painful should not discard Exodia pieces.
+            if(cards[0].Location==CardLocation.Deck && AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.PainfulChoice))
+            {
+                List<ClientCard> result = new List<ClientCard>();
+                result.AddRange(cards);
+                foreach (ClientCard card in cards)
+                {
+                    foreach (int piece in ExodiaPieces)
+                    {
+                        if (card.IsCode(piece))
+                        {
+                            result.Remove(card);
+                        }
+                    }
+                }
+                return AI.Utils.CheckSelectCount(result, cards, min, max);
+            }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
     }
