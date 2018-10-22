@@ -45,7 +45,6 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameField);
             AddExecutor(ExecutorType.Activate, CardId.ChickenGame, ChickenGameEffect);
             AddExecutor(ExecutorType.Activate, CardId.OneDayOfPeace);
-            AddExecutor(ExecutorType.Activate, CardId.PainfulChoice, PainfulChoiceEffect);
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
 
@@ -220,7 +219,7 @@ namespace WindBot.Game.AI.Decks
         
         private bool PainfulChoiceEffect()
         {
-            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>=5)
+            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>5)
             {
                 AI.SelectCard(
                 CardId.Makyura,
