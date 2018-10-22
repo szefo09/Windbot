@@ -324,6 +324,7 @@ namespace WindBot.Game.AI.Decks
             if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
             {
                 List<ClientCard> result = (List<ClientCard>)Bot.Hand;
+                
                 foreach (ClientCard card in Bot.Hand)
                 {
                     foreach(int piece in ExodiaPieces)
@@ -334,8 +335,7 @@ namespace WindBot.Game.AI.Decks
                         }
                     }
                 }
-                 
-                return AI.Utils.CheckSelectCount(result, cards, min, max);
+                AI.SelectCard(result);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }
