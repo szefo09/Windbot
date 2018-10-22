@@ -169,7 +169,7 @@ namespace WindBot.Game.AI.Decks
                      );
                 return true;
             }
-            else
+            else 
             {
                     AI.SelectCard(
                     CardId.Makyura,
@@ -251,7 +251,7 @@ namespace WindBot.Game.AI.Decks
         private bool HopeForEscapeEffect()
         {
 
-            if (Bot.Deck.Count >=((AI.Utils.Enemy.LifePoints - (Bot.LifePoints-1000))/2000) && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame))
+            if (Bot.Deck.Count >=((AI.Utils.Enemy.LifePoints - (Bot.LifePoints-1000))/2000) && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame)&& !AI.Utils.ChainContainsCard(CardId.PainfulChoice))
             {
                 if (Bot.HasInSpellZone(CardId.ChickenGame) && !wasChickenGameActivated)
                 {
@@ -267,7 +267,7 @@ namespace WindBot.Game.AI.Decks
                     
                     return false;
                 }
-                return wasMakyuraUsedThisTurn;
+                    return wasMakyuraUsedThisTurn;  
             }
             else return false;
         }
