@@ -55,7 +55,6 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
         }
         private int[] ExodiaPieces = { CardId.Exodia, CardId.RightArm, CardId.RightLeg, CardId.LeftLeg, CardId.LeftArm };
-        private int[] PainfulChoiceTargets = {CardId.Makyura,CardId.MagicalMallet,CardId.PainfulChoice,CardId.OneDayOfPeace,CardId.ChickenGame,CardId.UpstartGoblin,CardId.HopeForEscape,CardId.SixthSense,CardId.GracefulCharity,CardId.PotOfGreed,CardId.RecklessGreed};
 
         private bool ChickenGameField()
         {        
@@ -242,7 +241,8 @@ namespace WindBot.Game.AI.Decks
         
         private bool PainfulChoiceEffect()
         {
-            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>=5)
+            Logger.WriteErrorLine(TargetsForPainfulChoise().ToString());
+            if (Bot.Deck.Count > 5 && TargetsForPainfulChoise()>5)
             {
                 AI.SelectCard(
                 CardId.Makyura,
@@ -259,7 +259,7 @@ namespace WindBot.Game.AI.Decks
                 );
             return true;
             }
-            else return false;
+            return false;
         }
 
         private bool RecklessGreedEffect()
@@ -361,24 +361,6 @@ namespace WindBot.Game.AI.Decks
                         }
                     }
                 }
-                return AI.Utils.CheckSelectCount(result, cards, min, max);
-            }
-            //Painful should not discard Exodia pieces.
-            if(cards[0].Location==CardLocation.Deck && AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.PainfulChoice))
-            {
-                List<ClientCard> result = new List<ClientCard>();
-                
-                foreach (ClientCard card in cards)
-                {
-                    foreach (int target in PainfulChoiceTargets)
-                    {
-                        if (card.IsCode(target))
-                        {
-                            result.Add(card);
-                        }
-                    }
-                }
-                result.Sort();
                 return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
