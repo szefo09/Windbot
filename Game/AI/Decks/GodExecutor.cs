@@ -68,7 +68,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool ChickenGameEffect()
         {
-            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone)
+            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone && Bot.LifePoints>1000)
             {
                 AI.SelectOption(0);
                 wasChickenGameActivated = true;
@@ -257,10 +257,12 @@ namespace WindBot.Game.AI.Decks
                 }
                 if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 >= 1000))
                 {
+                    Logger.WriteErrorLine((AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000).ToString()+ " = next chain will try to activate");
                     return false;
                 }
                 else if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000 < 1000))
                 {
+                    Logger.WriteErrorLine((AI.Utils.Enemy.LifePoints - Bot.LifePoints % 2000).ToString()+" = activating another");
                     return true;
                 }
                 return wasMakyuraUsedThisTurn;
@@ -321,12 +323,6 @@ namespace WindBot.Game.AI.Decks
 
             if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
             {
-                
-                Logger.WriteErrorLine("endphase result hand: ");
-                foreach(ClientCard card in cards)
-                {
-                    Logger.WriteErrorLine(card.Name);
-                }
                 List<ClientCard> result = new List<ClientCard>();
                 result.AddRange(cards);
                 foreach (ClientCard card in cards)
@@ -342,6 +338,10 @@ namespace WindBot.Game.AI.Decks
                 return AI.Utils.CheckSelectCount(result, cards, min, max);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
+        }
+        public override void OnNewPhase()
+        {
+            base.OnNewPhase();
         }
 
     }
