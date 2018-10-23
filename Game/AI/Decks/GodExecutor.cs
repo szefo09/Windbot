@@ -315,6 +315,7 @@ namespace WindBot.Game.AI.Decks
             {
                 if (Bot.HasInSpellZone(CardId.ChickenGame) && (!wasChickenGameActivated || chickenGameCantDraw))
                 {
+                    updatePotentialDraw(-draw);
                     return false;
                 }
                 int difference = (AI.Utils.Enemy.LifePoints - Bot.LifePoints) % 2000;
