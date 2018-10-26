@@ -303,7 +303,7 @@ namespace WindBot.Game.AI.Decks
         private bool RecklessGreedEffect()
         {
             updatePotentialDraw(2);
-            if (Bot.Deck.Count >=potentialDraw&&wasMakyuraUsedThisTurn)
+            if (Bot.Deck.Count >=potentialDraw&&(wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone))
             {
                 return true;
             }
@@ -315,7 +315,7 @@ namespace WindBot.Game.AI.Decks
         {
             int draw = (AI.Utils.Enemy.LifePoints - (Bot.LifePoints - 1000)) / 2000;
              updatePotentialDraw(draw);
-            if (wasMakyuraUsedThisTurn && Bot.Deck.Count >=potentialDraw && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame)&& !AI.Utils.ChainContainsCard(CardId.PainfulChoice))
+            if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.Deck.Count >=potentialDraw && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame)&& !AI.Utils.ChainContainsCard(CardId.PainfulChoice))
             {
                 if (Bot.HasInSpellZone(CardId.ChickenGame) && (!wasChickenGameActivated || chickenGameCantDraw))
                 {
@@ -343,7 +343,7 @@ namespace WindBot.Game.AI.Decks
             updatePotentialDraw(6);
             if (Bot.Deck.Count >= potentialDraw&&! AI.Utils.ChainContainsCard(CardId.SixthSense))
             {
-                if (wasMakyuraUsedThisTurn && Bot.HasInHand(CardId.JarOfAvarice))
+                if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.HasInHand(CardId.JarOfAvarice))
                 {
                     AI.SelectNumber(6);
                     
@@ -361,7 +361,7 @@ namespace WindBot.Game.AI.Decks
         {
             updatePotentialDraw(-4);
             if (AI.Utils.ChainContainsCard(CardId.SixthSense) || AI.Utils.ChainContainsCard(CardId.PainfulChoice)) { return false; }
-            if (wasMakyuraUsedThisTurn&&Bot.HasInGraveyard(CardId.Exodia)||Bot.HasInGraveyard(CardId.LeftArm)||Bot.HasInGraveyard(CardId.RightArm)||Bot.HasInGraveyard(CardId.LeftLeg)||Bot.HasInGraveyard(CardId.RightLeg))
+            if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone)&&Bot.HasInGraveyard(CardId.Exodia)||Bot.HasInGraveyard(CardId.LeftArm)||Bot.HasInGraveyard(CardId.RightArm)||Bot.HasInGraveyard(CardId.LeftLeg)||Bot.HasInGraveyard(CardId.RightLeg))
                 {
                 AI.SelectCard(
                 CardId.Exodia,
@@ -388,7 +388,7 @@ namespace WindBot.Game.AI.Decks
         {
             base.OnNewTurn();
             wasChickenGameActivated = false;
-            wasMakyuraUsedThisTurn = false;
+            wasMakyuraUsedThisTurn= false;
             chickenGameCantDraw = false;
             noFieldSpell = !Bot.HasInSpellZone(CardId.ChickenGame);
         }
