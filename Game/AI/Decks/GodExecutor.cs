@@ -56,6 +56,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
             AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
+            
         }
 
         private bool OneDayOfPeaceEffect()
@@ -128,7 +129,7 @@ namespace WindBot.Game.AI.Decks
         {
             updatePotentialDraw(3);
             if (Bot.Deck.Count >= potentialDraw)
-            {
+            { 
                 AI.SelectCard(
                CardId.Makyura,
                CardId.SixthSense,
@@ -337,7 +338,7 @@ namespace WindBot.Game.AI.Decks
         private bool SixthSenseEffect()
         {
             updatePotentialDraw(6);
-            if (Bot.Deck.Count > potentialDraw)
+            if (Bot.Deck.Count >= potentialDraw)
             {
                 if (wasMakyuraUsedThisTurn && Bot.HasInHand(CardId.JarOfAvarice))
                 {
@@ -390,7 +391,7 @@ namespace WindBot.Game.AI.Decks
         }
         public override IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
-
+            //Prevent AI from discarding exodia pieces during the endphase
             if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
             {
                 List<ClientCard> result = new List<ClientCard>();
@@ -398,6 +399,23 @@ namespace WindBot.Game.AI.Decks
                 foreach (ClientCard card in cards)
                 {
                     foreach(int piece in ExodiaPieces)
+                    {
+                        if (card.IsCode(piece))
+                        {
+                            result.Remove(card);
+                        }
+                    }
+                }
+                return AI.Utils.CheckSelectCount(result, cards, min, max);
+            }
+            //Prevent AI from discarding Exodia Pieces by Graceful Charity.
+            if(max==2 &&cards[0].Location == CardLocation.Hand &&AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.GracefulCharity))
+            {
+                List<ClientCard> result = new List<ClientCard>();
+                result.AddRange(cards);
+                foreach (ClientCard card in cards)
+                {
+                    foreach (int piece in ExodiaPieces)
                     {
                         if (card.IsCode(piece))
                         {
