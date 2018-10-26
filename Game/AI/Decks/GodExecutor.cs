@@ -56,7 +56,10 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.GracefulCharity, GracefulCharityEffect);
             AddExecutor(ExecutorType.Activate, CardId.MagicalMallet, MagicalMalletEffect);
             AddExecutor(ExecutorType.Activate, CardId.JarOfAvarice, JarOfAvariceEffect);
-            
+            AddExecutor(ExecutorType.SpellSet, CardId.RecklessGreed);
+            AddExecutor(ExecutorType.SpellSet, CardId.SixthSense);
+            AddExecutor(ExecutorType.SpellSet, CardId.HopeForEscape);
+            AddExecutor(ExecutorType.SpellSet, CardId.JarOfAvarice);
         }
 
         private bool OneDayOfPeaceEffect()
