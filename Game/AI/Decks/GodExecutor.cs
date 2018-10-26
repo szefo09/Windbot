@@ -341,7 +341,7 @@ namespace WindBot.Game.AI.Decks
         private bool SixthSenseEffect()
         {
             updatePotentialDraw(6);
-            if (Bot.Deck.Count >= potentialDraw)
+            if (Bot.Deck.Count >= potentialDraw&&! AI.Utils.ChainContainsCard(CardId.SixthSense))
             {
                 if (wasMakyuraUsedThisTurn && Bot.HasInHand(CardId.JarOfAvarice))
                 {
