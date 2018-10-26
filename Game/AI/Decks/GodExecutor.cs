@@ -391,31 +391,15 @@ namespace WindBot.Game.AI.Decks
         }
         public override IList<ClientCard> OnSelectCard(IList<ClientCard> cards, int min, int max, int hint, bool cancelable)
         {
-            //Prevent AI from discarding exodia pieces during the endphase
-            if (cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End)
+            //Prevent AI from discarding exodia pieces during the endphase or via Graceful Charity's effect
+            if ((cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End) 
+               ||(max == 2 && cards[0].Location == CardLocation.Hand && AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.GracefulCharity)))
             {
                 List<ClientCard> result = new List<ClientCard>();
                 result.AddRange(cards);
                 foreach (ClientCard card in cards)
                 {
                     foreach(int piece in ExodiaPieces)
-                    {
-                        if (card.IsCode(piece))
-                        {
-                            result.Remove(card);
-                        }
-                    }
-                }
-                return AI.Utils.CheckSelectCount(result, cards, min, max);
-            }
-            //Prevent AI from discarding Exodia Pieces by Graceful Charity.
-            if(max==2 &&cards[0].Location == CardLocation.Hand &&AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.GracefulCharity))
-            {
-                List<ClientCard> result = new List<ClientCard>();
-                result.AddRange(cards);
-                foreach (ClientCard card in cards)
-                {
-                    foreach (int piece in ExodiaPieces)
                     {
                         if (card.IsCode(piece))
                         {
