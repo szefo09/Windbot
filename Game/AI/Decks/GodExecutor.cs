@@ -343,7 +343,7 @@ namespace WindBot.Game.AI.Decks
             updatePotentialDraw(6);
             if (Bot.Deck.Count >= potentialDraw&&! AI.Utils.ChainContainsCard(CardId.SixthSense))
             {
-                if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.HasInHand(CardId.JarOfAvarice))
+                if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.HasInHandOrInSpellZone(CardId.JarOfAvarice))
                 {
                     AI.SelectNumber(6);
                     
