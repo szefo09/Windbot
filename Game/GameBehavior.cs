@@ -1557,7 +1557,7 @@ namespace WindBot.Game
         {
             foreach (ClientCard card in _duel.SummoningCards)
             {
-               if( _duel.Player!=1)
+               if( _duel.Player!=1&& card.Owner!=1)
                {
                     _ai.OnSummon(card);
                }
@@ -1585,8 +1585,8 @@ namespace WindBot.Game
             foreach (ClientCard card in _duel.SummoningCards)
             {
                 card.IsSpecialSummoned = true;
-               if( _duel.Player!=1)
-               {
+                if (_duel.Player != 1 && card.Owner != 1)
+               { 
                     _ai.OnSummon(card);
                }
 
