@@ -6,7 +6,7 @@
 /WindBot.exe.*
 /WindBot.vshost.exe
 /WindBot.vshost.exe.*
-
+/cards.cdb
 # User-specific files
 *.suo
 *.user
