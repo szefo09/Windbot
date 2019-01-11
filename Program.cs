@@ -20,6 +20,7 @@ namespace WindBot
             Logger.WriteLine("WindBot starting...");
 
             Config.Load(args);
+
             List<FileInfo> databases= new List<FileInfo>();
             List<DirectoryInfo> databaseDirs = new List<DirectoryInfo> {
                 new DirectoryInfo(Path.GetFullPath("../ygopro/")),
@@ -28,6 +29,7 @@ namespace WindBot
                 new DirectoryInfo("../ygopro/expansions/"),
                 new DirectoryInfo("../ygopro/expansions/official/")
             };
+            databases.Add(new FileInfo(Config.GetString("DbPath", "cards.cdb")));
             foreach(DirectoryInfo databaseDir in databaseDirs)
             {
                 if (databaseDir.Exists)
