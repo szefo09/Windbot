@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WindBot;
 using WindBot.Game;
 using WindBot.Game.AI;
+using System;
 
 namespace WindBot.Game.AI.Decks
 {
@@ -11,6 +12,7 @@ namespace WindBot.Game.AI.Decks
     public class CyberDragonExecutor : DefaultExecutor
     {
         bool PowerBondUsed = false;
+        int CyberValleyUsed = 0;
 
         public class CardId
         {
@@ -83,10 +85,23 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.CyberPhoenix);
             AddExecutor(ExecutorType.Activate, CardId.CyberKirin);
             AddExecutor(ExecutorType.Activate, CardId.ArmoredCybern, ArmoredCybernEffect);
-            AddExecutor(ExecutorType.Activate, CardId.CyberValley);
+            AddExecutor(ExecutorType.Activate, CardId.CyberValley, CyberValleyEffect);
 
             AddExecutor(ExecutorType.SpellSet, DefaultSpellSet);
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
+        }
+
+        private bool CyberValleyEffect()
+        {
+            if (CyberValleyUsed<=5)
+            {
+                CyberValleyUsed++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool CyberDragonInHand()  { return Bot.HasInHand(CardId.CyberDragon); }
@@ -183,6 +198,11 @@ namespace WindBot.Game.AI.Decks
                     return true;
             }
             return false;
+        }
+        public override void OnNewTurn()
+        {
+            CyberValleyUsed = 0;
+            base.OnNewTurn();
         }
     }
 }

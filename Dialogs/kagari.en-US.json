@@ -11,6 +11,10 @@
     "What took you so long?",
     "It's not like I missed you or anything... b-baka!"
   ],
+  "deckerror": [
+    "It seems I cannot use my {0} with this banlist..., Do something with this, b-baka!",
+    "I usually don't play by the rules, and now I can't use {0} becase of them."
+  ],
   "duelstart": [
     "Let's see how well you can entertain me.",
     "Missplays? No, I'm just going easy on you.",

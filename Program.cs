@@ -6,6 +6,8 @@ using System.Web;
 using WindBot.Game;
 using WindBot.Game.AI;
 using YGOSharp.OCGWrapper;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace WindBot
 {
@@ -18,11 +20,24 @@ namespace WindBot
             Logger.WriteLine("WindBot starting...");
 
             Config.Load(args);
-
+            
             string databasePath = Config.GetString("DbPath", "cards.cdb");
-
-            InitDatas(databasePath);
-
+            List<FileInfo> databases= new List<FileInfo>();
+            List<DirectoryInfo> databaseDirs = new List<DirectoryInfo> {
+                new DirectoryInfo(Path.GetFullPath("../ygopro/")),
+                new DirectoryInfo(Path.GetFullPath(Environment.CurrentDirectory)),
+                new DirectoryInfo("../ygopro/expansions/"),
+                new DirectoryInfo("../ygopro/expansions/official/")
+            };
+            foreach(DirectoryInfo databaseDir in databaseDirs)
+            {
+                 databases.AddRange(databaseDir.GetFiles("*.cdb").OrderByDescending(x => x.Name).ToList());
+            }
+            foreach(FileInfo database in databases)
+            {
+                InitDatas(database.FullName);
+            }
+            DecksManager.Init();
             bool serverMode = Config.GetBool("ServerMode", false);
 
             if (serverMode)
@@ -47,18 +62,31 @@ namespace WindBot
         public static void InitDatas(string databasePath)
         {
             Rand = new Random();
-            DecksManager.Init();
             string absolutePath = Path.GetFullPath(databasePath);
             if (!File.Exists(absolutePath))
-                // In case windbot is placed in a folder under ygopro folder
-                absolutePath = Path.GetFullPath("../" + databasePath);
-            if (!File.Exists(absolutePath))
             {
-                Logger.WriteErrorLine("Can't find cards database file.");
-                Logger.WriteErrorLine("Please place cards.cdb next to WindBot.exe or Bot.exe .");
-                Logger.WriteLine("Press any key to quit...");
-                Console.ReadKey();
-                System.Environment.Exit(1);
+                absolutePath = Path.GetFullPath("../" + databasePath);
+                if (!File.Exists(absolutePath))
+                {
+                    // In case windbot is placed in a folder under ygopro folder
+                    absolutePath = Path.GetFullPath("../ygopro/" + databasePath);
+                    if (!File.Exists(absolutePath))
+                    {
+                        absolutePath = Path.GetFullPath("../ygopro/expansions" + databasePath);
+                        if (!File.Exists(absolutePath))
+                        {
+                            absolutePath = Path.GetFullPath("../ygopro/expansions/official" + databasePath);
+                            if (!File.Exists(absolutePath))
+                            {
+                                Logger.WriteErrorLine("Can't find cards database file.");
+                                Logger.WriteErrorLine("Please place cards.cdb next to WindBot.exe or Bot.exe .");
+                                Logger.WriteLine("Press any key to quit...");
+                                Console.ReadKey();
+                                System.Environment.Exit(1);
+                            }
+                        }
+                    }
+                }
             }
             NamedCardsManager.Init(absolutePath);
         }

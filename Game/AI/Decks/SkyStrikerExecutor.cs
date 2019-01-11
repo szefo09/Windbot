@@ -273,7 +273,7 @@ namespace WindBot.Game.AI.Decks
         private bool JammingWaveEffect()
         {
             ClientCard target = null;
-            foreach(ClientCard card in Enemy.GetSpells())
+            foreach (ClientCard card in Enemy.GetSpells())
             {
                 if (card.IsFacedown())
                 {
@@ -397,7 +397,7 @@ namespace WindBot.Game.AI.Decks
             if (Card.Location == CardLocation.Grave)
             {
                 IList<ClientCard> targets = new List<ClientCard>();
-                foreach(ClientCard card in Bot.GetGraveyardMonsters())
+                foreach (ClientCard card in Bot.GetGraveyardMonsters())
                 {
                     if (card.IsCode(CardId.Hayate, CardId.Kagari, CardId.Shizuku))
                         targets.Add(card);
@@ -738,7 +738,7 @@ namespace WindBot.Game.AI.Decks
         private bool HaveThreeSpellsInGrave()
         {
             int count = 0;
-            foreach(ClientCard card in Bot.Graveyard)
+            foreach (ClientCard card in Bot.Graveyard)
             {
                 if (card.IsSpell())
                 {
