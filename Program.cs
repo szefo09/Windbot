@@ -20,8 +20,6 @@ namespace WindBot
             Logger.WriteLine("WindBot starting...");
 
             Config.Load(args);
-            
-            string databasePath = Config.GetString("DbPath", "cards.cdb");
             List<FileInfo> databases= new List<FileInfo>();
             List<DirectoryInfo> databaseDirs = new List<DirectoryInfo> {
                 new DirectoryInfo(Path.GetFullPath("../ygopro/")),
