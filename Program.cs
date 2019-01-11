@@ -25,16 +25,22 @@ namespace WindBot
             List<FileInfo> databases= new List<FileInfo>();
             List<DirectoryInfo> databaseDirs = new List<DirectoryInfo> {
                 new DirectoryInfo(Path.GetFullPath("../ygopro/")),
+                new DirectoryInfo(Path.GetFullPath("../expansions")),
                 new DirectoryInfo(Path.GetFullPath(Environment.CurrentDirectory)),
                 new DirectoryInfo("../ygopro/expansions/"),
                 new DirectoryInfo("../ygopro/expansions/official/")
             };
             foreach(DirectoryInfo databaseDir in databaseDirs)
             {
-                 databases.AddRange(databaseDir.GetFiles("*.cdb").OrderByDescending(x => x.Name).ToList());
+                if (databaseDir.Exists)
+                {
+                    databases.AddRange(databaseDir.GetFiles("*.cdb").OrderByDescending(x => x.Name).ToList());
+                }
             }
+            databases=databases.OrderByDescending(x => x.Name).ToList();
             foreach(FileInfo database in databases)
             {
+                Logger.WriteLine(database.FullName);
                 InitDatas(database.FullName);
             }
             DecksManager.Init();
