@@ -7,6 +7,7 @@
 /WindBot.vshost.exe
 /WindBot.vshost.exe.*
 /cards.cdb
+
 # User-specific files
 *.suo
 *.user
@@ -161,3 +162,5 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+/.vs*
