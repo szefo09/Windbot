@@ -71,7 +71,7 @@ namespace WindBot
         public static void InitDatas(string databasePath)
         {
             Rand = new Random();
-            string absolutePath = Path.GetFullPath(databasePath);
+            string absolutePath = databasePath;
             if (!File.Exists(absolutePath))
             {
              Logger.WriteErrorLine("Can't find cards database file.");
