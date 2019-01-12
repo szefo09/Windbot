@@ -23,11 +23,10 @@ namespace WindBot
 
             List<FileInfo> databases= new List<FileInfo>();
             List<DirectoryInfo> databaseDirs = new List<DirectoryInfo> {
-                new DirectoryInfo(Path.GetFullPath("../ygopro/")),
-                new DirectoryInfo(Path.GetFullPath("../expansions")),
+                new DirectoryInfo("../ygopro"),
                 new DirectoryInfo(Path.GetFullPath(Environment.CurrentDirectory)),
-                new DirectoryInfo("../ygopro/expansions/"),
-                new DirectoryInfo("../ygopro/expansions/official/")
+                new DirectoryInfo("../ygopro/expansions"),
+                new DirectoryInfo("../ygopro/expansions/official")
             };
             databases.Add(new FileInfo(Config.GetString("DbPath", "cards.cdb")));
             foreach(DirectoryInfo databaseDir in databaseDirs)
