@@ -39,8 +39,12 @@ namespace WindBot
             databases=databases.OrderByDescending(x => x.Name).ToList();
             foreach(FileInfo database in databases)
             {
-                Logger.WriteLine(database.FullName);
-                InitDatas(database.FullName);
+                if (database.Exists)
+                {
+                    Logger.WriteLine(database.Name);
+                    InitDatas(database.FullName);
+                }
+
             }
             DecksManager.Init();
             bool serverMode = Config.GetBool("ServerMode", false);
@@ -77,10 +81,10 @@ namespace WindBot
                     absolutePath = Path.GetFullPath("../ygopro/" + databasePath);
                     if (!File.Exists(absolutePath))
                     {
-                        absolutePath = Path.GetFullPath("../ygopro/expansions" + databasePath);
+                        absolutePath = Path.GetFullPath("../ygopro/expansions/" + databasePath);
                         if (!File.Exists(absolutePath))
                         {
-                            absolutePath = Path.GetFullPath("../ygopro/expansions/official" + databasePath);
+                            absolutePath = Path.GetFullPath("../ygopro/expansions/official/" + databasePath);
                             if (!File.Exists(absolutePath))
                             {
                                 Logger.WriteErrorLine("Can't find cards database file.");
