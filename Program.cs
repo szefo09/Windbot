@@ -41,7 +41,7 @@ namespace WindBot
             {
                 if (database.Exists)
                 {
-                    Logger.WriteLine(database.Name);
+                    Logger.WriteLine(database.FullName);
                     InitDatas(database.FullName);
                 }
 
@@ -74,28 +74,11 @@ namespace WindBot
             string absolutePath = Path.GetFullPath(databasePath);
             if (!File.Exists(absolutePath))
             {
-                absolutePath = Path.GetFullPath("../" + databasePath);
-                if (!File.Exists(absolutePath))
-                {
-                    // In case windbot is placed in a folder under ygopro folder
-                    absolutePath = Path.GetFullPath("../ygopro/" + databasePath);
-                    if (!File.Exists(absolutePath))
-                    {
-                        absolutePath = Path.GetFullPath("../ygopro/expansions/" + databasePath);
-                        if (!File.Exists(absolutePath))
-                        {
-                            absolutePath = Path.GetFullPath("../ygopro/expansions/official/" + databasePath);
-                            if (!File.Exists(absolutePath))
-                            {
-                                Logger.WriteErrorLine("Can't find cards database file.");
-                                Logger.WriteErrorLine("Please place cards.cdb next to WindBot.exe or Bot.exe .");
-                                Logger.WriteLine("Press any key to quit...");
-                                Console.ReadKey();
-                                System.Environment.Exit(1);
-                            }
-                        }
-                    }
-                }
+             Logger.WriteErrorLine("Can't find cards database file.");
+             Logger.WriteErrorLine("Please place cards.cdb next to WindBot.exe or Bot.exe .");
+             Logger.WriteLine("Press any key to quit...");
+             Console.ReadKey();
+             System.Environment.Exit(1);
             }
             NamedCardsManager.Init(absolutePath);
         }
