@@ -24,6 +24,7 @@ namespace WindBot.Game.AI.Decks
             public const int Meluseek = 25533642;
             public const int OneForOne = 2295440;
             public const int PotofDesires = 35261759;
+            public const int PotofIndulgence = 49238328;
             public const int Impermanence = 10045474;
             public const int WakingtheDragon = 10813327;
             public const int EvenlyMatched = 15693423;
@@ -115,6 +116,7 @@ namespace WindBot.Game.AI.Decks
 
             AddExecutor(ExecutorType.Activate, CardId.MaxxC, G_activate);
             AddExecutor(ExecutorType.Activate, CardId.Anti_Spell, Anti_Spell_activate);
+            AddExecutor(ExecutorType.Activate, CardId.PotofIndulgence, PotofIndulgence_activate);
 
             AddExecutor(ExecutorType.Activate, field_activate);
             AddExecutor(ExecutorType.Activate, CardId.SecretVillage, SecretVillage_activate);
@@ -194,7 +196,7 @@ namespace WindBot.Game.AI.Decks
         public bool has_altergeist_left()
         {
             return (Bot.GetRemainingCount(CardId.Marionetter, 3) > 0
-                || Bot.GetRemainingCount(CardId.Multifaker, 3) > 0
+                || Bot.GetRemainingCount(CardId.Multifaker, 2) > 0
                 || Bot.GetRemainingCount(CardId.Meluseek,3) > 0
                 || Bot.GetRemainingCount(CardId.Silquitous,2) > 0
                 || Bot.GetRemainingCount(CardId.Kunquery,1) > 0);
@@ -1265,7 +1267,7 @@ namespace WindBot.Game.AI.Decks
                 AI.SelectCard(CardId.Marionetter);
                 return true;
             }
-            if (!Bot.HasInHandOrHasInMonstersZone(CardId.Multifaker) && Bot.GetRemainingCount(CardId.Multifaker, 3) > 0 && Multifaker_can_ss())
+            if (!Bot.HasInHandOrHasInMonstersZone(CardId.Multifaker) && Bot.GetRemainingCount(CardId.Multifaker, 2) > 0 && Multifaker_can_ss())
             {
                 AI.SelectCard(CardId.Multifaker);
                 return true;
@@ -1332,7 +1334,7 @@ namespace WindBot.Game.AI.Decks
             {
                 if (Duel.Player == 1)
                 {
-                    if (!Bot.HasInHandOrHasInMonstersZone(CardId.Multifaker) && Bot.GetRemainingCount(CardId.Multifaker, 3) > 0 && Multifaker_candeckss() && Multifaker_can_ss())
+                    if (!Bot.HasInHandOrHasInMonstersZone(CardId.Multifaker) && Bot.GetRemainingCount(CardId.Multifaker, 2) > 0 && Multifaker_candeckss() && Multifaker_can_ss())
                     {
                         foreach(ClientCard set_card in Bot.GetSpells())
                         {
@@ -1356,7 +1358,7 @@ namespace WindBot.Game.AI.Decks
                         AI.SelectCard(CardId.Marionetter);
                         return true;
                     }
-                    if (!Bot.HasInHandOrHasInMonstersZone(CardId.Multifaker) && Bot.GetRemainingCount(CardId.Multifaker, 3) > 0 && Multifaker_can_ss())
+                    if (!Bot.HasInHandOrHasInMonstersZone(CardId.Multifaker) && Bot.GetRemainingCount(CardId.Multifaker, 2) > 0 && Multifaker_can_ss())
                     {
                         AI.SelectCard(CardId.Multifaker);
                         return true;
@@ -2155,6 +2157,32 @@ namespace WindBot.Game.AI.Decks
             return false;
         }
 
+        public bool PotofIndulgence_activate()
+        {
+            if (!spell_trap_activate()) return false;
+            if (!Bot.HasInGraveyard(CardId.Linkuriboh) && !Bot.HasInGraveyard(CardId.Hexstia))
+            {
+                int important_count = 0;
+                foreach (ClientCard card in Bot.ExtraDeck)
+                {
+                    if (card.Id == CardId.Linkuriboh || card.Id == CardId.Hexstia)
+                    {
+                        important_count++;
+                    }
+                }
+                if (important_count > 0)
+                {
+                    AI.SelectPlace(SelectSTPlace(Card, true));
+                    AI.SelectOption(1);
+                    return true;
+                }
+                return false;
+            }
+            AI.SelectPlace(SelectSTPlace(Card, true));
+            AI.SelectOption(1);
+            return true;
+        }
+
         public bool Anima_ss()
         {
             if (Duel.Phase != DuelPhase.Main2) return false;
@@ -2362,7 +2390,7 @@ namespace WindBot.Game.AI.Decks
                     if (GetTotalATK(targets) >= 1500 && (summoned || (!Meluseek_selected && !Hexstia_selected))) return false;
                 }
                 bool can_have_Multifaker = (Bot.HasInHand(CardId.Multifaker) 
-                    || (Bot.GetRemainingCount(CardId.Multifaker, 3) > 0 
+                    || (Bot.GetRemainingCount(CardId.Multifaker, 2) > 0 
                         && ( (Meluseek_selected && !Meluseek_searched) 
                             || (Hexstia_selected && !Hexstia_searched) )));
                 if (can_have_Multifaker && Multifaker_can_ss()) altergeist_count++;
