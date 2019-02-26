@@ -9,10 +9,11 @@
     "Too bad they banned my favorite deck...",
     "I've been waiting for you",
     "What took you so long?",
-    "It's not like I missed you or anything... b-baka!"
+    "It's not like I missed you or anything... b-baka!",
+    "Huh, so you are my opponent this time?"
   ],
   "deckerror": [
-    "It seems I cannot use my {0} with this banlist..., Do something with this, b-baka!",
+    "It seems I cannot use my {0} with this banlist..., Do something about this!",
     "I usually don't play by the rules, and now I can't use {0} becase of them."
   ],
   "duelstart": [
@@ -22,7 +23,8 @@
     "I wonder if you'll last more than 5 minutes.",
     "Show me what you're made of.",
     "Maybe I'll play seriously this time.",
-    "Let's see if you are worthy of my time."
+    "Let's see if you are worthy of my time.",
+    "I'll show you the definition of interactive gameplay."
   ],
   "newturn": [
     "Draw!",
@@ -39,7 +41,8 @@
     "Go ahead, make my day.",
     "I'm curious in what moves you can pull.",
     "Entertain me.",
-    "Impress me."
+    "Impress me.",
+    "Show me your 'skills'."
   ],
   "directattack": [
     "{0}, attack him directly my darling!",
@@ -71,7 +74,8 @@
     "Just a lowly {0} ...",
     "B-baka!",
     "Tis but a scratch.",
-    "It ain't over yet."
+    "It ain't over yet.",
+    "You play rough, just the way I like it."
   ],
   "activate": [
     "I'm activating {0}.",
