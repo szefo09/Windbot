@@ -103,12 +103,82 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Sanctuary,Sanctuary_activate);
             AddExecutor(ExecutorType.Activate, CardId.FoolishBurial, FoolishBurial_activate);
             AddExecutor(ExecutorType.Activate, CardId.Circle, Circle_activate);
+            AddExecutor(ExecutorType.Summon, CardId.LadyDebug);
+            AddExecutor(ExecutorType.Activate, CardId.LadyDebug, ladydebug_activate);
+            AddExecutor(ExecutorType.Summon, CardId.Foxy);
+            AddExecutor(ExecutorType.Activate, CardId.Foxy, foxy_activate);
+        }
 
+        private bool foxy_activate()
+        {
+            if (Card.Location == CardLocation.MonsterZone)
+            {
+                if (!Bot.HasInHand(CardId.Gazelle))
+                {
+                    AI.SelectCard(CardId.Gazelle);
+                    return true;
+                }
+                if (!Bot.HasInHandOrInGraveyard(CardId.Spinny))
+                {
+                    AI.SelectCard(CardId.Spinny);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.Foxy))
+                {
+                    AI.SelectCard(CardId.Foxy);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.Fowl))
+                {
+                    AI.SelectCard(CardId.Fowl);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.JackJaguar))
+                {
+                    AI.SelectCard(CardId.JackJaguar);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.Falco))
+                {
+                    AI.SelectCard(CardId.Falco);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.Circle))
+                {
+                    AI.SelectCard(CardId.Circle);
+                    return true;
+                }
+                return true;
+            }
+            else
+            {
+                if (Bot.HasInHand(CardId.Falco))
+            }
+        }
+
+        private bool ladydebug_activate()
+        {
+            if (!Bot.HasInHand(CardId.Gazelle))
+            {
+                AI.SelectCard(CardId.Gazelle);
+                return true;
+            }
+            if (!Bot.HasInHandOrInGraveyard(CardId.Spinny))
+            {
+                AI.SelectCard(CardId.Spinny);
+                return true;
+            }
+            if (!Bot.HasInHand(CardId.Foxy))
+            {
+                AI.SelectCard(CardId.Foxy);
+                return true;
+            }
+            return true;
         }
 
         private bool Circle_activate()
         {
-            if(ActivateDescription == AI.Utils.GetStringId(CardId.Circle, 0))
+            if (ActivateDescription == AI.Utils.GetStringId(CardId.Circle, 0))
             {
                 AI.SelectOption(0);
                 if (!Bot.HasInHand(CardId.Gazelle))
@@ -121,9 +191,34 @@ namespace WindBot.Game.AI.Decks
                     AI.SelectCard(CardId.Spinny);
                     return true;
                 }
-                
+                if (!Bot.HasInHand(CardId.Foxy))
+                {
+                    AI.SelectCard(CardId.Foxy);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.Fowl))
+                {
+                    AI.SelectCard(CardId.Fowl);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.JackJaguar))
+                {
+                    AI.SelectCard(CardId.JackJaguar);
+                    return true;
+                }
+                if (!Bot.HasInHand(CardId.Falco))
+                {
+                    AI.SelectCard(CardId.Falco);
+                    return true;
+                }
+                return false;
             }
-            return false;
+            else
+            {
+                AI.SelectOption(1);
+                AI.SelectCard(salamangreat_links);
+                return true;
+            }
         }
 
         private bool FoolishBurial_activate()
