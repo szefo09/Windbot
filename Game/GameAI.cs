@@ -12,6 +12,10 @@ namespace WindBot.Game
         public Executor Executor { get; set; }
         public AIFunctions Utils { get; private set; }
 
+        // AI should not perform an action infinitely. 
+        protected ClientCard last_card = null;
+        protected int last_ct = 0;
+
         private Dialogs _dialogs;
 
         public GameAI(GameClient game, Duel duel)
@@ -172,6 +176,13 @@ namespace WindBot.Game
                     ClientCard card = battle.ActivableCards[i];
                     if (ShouldExecute(exec, card, ExecutorType.Activate, battle.ActivableDescs[i]))
                     {
+                        if (last_card != null && card.Equals(last_card)){
+                            last_ct++;
+                            if (last_ct > 6) continue;
+                        }else{
+                            last_ct = 0;
+                            last_card = card;
+                        }
                         _dialogs.SendChaining(card.Name);
                         return new BattlePhaseAction(BattlePhaseAction.BattleAction.Activate, card.ActionIndex);
                     }
@@ -326,7 +337,15 @@ namespace WindBot.Game
                     ClientCard card = cards[i];
                     if (ShouldExecute(exec, card, ExecutorType.Activate, descs[i]))
                     {
+                        if (last_card != null && card.Equals(last_card)){
+                            last_ct++;
+                            if (last_ct > 6) continue;
+                        }else{
+                            last_ct = 1;
+                            last_card = card;
+                        }
                         _dialogs.SendChaining(card.Name);
+                            
                         return i;
                     }
                 }
@@ -425,6 +444,13 @@ namespace WindBot.Game
                     ClientCard card = main.ActivableCards[i];
                     if (ShouldExecute(exec, card, ExecutorType.Activate, main.ActivableDescs[i]))
                     {
+                        if (last_card != null && card.Equals(last_card)){
+                            last_ct++;
+                            if (last_ct > 6) continue;
+                        }else{
+                            last_ct = 1;
+                            last_card = card;
+                        }
                         _dialogs.SendActivate(card.Name);
                         return new MainPhaseAction(MainPhaseAction.MainAction.Activate, card.ActionActivateIndex[main.ActivableDescs[i]]);
                     }

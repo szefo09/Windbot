@@ -20,7 +20,7 @@ namespace WindBot
             Logger.WriteLine("WindBot starting...");
 
             Config.Load(args);
-
+            Rand = new Random();
             List<FileInfo> databases= new List<FileInfo>();
             List<DirectoryInfo> databaseDirs = new List<DirectoryInfo> {
                 new DirectoryInfo("../ygopro"),
@@ -70,7 +70,6 @@ namespace WindBot
 
         public static void InitDatas(string databasePath)
         {
-            Rand = new Random();
             string absolutePath = databasePath;
             if (!File.Exists(absolutePath))
             {

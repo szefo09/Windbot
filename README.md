@@ -72,7 +72,7 @@ WindBot can run as a "server", provide a http interface to create bot.
 
 * ChainBurn
 
-* DarkMagician
+* Magician
 
 * Dragunity
 
@@ -110,7 +110,7 @@ WindBot can run as a "server", provide a http interface to create bot.
 
 * Lightsworn
 
-* LightswornShaddoldinosour
+* 60Cards
 
 * Nekroz
 
