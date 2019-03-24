@@ -7,7 +7,7 @@ using WindBot.Game.AI;
 namespace WindBot.Game.AI.Decks
 {
     // NOT FINISHED YET
-    [Deck("Magician", "AI_DarkMagician", "NotFinished")]
+    [Deck("DarkMagician", "AI_DarkMagician", "NotFinished")]
     public class DarkMagicianExecutor : DefaultExecutor
     {
         public class CardId
