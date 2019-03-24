@@ -160,6 +160,11 @@
       "name": "ChainBurn",
       "deck": "ChainBurn",
       "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Salamangreat",
+      "deck": "salamangreat",
+      "dialog": "kagari.en-US"
     }
   ]
 }

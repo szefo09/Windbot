@@ -6,8 +6,19 @@ using YGOSharp.OCGWrapper.Enums;
 
 namespace WindBot.Game.AI.Decks
 {
+    [Deck("Salamangreat", "AI_Salamangreat", "NotFinished")]
     class SalamangreatExecutor : DefaultExecutor
     {
+        bool foxyPopEnemySpell = false;
+        bool falcoNoSummon = false;
+        bool wasGazelleSummonedThisTurn = false;
+        bool wasFieldspellUsedThisTurn = false;
+        bool wasWolfSummonedUsingItself = false;
+        int sunlightPosition = 0;
+        bool wasVeilynxSummonedThisTurn = false;
+        List<int> CombosInHand;
+
+
         List<int> Impermanence_list = new List<int>();
         public class CardId
         {
@@ -35,11 +46,11 @@ namespace WindBot.Game.AI.Decks
 
             public const int SalamangreatVioletChimera = 37261776;
             public const int ExcitionKnight = 46772449;
-            public const int SalamangreatMirageStallio = 87327776;
-            public const int SalamangreatSunlightWolf = 87871125;
+            public const int MirageStallio = 87327776;
+            public const int SunlightWolf = 87871125;
             public const int BorrelloadDragon = 31833038;
-            public const int SalamangreatHeatLeo = 41463181;
-            public const int SalamangreatVeilynx = 14812471;
+            public const int HeatLeo = 41463181;
+            public const int Veilynx = 14812471;
             public const int Charmer = 48815792;
             public const int KnightmarePheonix = 2857636;
 
@@ -55,6 +66,18 @@ namespace WindBot.Game.AI.Decks
             public const int Iblee = 10158145;
             public const int ImperialOrder = 61740673;
         }
+
+        List<int> Combo_cards = new List<int>()
+        {
+            CardId.Spinny,
+            CardId.JackJaguar,
+            CardId.Fowl,
+            CardId.Foxy,
+            CardId.Falco,
+            CardId.Circle,
+            CardId.Gazelle,
+            CardId.FoolishBurial
+        };
 
         List<int> normal_counter = new List<int>
         {
@@ -75,17 +98,43 @@ namespace WindBot.Game.AI.Decks
 
         List<int> salamangreat_links = new List<int>
         {
-            CardId.SalamangreatHeatLeo,
-            CardId.SalamangreatSunlightWolf,
-            CardId.SalamangreatVeilynx
+            CardId.HeatLeo,
+            CardId.SunlightWolf,
+            CardId.Veilynx
         };
+
+        List<int> JackJaguarTargets = new List<int>
+        {
+            CardId.SunlightWolf,
+            CardId.MirageStallio,
+            CardId.HeatLeo
+        };
+
 
         List<int> salamangreat_combopieces = new List<int>
         {
             CardId.Gazelle,
             CardId.Spinny,
             CardId.JackJaguar,
-            CardId.Foxy
+            CardId.Foxy,
+            CardId.Circle,
+            CardId.Falco
+        };
+
+        List<int> WolfMaterials = new List<int>
+        {
+            CardId.Veilynx,
+            CardId.JackJaguar,
+            CardId.Gazelle
+        };
+
+        List<int> salamangreat_spellTrap = new List<int>
+        {
+            CardId.SalamangreatRoar,
+            CardId.SalamangreatRage,
+            CardId.Circle,
+            CardId.FusionOfFire,
+            CardId.Sanctuary
         };
 
         public SalamangreatExecutor(GameAI ai, Duel duel) : base(ai, duel)
@@ -99,64 +148,355 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.SolemnStrike, SolemnStrike_activate);
             AddExecutor(ExecutorType.Activate, CardId.SolemnJudgment, SolemnJudgment_activate);
             AddExecutor(ExecutorType.Activate, CardId.SalamangreatRage, Rage_activate);
-
-            AddExecutor(ExecutorType.Activate, CardId.Sanctuary,Sanctuary_activate);
             AddExecutor(ExecutorType.Activate, CardId.FoolishBurial, FoolishBurial_activate);
+
+            AddExecutor(ExecutorType.Activate, CardId.LadyDebug, Fadydebug_activate);
+            AddExecutor(ExecutorType.Activate, CardId.Foxy, Foxy_activate);
+            AddExecutor(ExecutorType.Activate, CardId.Falco, Falco_activate);
             AddExecutor(ExecutorType.Activate, CardId.Circle, Circle_activate);
+            
+            AddExecutor(ExecutorType.Activate, CardId.Veilynx);
+            AddExecutor(ExecutorType.Activate, CardId.Gazelle, Gazelle_activate);
+            AddExecutor(ExecutorType.Activate, CardId.Fowl, Fowl_activate);
+            AddExecutor(ExecutorType.Activate, CardId.Spinny, Spinny_activate);
+            AddExecutor(ExecutorType.Activate, CardId.JackJaguar, JackJaguar_activate);
+
             AddExecutor(ExecutorType.Summon, CardId.LadyDebug);
-            AddExecutor(ExecutorType.Activate, CardId.LadyDebug, ladydebug_activate);
             AddExecutor(ExecutorType.Summon, CardId.Foxy);
-            AddExecutor(ExecutorType.Activate, CardId.Foxy, foxy_activate);
+            AddExecutor(ExecutorType.Summon, CardId.Gazelle);
+            AddExecutor(ExecutorType.Summon, CardId.Spinny);
+            AddExecutor(ExecutorType.Summon, CardId.JackJaguar);
+            AddExecutor(ExecutorType.Summon, CardId.Fowl);
+
+
+
+            AddExecutor(ExecutorType.SpSummon, CardId.Veilynx, Veilynx_summon);
+            AddExecutor(ExecutorType.SpSummon, CardId.MirageStallio, Stallio_summon);
+            AddExecutor(ExecutorType.Activate, CardId.MirageStallio, Stallio_activate);
+            AddExecutor(ExecutorType.SpSummon, CardId.SunlightWolf, SunlightWolf_summon);
+
+
+
+
+            AddExecutor(ExecutorType.Activate, CardId.Sanctuary, Sanctuary_activate);
+
+            AddExecutor(ExecutorType.Activate, CardId.SunlightWolf, Wolf_activate);
+
+
+            AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
+
+            AddExecutor(ExecutorType.SpellSet, SpellSet);
+
         }
 
-        private bool foxy_activate()
+        private bool Stallio_summon()
+        {
+            AI.SelectMaterials(CardId.Spinny);
+            return true;
+        }
+
+        private bool SunlightWolf_summon()
+        {
+            if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0)
+            {
+                if (Bot.HasInMonstersZone(CardId.MirageStallio)
+                    && Bot.HasInMonstersZone(CardId.Veilynx)
+                    && Bot.HasInMonstersZone(CardId.Gazelle))
+                {
+                    AI.SelectOption(0);
+                    AI.SelectNextCard(CardId.MirageStallio);
+                    sunlightPosition = SelectSetPlace(new List<int>() { CardId.Veilynx }, true);
+                    AI.SelectPlace(sunlightPosition);
+                    return true;
+                }
+                return false;
+            }
+
+            if (Bot.HasInMonstersZone(CardId.SunlightWolf))
+            {
+                if (wasWolfSummonedUsingItself)
+                {
+                    return false;
+                }
+
+                if (!wasFieldspellUsedThisTurn)
+                {
+                    AI.SelectOption(1);
+                    AI.SelectMaterials(new List<int>() {
+                        CardId.SunlightWolf,
+                        CardId.Veilynx,
+                        CardId.JackJaguar,
+                        CardId.Gazelle
+                    });
+                    wasWolfSummonedUsingItself = true;
+                    AI.SelectPlace(sunlightPosition);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            wasWolfSummonedUsingItself = false;
+            if (Bot.HasInMonstersZone(CardId.Veilynx))
+            {
+
+                AI.SelectMaterials(WolfMaterials);
+                sunlightPosition = SelectSetPlace(new List<int>() { CardId.Veilynx }, true);
+
+                AI.SelectPlace(sunlightPosition);
+            }
+            return true;
+        }
+
+        private bool Wolf_activate()
+        {
+            AI.SelectCard(new List<int>() {
+                CardId.Gazelle,
+                CardId.SalamangreatRoar,
+                CardId.SalamangreatRage,
+                CardId.Foxy,
+                CardId.AshBlossom,
+                CardId.SunlightWolf,
+                CardId.HeatLeo,
+                CardId.Veilynx,
+                CardId.Fowl,
+                CardId.Spinny
+            });
+            return true;
+        }
+
+        private bool Stallio_activate()
         {
             if (Card.Location == CardLocation.MonsterZone)
             {
-                if (!Bot.HasInHand(CardId.Gazelle))
+                if (!wasGazelleSummonedThisTurn)
+                {
+                    AI.SelectCard(CardId.Gazelle, CardId.Spinny);
+                    AI.SelectNextCard(CardId.Gazelle);
+                    return true;
+                }
+                if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.JackJaguar))
                 {
                     AI.SelectCard(CardId.Gazelle);
+                    AI.SelectNextCard(CardId.JackJaguar);
                     return true;
                 }
-                if (!Bot.HasInHandOrInGraveyard(CardId.Spinny))
+                if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.Falco))
                 {
-                    AI.SelectCard(CardId.Spinny);
+                    AI.SelectCard(CardId.Gazelle);
+                    AI.SelectNextCard(CardId.Falco);
                     return true;
                 }
-                if (!Bot.HasInHand(CardId.Foxy))
-                {
-                    AI.SelectCard(CardId.Foxy);
-                    return true;
-                }
-                if (!Bot.HasInHand(CardId.Fowl))
-                {
-                    AI.SelectCard(CardId.Fowl);
-                    return true;
-                }
-                if (!Bot.HasInHand(CardId.JackJaguar))
-                {
-                    AI.SelectCard(CardId.JackJaguar);
-                    return true;
-                }
-                if (!Bot.HasInHand(CardId.Falco))
-                {
-                    AI.SelectCard(CardId.Falco);
-                    return true;
-                }
-                if (!Bot.HasInHand(CardId.Circle))
-                {
-                    AI.SelectCard(CardId.Circle);
-                    return true;
-                }
+                AI.SelectCard(CardId.Gazelle);
                 return true;
             }
             else
             {
-                if (Bot.HasInHand(CardId.Falco))
+                if (AI.Utils.GetBestEnemyMonster(canBeTarget: true) != null)
+                {
+                    AI.SelectCard();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool Veilynx_summon()
+        {
+            if (Bot.HasInHand(CardId.Gazelle) && !wasGazelleSummonedThisTurn)
+            {
+
+                var monsters = Bot.GetMonstersInMainZone();
+                if (Bot.HasInMonstersZone(CardId.Veilynx) && monsters.Count == 2)
+                {
+                    return false;
+                }
+
+                monsters.Sort(AIFunctions.CompareMonsterLevel);
+                monsters.Reverse();
+                AI.SelectMaterials(monsters);
+                return true;
+            }
+            if (!Bot.HasInMonstersZone(CardId.Veilynx)
+                &&
+                Bot.GetMonstersInMainZone().Count >= 3
+                &&
+                (Bot.GetMonstersInExtraZone().Where(x => x.Owner == 0).Count() == 0))
+            {
+                return true;
+            }
+
+
+            if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0)
+            {
+                if (Bot.HasInMonstersZone(CardId.Gazelle) && Bot.HasInMonstersZone(CardId.SunlightWolf))
+                {
+                    AI.SelectMaterials(CardId.Gazelle);
+                    return true;
+                }
+                if (!wasVeilynxSummonedThisTurn)
+                {
+                    wasVeilynxSummonedThisTurn = true;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool JackJaguar_activate()
+        {
+            if (Card.Location == CardLocation.Grave)
+            {
+                if (Bot.HasInGraveyard(JackJaguarTargets))
+                {
+                    AI.SelectCard(JackJaguarTargets);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool Fowl_activate()
+        {
+            if (Card.Location == CardLocation.Hand)
+            {
+                return Bot.HasInMonstersZone(CardId.JackJaguar);
+            }
+            return false;
+        }
+
+        private bool Spinny_activate()
+        {
+            if (Card.Location == CardLocation.Hand)
+            {
+                if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0)
+                {
+                    return false;
+                }
+
+                if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.Spinny))
+                {
+                    AI.SelectCard(AI.Utils.GetBestBotMonster(true));
+                    return true;
+                }
+            }
+            return true;
+        }
+
+        private bool Falco_activate()
+        {
+            if (!falcoNoSummon)
+            {
+                if (Bot.HasInGraveyard(salamangreat_spellTrap))
+                {
+                    AI.SelectCard(salamangreat_spellTrap);
+                    return true;
+                }
+                else
+                {
+                    falcoNoSummon = true;
+                }
+            }
+            return false;
+        }
+
+        private bool Gazelle_activate()
+        {
+            wasGazelleSummonedThisTurn = true;
+            if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.Spinny))
+            {
+                AI.SelectCard(CardId.Spinny);
+                return true;
+            }
+            if (!Bot.HasInSpellZoneOrInGraveyard(CardId.SalamangreatRoar))
+            {
+                AI.SelectCard(CardId.SalamangreatRoar);
+                return true;
+            }
+            if (!Bot.HasInSpellZoneOrInGraveyard(CardId.SalamangreatRage))
+            {
+                AI.SelectCard(CardId.SalamangreatRage);
+                return true;
+            }
+            if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.JackJaguar))
+            {
+                AI.SelectCard(CardId.JackJaguar);
+                return true;
+            }
+            if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.Foxy))
+            {
+                AI.SelectCard(CardId.Foxy);
+                return true;
+            }
+            if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.Falco))
+            {
+                AI.SelectCard(CardId.Falco);
+                return true;
+            }
+            return true;
+        }
+
+        private bool Foxy_activate()
+        {
+            if (Card.Location == CardLocation.MonsterZone)
+            {
+
+                if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0)
+                {
+                    return false;
+                }
+                AI.SelectCard(salamangreat_combopieces);
+                return true;
+            }
+            else
+            {
+                if (Bot.HasInHand(CardId.Spinny) || FalcoToGY(false))
+                {
+                    if (Bot.HasInHand(CardId.Spinny) && !Bot.HasInGraveyard(CardId.Spinny))
+                    {
+                        AI.SelectCard(CardId.Spinny);
+                    }
+                    else
+                    {
+                        if (FalcoToGY(false))
+                        {
+                            AI.SelectCard(CardId.Falco);
+                        }
+                    }
+                    if (AI.Utils.GetBestEnemySpell(true) != null)
+                    {
+                        AI.SelectNextCard(AI.Utils.GetBestEnemySpell(true));
+                        foxyPopEnemySpell = true;
+                    }
+
+                    return true;
+                }
+                return false;
             }
         }
 
-        private bool ladydebug_activate()
+        private bool FalcoToGY(bool FromDeck)
+        {
+            if (FromDeck && Bot.Deck.ContainsCardWithId(CardId.Falco))
+            {
+                if (Bot.HasInGraveyard(salamangreat_spellTrap))
+                {
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                if (Bot.HasInHand(CardId.Falco) && Bot.HasInGraveyard(salamangreat_spellTrap))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        private bool Fadydebug_activate()
         {
             if (!Bot.HasInHand(CardId.Gazelle))
             {
@@ -178,7 +518,8 @@ namespace WindBot.Game.AI.Decks
 
         private bool Circle_activate()
         {
-            if (ActivateDescription == AI.Utils.GetStringId(CardId.Circle, 0))
+            var x = ActivateDescription;
+            if (ActivateDescription == AI.Utils.GetStringId(CardId.Circle, 0) || ActivateDescription == 0)
             {
                 AI.SelectOption(0);
                 if (!Bot.HasInHand(CardId.Gazelle))
@@ -213,23 +554,24 @@ namespace WindBot.Game.AI.Decks
                 }
                 return false;
             }
-            else
-            {
-                AI.SelectOption(1);
-                AI.SelectCard(salamangreat_links);
-                return true;
-            }
+
+            return false;
         }
 
         private bool FoolishBurial_activate()
         {
+            if (FalcoToGY(true) && Bot.HasInHandOrInGraveyard(CardId.Spinny))
+            {
+                AI.SelectCard(CardId.Falco);
+                return true;
+            }
             AI.SelectCard(CardId.Spinny, CardId.JackJaguar, CardId.Foxy);
             return true;
         }
 
         private bool Sanctuary_activate()
         {
-            if(Card.Location == CardLocation.Hand)
+            if (Card.Location == CardLocation.Hand)
             {
                 return true;
             }
@@ -473,6 +815,112 @@ namespace WindBot.Game.AI.Decks
                 {
                     if (card != null && card.Location == CardLocation.Hand && avoid_Impermanence && Impermanence_list.Contains(seq)) continue;
                     return zone;
+                };
+            }
+            return 0;
+        }
+
+        public override bool OnSelectYesNo(int desc)
+        {
+            if (desc == AI.Utils.GetStringId(CardId.Sanctuary, 0))
+            {
+                wasFieldspellUsedThisTurn = true;
+            }
+            if (desc == AI.Utils.GetStringId(CardId.Foxy, 3))
+            {
+                return foxyPopEnemySpell;
+            }
+            return base.OnSelectYesNo(desc);
+        }
+
+        public override void OnNewTurn()
+        {
+            CombosInHand = Bot.Hand.Select(h => h.Id).Intersect(Combo_cards).ToList();
+            wasFieldspellUsedThisTurn = false;
+            wasGazelleSummonedThisTurn = false;
+            base.OnNewTurn();
+        }
+
+        public override bool OnSelectHand()
+        {
+            return true;
+        }
+
+        public bool SpellSet()
+        {
+            if (Card.Id == CardId.Circle)
+            {
+                return false;
+            }
+            if (Duel.Phase == DuelPhase.Main1 && Bot.HasAttackingMonster() && Duel.Turn > 1) return false;
+            if (Card.IsCode(CardId.SolemnStrike) && Bot.LifePoints <= 1500) return false;
+            if ((Card.IsTrap() || Card.HasType(CardType.QuickPlay)))
+            {
+                List<int> avoid_list = new List<int>();
+                int Impermanence_set = 0;
+                for (int i = 0; i < 5; ++i)
+                {
+                    if (Enemy.SpellZone[i] != null && Enemy.SpellZone[i].IsFaceup() && Bot.SpellZone[4 - i] == null)
+                    {
+                        avoid_list.Add(4 - i);
+                        Impermanence_set += (int)System.Math.Pow(2, 4 - i);
+                    }
+                }
+                if (Bot.HasInHand(CardId.Impermanence))
+                {
+                    if (Card.IsCode(CardId.Impermanence))
+                    {
+                        AI.SelectPlace(Impermanence_set);
+                        return true;
+                    }
+                    else
+                    {
+                        AI.SelectPlace(SelectSetPlace(avoid_list));
+                        return true;
+                    }
+                }
+                else
+                {
+                    AI.SelectPlace(SelectSTPlace());
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public int SelectSetPlace(List<int> avoid_list = null, bool avoid = true)
+        {
+            List<int> list = new List<int>();
+            list.Add(5);
+            list.Add(6);
+            int n = list.Count;
+            while (n-- > 1)
+            {
+                int index = Program.Rand.Next(n + 1);
+                int temp = list[index];
+                list[index] = list[n];
+                list[n] = temp;
+            }
+            foreach (int seq in list)
+            {
+                int zone = (int)System.Math.Pow(2, seq);
+
+                if (Bot.MonsterZone[seq] == null || !avoid)
+                {
+                    if (avoid)
+                    {
+                        if (avoid_list != null && avoid_list.Contains(seq)) continue;
+                        return zone;
+                    }
+                    else
+                    {
+                        if (avoid_list != null && avoid_list.Contains(seq))
+                        {
+                            return list.First(x => x == seq);
+                        }
+                        continue;
+                    }
+
                 };
             }
             return 0;
