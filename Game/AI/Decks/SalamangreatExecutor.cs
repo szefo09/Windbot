@@ -6,7 +6,7 @@ using YGOSharp.OCGWrapper.Enums;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("Salamangreat", "AI_Salamangreat", "NotFinished")]
+    [Deck("Salamangreat", "AI_Salamangreat")]
     class SalamangreatExecutor : DefaultExecutor
     {
         bool foxyPopEnemySpell = false;
