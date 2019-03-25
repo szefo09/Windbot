@@ -190,6 +190,7 @@ namespace WindBot.Game.AI.Decks
 
             
             AddExecutor(ExecutorType.Activate, CardId.SunlightWolf, Wolf_activate);
+            AddExecutor(ExecutorType.Activate, CardId.Charmer);
             AddExecutor(ExecutorType.Activate, CardId.FoolishBurial, FoolishBurial_activate);
 
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
@@ -703,7 +704,6 @@ namespace WindBot.Game.AI.Decks
                     else
                     {
                         AI.SelectCard(AI.Utils.GetProblematicEnemyCard(canBeTarget: true));
-
                     }
 
                     return true;
