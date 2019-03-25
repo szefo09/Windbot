@@ -145,7 +145,8 @@ namespace WindBot.Game.AI.Decks
         private bool wasStallioActivated;
         private bool wasWolfActivatedThisTurn;
 
-        public bool JackJaguarActivatedThisTurn { get; private set; }
+        bool JackJaguarActivatedThisTurn = false;
+        bool FoxyActivatedThisTurn = false;
 
         public SalamangreatExecutor(GameAI ai, Duel duel) : base(ai, duel)
         {
@@ -173,7 +174,6 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.MirageStallio, Stallio_activate);
             AddExecutor(ExecutorType.Activate, CardId.Veilynx);
 
-            AddExecutor(ExecutorType.Activate, CardId.Spinny, Spinny_activate);
             AddExecutor(ExecutorType.Activate, CardId.JackJaguar, JackJaguar_activate);
             AddExecutor(ExecutorType.Summon, CardId.LadyDebug);
             AddExecutor(ExecutorType.Summon, CardId.Foxy);
@@ -182,6 +182,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Summon, CardId.Gazelle);
             AddExecutor(ExecutorType.Summon, CardId.Fowl);
 
+            AddExecutor(ExecutorType.Activate, CardId.Spinny, Spinny_activate);
             AddExecutor(ExecutorType.Activate, CardId.HeatLeo, DefaultMysticalSpaceTyphoon);
             AddExecutor(ExecutorType.SpSummon, CardId.Veilynx, Veilynx_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.MirageStallio, Stallio_summon);
@@ -410,7 +411,6 @@ namespace WindBot.Game.AI.Decks
             {
                 return false;
             }
-            var bz = (!wasStallioActivated || !wasWolfActivatedThisTurn);
             if (Bot.HasInHand(CardId.Gazelle)
                 && !wasGazelleSummonedThisTurn
                 && !Bot.HasInGraveyard(CardId.JackJaguar)
@@ -500,12 +500,16 @@ namespace WindBot.Game.AI.Decks
         {
             if (Card.Location == CardLocation.Hand)
             {
+                if (Bot.HasInGraveyard(CardId.Foxy) && !FoxyActivatedThisTurn) return false;
                 if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0)
                 {
                     return false;
                 }
 
-                if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.Spinny) && AI.Utils.GetBestBotMonster(true) != null && !(Bot.GetMonsters().Count == 1 && Bot.HasInMonstersZone(CardId.Spinny)))
+                if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.Spinny)
+                    && AI.Utils.GetBestBotMonster(true) != null
+                    && !(Bot.GetMonsters().Count == 1
+                    && Bot.HasInMonstersZone(CardId.Spinny)))
                 {
                     AI.SelectCard(AI.Utils.GetBestBotMonster(true));
                     return true;
@@ -574,6 +578,7 @@ namespace WindBot.Game.AI.Decks
                     return false;
                 }
                 AI.SelectCard(salamangreat_combopieces);
+                FoxyActivatedThisTurn = true;
                 return true;
             }
             else
@@ -600,7 +605,7 @@ namespace WindBot.Game.AI.Decks
                         AI.SelectNextCard(AI.Utils.GetBestEnemySpell(true));
                         foxyPopEnemySpell = true;
                     }
-
+                    FoxyActivatedThisTurn = true;
                     return true;
                 }
                 return false;
@@ -968,6 +973,7 @@ namespace WindBot.Game.AI.Decks
 
         public override void OnNewTurn()
         {
+            FoxyActivatedThisTurn = false;
             JackJaguarActivatedThisTurn = false;
             wasWolfActivatedThisTurn = false;
             wasStallioActivated = false;
