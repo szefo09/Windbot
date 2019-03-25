@@ -696,7 +696,16 @@ namespace WindBot.Game.AI.Decks
             {
                 if (AI.Utils.GetProblematicEnemyCard(canBeTarget: true) != null)
                 {
-                    AI.SelectCard(AI.Utils.GetProblematicEnemyCard(canBeTarget: true));
+                    if (AI.Utils.GetBestBotMonster(true) != null)
+                    {
+                        AI.SelectCard(AI.Utils.GetProblematicEnemyCard(AI.Utils.GetBestBotMonster(true).Attack, canBeTarget: true));
+                    }
+                    else
+                    {
+                        AI.SelectCard(AI.Utils.GetProblematicEnemyCard(canBeTarget: true));
+
+                    }
+
                     return true;
                 }
             }
