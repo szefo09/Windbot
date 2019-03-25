@@ -840,7 +840,6 @@ namespace WindBot.Game.AI.Decks
         {
             if (target == null) target = Card;
             if (target.Location != CardLocation.SpellZone && target.Location != CardLocation.Hand) return true;
-            if (!isCounter && !Bot.HasInSpellZone(CardId.SolemnStrike)) return false;
             if (target.IsSpell())
             {
                 if (Enemy.HasInMonstersZone(CardId.NaturalBeast, true) && !Bot.HasInHandOrHasInMonstersZone(CardId.GO_SR) && !isCounter && !Bot.HasInSpellZone(CardId.SolemnStrike)) return false;
