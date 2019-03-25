@@ -219,6 +219,8 @@ namespace WindBot.Game.AI.Decks
 
         private bool Charmer_summon()
         {
+            if (Duel.Phase != DuelPhase.Main1) return false;
+            if (Duel.Turn == 1) return false;
             if (Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0
                 && (Bot.GetMonstersInExtraZone().Count == 0
                 || Bot.GetMonstersInExtraZone().Where(x =>
