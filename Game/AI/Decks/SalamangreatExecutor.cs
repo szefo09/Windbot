@@ -1092,12 +1092,6 @@ namespace WindBot.Game.AI.Decks
             if (Duel.Phase != DuelPhase.Main1) return false;
             if (Duel.Turn == 1) return false;
 
-            ClientCard self_best = AI.Utils.GetBestBotMonster(true);
-            int self_power = (self_best != null) ? self_best.Attack : 0;
-            ClientCard enemy_best = AI.Utils.GetBestEnemyMonster(true);
-            int enemy_power = (enemy_best != null) ? enemy_best.GetDefensePower() : 0;
-            //if (enemy_power < self_power) return false;
-
             List<ClientCard> material_list = new List<ClientCard>();
             List<ClientCard> bot_monster = Bot.GetMonsters();
             bot_monster.Sort(AIFunctions.CompareCardAttack);
