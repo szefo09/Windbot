@@ -84,6 +84,8 @@ WindBot can run as a "server", provide a http interface to create bot.
 
 * SkyStriker
 
+* Salamangreat (Salaman)
+
 * ST1732
 
 * Toadally Awesome (old lflist, master rule 3 only)
