@@ -219,12 +219,9 @@ namespace WindBot.Game.AI.Decks
 
         private bool Charmer_summon()
         {
-            var b = Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0;
-            var c = Bot.GetMonstersInExtraZone().Count == 0;
-            var d = Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.Veilynx).Count() == 1;
             if (Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0
                 && (Bot.GetMonstersInExtraZone().Count == 0
-                || Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.Veilynx && (x.Position == 5 || x.Position == 6)).Count() == 1))
+                || Bot.GetMonstersInExtraZone().Where(x=>x.Id == CardId.Veilynx && x.Owner == 0).Count() == 1))
             {
                 List<ClientCard> material_list = new List<ClientCard>();
                 List<ClientCard> bot_monster = Bot.GetMonsters();
@@ -411,12 +408,21 @@ namespace WindBot.Game.AI.Decks
             {
                 return false;
             }
+            if ((wasStallioActivated
+                && !wasWolfActivatedThisTurn)
+                ||
+                (!wasStallioActivated
+                && wasWolfActivatedThisTurn))
+            {
+                return false;
+            }
             if (Bot.HasInHand(CardId.Gazelle)
                 && !wasGazelleSummonedThisTurn
                 && !Bot.HasInGraveyard(CardId.JackJaguar)
                 && Bot.GetMonstersInMainZone().Where(x => x.Level == 3).Count() <= 1
                 || (Bot.HasInMonstersZone(CardId.SunlightWolf)
-                && !Bot.HasInSpellZoneOrInGraveyard(CardId.Sanctuary) && !wasWolfSummonedUsingItself))
+                && !Bot.HasInSpellZoneOrInGraveyard(CardId.Sanctuary)
+                && !wasWolfSummonedUsingItself))
             {
 
                 var monsters = Bot.GetMonstersInMainZone();
@@ -430,7 +436,6 @@ namespace WindBot.Game.AI.Decks
                 AI.SelectMaterials(monsters);
                 return true;
             }
-            var z = Bot.GetMonstersInExtraZone();
             if (!Bot.HasInMonstersZone(CardId.Veilynx)
                 &&
                 Bot.GetMonstersInMainZone().Count >= 3
@@ -445,7 +450,8 @@ namespace WindBot.Game.AI.Decks
             }
 
 
-            if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0 && Bot.HasInHand(CardId.Spinny))
+            if (CombosInHand.Where(x => x != CardId.Foxy).Where(x => x != CardId.Spinny).Count() == 0
+                && Bot.HasInHand(CardId.Spinny))
             {
                 if (Bot.HasInMonstersZone(CardId.Gazelle) && Bot.HasInMonstersZone(CardId.SunlightWolf))
                 {
@@ -1164,7 +1170,7 @@ namespace WindBot.Game.AI.Decks
             {
                 if (location == (int)CardLocation.MonsterZone)
                 {
-                    if (Bot.GetMonstersInExtraZone().Where(x=>x.Id == CardId.SunlightWolf).Count() > 1)
+                    if (Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.SunlightWolf).Count() > 1)
                     {
                         for (int i = 0; i < 7; ++i)
                         {
@@ -1181,44 +1187,44 @@ namespace WindBot.Game.AI.Decks
                 }
             }
             return base.OnSelectPlace(cardId, player, location, available);
-    }
-
-    public int SelectSetPlace(List<int> avoid_list = null, bool avoid = true)
-    {
-        List<int> list = new List<int>();
-        list.Add(5);
-        list.Add(6);
-        int n = list.Count;
-        while (n-- > 1)
-        {
-            int index = Program.Rand.Next(n + 1);
-            int temp = list[index];
-            list[index] = list[n];
-            list[n] = temp;
         }
-        foreach (int seq in list)
-        {
-            int zone = (int)System.Math.Pow(2, seq);
 
-            if (Bot.MonsterZone[seq] == null || !avoid)
+        public int SelectSetPlace(List<int> avoid_list = null, bool avoid = true)
+        {
+            List<int> list = new List<int>();
+            list.Add(5);
+            list.Add(6);
+            int n = list.Count;
+            while (n-- > 1)
             {
-                if (avoid)
-                {
-                    if (avoid_list != null && avoid_list.Contains(seq)) continue;
-                    return zone;
-                }
-                else
-                {
-                    if (avoid_list != null && avoid_list.Contains(seq))
-                    {
-                        return list.First(x => x == seq);
-                    }
-                    continue;
-                }
+                int index = Program.Rand.Next(n + 1);
+                int temp = list[index];
+                list[index] = list[n];
+                list[n] = temp;
+            }
+            foreach (int seq in list)
+            {
+                int zone = (int)System.Math.Pow(2, seq);
 
-            };
+                if (Bot.MonsterZone[seq] == null || !avoid)
+                {
+                    if (avoid)
+                    {
+                        if (avoid_list != null && avoid_list.Contains(seq)) continue;
+                        return zone;
+                    }
+                    else
+                    {
+                        if (avoid_list != null && avoid_list.Contains(seq))
+                        {
+                            return list.First(x => x == seq);
+                        }
+                        continue;
+                    }
+
+                };
+            }
+            return 0;
         }
-        return 0;
     }
-}
 }

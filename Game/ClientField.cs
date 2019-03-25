@@ -150,7 +150,7 @@ namespace WindBot.Game
 
         public List<ClientCard> GetMonstersInExtraZone()
         {
-            return GetMonsters().Where(x=>(x.Position == 5 || x.Position == 6) && x.Owner == 0).ToList();
+            return GetMonsters().Where(x=>(x.Sequence == 5 || x.Sequence == 6)).ToList();
         }
 
         public List<ClientCard> GetMonstersInMainZone()
