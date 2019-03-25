@@ -15,7 +15,6 @@ namespace WindBot.Game.AI.Decks
         bool wasWolfSummonedUsingItself = false;
         int sunlightPosition = 0;
         bool wasVeilynxSummonedThisTurn = false;
-        bool ss_other_monster = false;
         bool falcoHitGY = false;
         List<int> CombosInHand;
 
@@ -68,6 +67,7 @@ namespace WindBot.Game.AI.Decks
             public const int Drones_Token = 52340445;
             public const int Iblee = 10158145;
             public const int ImperialOrder = 61740673;
+            public const int TornadoDragon = 6983839;
         }
 
         List<int> Combo_cards = new List<int>()
@@ -128,14 +128,10 @@ namespace WindBot.Game.AI.Decks
         {
             CardId.Veilynx,
             CardId.JackJaguar,
+            CardId.Falco,
+            CardId.Foxy,
             CardId.MirageStallio,
             CardId.Gazelle
-        };
-
-        List<int> WolfMaterials2 = new List<int>
-        {
-            CardId.MirageStallio,
-            CardId.Veilynx
         };
 
         List<int> salamangreat_spellTrap = new List<int>
@@ -146,21 +142,27 @@ namespace WindBot.Game.AI.Decks
             CardId.Sanctuary
         };
         private bool falcoUsedReturnST;
+        private bool wasStallioActivated;
+        private bool wasWolfActivatedThisTurn;
+
+        public bool JackJaguarActivatedThisTurn { get; private set; }
 
         public SalamangreatExecutor(GameAI ai, Duel duel) : base(ai, duel)
         {
             AddExecutor(ExecutorType.Activate, CardId.HarpieFeatherDuster);
             AddExecutor(ExecutorType.Activate, CardId.MaxxC, G_activate);
             AddExecutor(ExecutorType.Activate, CardId.CalledByTheGrave, Called_activate);
-            AddExecutor(ExecutorType.Activate, CardId.Impermanence, Impermanence_activate);
             AddExecutor(ExecutorType.Activate, CardId.AshBlossom, Hand_act_eff);
             AddExecutor(ExecutorType.Activate, CardId.EffectVeiler, DefaultBreakthroughSkill);
+            AddExecutor(ExecutorType.Activate, CardId.Impermanence, Impermanence_activate);
             AddExecutor(ExecutorType.Activate, CardId.SalamangreatRoar, SolemnJudgment_activate);
             AddExecutor(ExecutorType.Activate, CardId.SolemnStrike, SolemnStrike_activate);
             AddExecutor(ExecutorType.Activate, CardId.SolemnJudgment, SolemnJudgment_activate);
             AddExecutor(ExecutorType.Activate, CardId.SalamangreatRage, Rage_activate);
             AddExecutor(ExecutorType.Activate, CardId.Sanctuary, Sanctuary_activate);
 
+            AddExecutor(ExecutorType.Activate, CardId.Charmer);
+            AddExecutor(ExecutorType.Activate, CardId.SunlightWolf, Wolf_activate);
             AddExecutor(ExecutorType.Activate, CardId.LadyDebug, Fadydebug_activate);
             AddExecutor(ExecutorType.Activate, CardId.Foxy, Foxy_activate);
             AddExecutor(ExecutorType.Activate, CardId.Falco, Falco_activate);
@@ -168,40 +170,60 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Borrelsword, Borrelsword_eff);
             AddExecutor(ExecutorType.Activate, CardId.Gazelle, Gazelle_activate);
 
+            AddExecutor(ExecutorType.Activate, CardId.MirageStallio, Stallio_activate);
             AddExecutor(ExecutorType.Activate, CardId.Veilynx);
-            AddExecutor(ExecutorType.Activate, CardId.Fowl, Fowl_activate);
+
             AddExecutor(ExecutorType.Activate, CardId.Spinny, Spinny_activate);
             AddExecutor(ExecutorType.Activate, CardId.JackJaguar, JackJaguar_activate);
-
             AddExecutor(ExecutorType.Summon, CardId.LadyDebug);
             AddExecutor(ExecutorType.Summon, CardId.Foxy);
-            AddExecutor(ExecutorType.Summon, CardId.Gazelle);
             AddExecutor(ExecutorType.Summon, CardId.Spinny);
             AddExecutor(ExecutorType.Summon, CardId.JackJaguar);
+            AddExecutor(ExecutorType.Summon, CardId.Gazelle);
             AddExecutor(ExecutorType.Summon, CardId.Fowl);
 
+            AddExecutor(ExecutorType.Activate, CardId.HeatLeo, DefaultMysticalSpaceTyphoon);
             AddExecutor(ExecutorType.SpSummon, CardId.Veilynx, Veilynx_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.MirageStallio, Stallio_summon);
             AddExecutor(ExecutorType.Activate, CardId.MirageStallio, Stallio_activate);
-            AddExecutor(ExecutorType.SpSummon, CardId.SunlightWolf, SunlightWolf_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.Charmer, Charmer_summon);
+            AddExecutor(ExecutorType.SpSummon, CardId.SunlightWolf, SunlightWolf_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.HeatLeo, HeatLeo_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.Borrelsword, Borrelsword_ss);
 
-            
+            AddExecutor(ExecutorType.SpSummon, CardId.TornadoDragon);
+            AddExecutor(ExecutorType.Activate, CardId.TornadoDragon, DefaultMysticalSpaceTyphoon);
+
+            AddExecutor(ExecutorType.Activate, CardId.Fowl, Fowl_activate);
             AddExecutor(ExecutorType.Activate, CardId.SunlightWolf, Wolf_activate);
-            AddExecutor(ExecutorType.Activate, CardId.Charmer);
+            AddExecutor(ExecutorType.Activate, CardId.Gazelle, Gazelle_activate);
             AddExecutor(ExecutorType.Activate, CardId.FoolishBurial, FoolishBurial_activate);
 
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
-
             AddExecutor(ExecutorType.SpellSet, SpellSet);
 
         }
 
+        public int get_Wolf_linkzone()
+        {
+            ClientCard WolfInExtra = Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.SunlightWolf).ToList().FirstOrDefault(x => x.Id == CardId.SunlightWolf);
+            if (WolfInExtra != null)
+            {
+                int zone = WolfInExtra.Position;
+                if (zone == 5) return 1;
+                if (zone == 6) return 3;
+            }
+            return -1;
+        }
+
         private bool Charmer_summon()
         {
-            if (Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0)
+            var b = Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0;
+            var c = Bot.GetMonstersInExtraZone().Count == 0;
+            var d = Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.Veilynx).Count() == 1;
+            if (Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0
+                && (Bot.GetMonstersInExtraZone().Count == 0
+                || Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.Veilynx && (x.Position == 5 || x.Position == 6)).Count() == 1))
             {
                 List<ClientCard> material_list = new List<ClientCard>();
                 List<ClientCard> bot_monster = Bot.GetMonsters();
@@ -218,8 +240,9 @@ namespace WindBot.Game.AI.Decks
                         if (link_count >= 4) break;
                     }
                 }
-                if (link_count == 3)
+                if (link_count >= 3)
                 {
+                    AI.SelectCard(CardId.Veilynx);
                     return true;
                 }
             }
@@ -259,7 +282,6 @@ namespace WindBot.Game.AI.Decks
                 if (link_count >= 3)
                 {
                     AI.SelectMaterials(material_list);
-                    ss_other_monster = true;
                     return true;
                 }
             }
@@ -268,8 +290,12 @@ namespace WindBot.Game.AI.Decks
 
         private bool Stallio_summon()
         {
-            AI.SelectMaterials(CardId.Spinny);
-            return true;
+            if (!wasStallioActivated)
+            {
+                AI.SelectMaterials(CardId.Spinny);
+                return true;
+            }
+            return false;
         }
 
         private bool SunlightWolf_summon()
@@ -281,7 +307,7 @@ namespace WindBot.Game.AI.Decks
                     return false;
                 }
 
-                if (!wasFieldspellUsedThisTurn && Bot.HasInGraveyard(salamangreat_spellTrap))
+                if (!wasFieldspellUsedThisTurn && Bot.HasInGraveyard(salamangreat_spellTrap) || Bot.HasInHandOrInSpellZone(CardId.SalamangreatRage))
                 {
                     AI.SelectOption(1);
                     AI.SelectMaterials(new List<int>() {
@@ -325,16 +351,17 @@ namespace WindBot.Game.AI.Decks
 
         private bool Wolf_activate()
         {
+            wasWolfActivatedThisTurn = true;
             AI.SelectCard(new List<int>() {
                 CardId.Gazelle,
                 CardId.SalamangreatRoar,
                 CardId.SalamangreatRage,
                 CardId.Foxy,
                 CardId.AshBlossom,
-                CardId.SunlightWolf,
-                CardId.HeatLeo,
-                CardId.Veilynx,
                 CardId.Fowl,
+                CardId.SunlightWolf,
+                CardId.Veilynx,
+                CardId.HeatLeo,
                 CardId.Spinny
             });
             return true;
@@ -344,6 +371,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Card.Location == CardLocation.MonsterZone)
             {
+                wasStallioActivated = true;
                 if (!wasGazelleSummonedThisTurn)
                 {
                     AI.SelectCard(CardId.Gazelle, CardId.Spinny);
@@ -378,11 +406,17 @@ namespace WindBot.Game.AI.Decks
 
         private bool Veilynx_summon()
         {
+            if (wasStallioActivated && wasWolfActivatedThisTurn)
+            {
+                return false;
+            }
+            var bz = (!wasStallioActivated || !wasWolfActivatedThisTurn);
             if (Bot.HasInHand(CardId.Gazelle)
                 && !wasGazelleSummonedThisTurn
-                && !Bot.HasInGraveyard(CardId.JackJaguar) 
+                && !Bot.HasInGraveyard(CardId.JackJaguar)
+                && Bot.GetMonstersInMainZone().Where(x => x.Level == 3).Count() <= 1
                 || (Bot.HasInMonstersZone(CardId.SunlightWolf)
-                && Bot.IsFieldEmpty() && !wasWolfSummonedUsingItself))
+                && !Bot.HasInSpellZoneOrInGraveyard(CardId.Sanctuary) && !wasWolfSummonedUsingItself))
             {
 
                 var monsters = Bot.GetMonstersInMainZone();
@@ -396,12 +430,17 @@ namespace WindBot.Game.AI.Decks
                 AI.SelectMaterials(monsters);
                 return true;
             }
+            var z = Bot.GetMonstersInExtraZone();
             if (!Bot.HasInMonstersZone(CardId.Veilynx)
                 &&
                 Bot.GetMonstersInMainZone().Count >= 3
                 &&
                 (Bot.GetMonstersInExtraZone().Where(x => x.Owner == 0).Count() == 0))
             {
+                var monsters = Bot.GetMonstersInMainZone();
+                monsters.Sort(AIFunctions.CompareMonsterLevel);
+                monsters.Reverse();
+                AI.SelectMaterials(monsters);
                 return true;
             }
 
@@ -427,10 +466,16 @@ namespace WindBot.Game.AI.Decks
         {
             if (Card.Location == CardLocation.Grave)
             {
-                if (Bot.HasInGraveyard(JackJaguarTargets) || Bot.Graveyard.Where(x=>x.Id == CardId.Veilynx).Count()>=2)
+                if (Bot.HasInGraveyard(JackJaguarTargets)
+                    || Bot.Graveyard.Where(x => x.Id == CardId.Veilynx).Count() >= 2
+                    || (!Bot.HasInGraveyard(salamangreat_spellTrap)
+                    && Bot.HasInMonstersZone(CardId.SunlightWolf)
+                    && Bot.HasInGraveyard(CardId.Gazelle)
+                    && !Bot.HasInHand(CardId.Gazelle)))
                 {
+                    JackJaguarActivatedThisTurn = true;
                     if (Bot.Graveyard.Where(x => x.Id == CardId.Veilynx).Count() >= 2
-                        && Bot.Graveyard.Select(x=>x.Id).Intersect(JackJaguarTargets).Count()==0)
+                        && Bot.Graveyard.Select(x => x.Id).Intersect(JackJaguarTargets).Count() == 0)
                     {
                         AI.SelectCard(CardId.Veilynx);
                         return true;
@@ -446,7 +491,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Card.Location == CardLocation.Hand)
             {
-                return Bot.HasInMonstersZone(CardId.JackJaguar);
+                return Bot.HasInMonstersZone(CardId.JackJaguar) && JackJaguarActivatedThisTurn;
             }
             return false;
         }
@@ -460,7 +505,7 @@ namespace WindBot.Game.AI.Decks
                     return false;
                 }
 
-                if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.Spinny) && AI.Utils.GetBestBotMonster(true) != null && !(Bot.GetMonsters().Count==1 && Bot.HasInMonstersZone(CardId.Spinny)))
+                if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.Spinny) && AI.Utils.GetBestBotMonster(true) != null && !(Bot.GetMonsters().Count == 1 && Bot.HasInMonstersZone(CardId.Spinny)))
                 {
                     AI.SelectCard(AI.Utils.GetBestBotMonster(true));
                     return true;
@@ -544,6 +589,10 @@ namespace WindBot.Game.AI.Decks
                         if (FalcoToGY(false))
                         {
                             AI.SelectCard(CardId.Falco);
+                        }
+                        else
+                        {
+                            return false;
                         }
                     }
                     if (AI.Utils.GetBestEnemySpell(true) != null)
@@ -919,8 +968,10 @@ namespace WindBot.Game.AI.Decks
 
         public override void OnNewTurn()
         {
+            JackJaguarActivatedThisTurn = false;
+            wasWolfActivatedThisTurn = false;
+            wasStallioActivated = false;
             falcoUsedReturnST = false;
-            ss_other_monster = false;
             CombosInHand = Bot.Hand.Select(h => h.Id).Intersect(Combo_cards).ToList();
             wasFieldspellUsedThisTurn = false;
             wasGazelleSummonedThisTurn = false;
@@ -984,7 +1035,7 @@ namespace WindBot.Game.AI.Decks
                 ClientCard target = Enemy.MonsterZone.GetShouldBeDisabledBeforeItUseEffectMonster();
                 if (target != null && Enemy.HasInGraveyard(target.Id))
                 {
-                    AI.SelectCard(target);
+                    AI.SelectCard(target.Id);
                     return true;
                 }
             }
@@ -1001,7 +1052,7 @@ namespace WindBot.Game.AI.Decks
                 && !LastChainCard.IsShouldNotBeSpellTrapTarget()
                 && Enemy.HasInGraveyard(LastChainCard.Id))
             {
-                AI.SelectCard(LastChainCard);
+                AI.SelectCard(LastChainCard.Id);
                 return true;
             }
 
@@ -1009,7 +1060,7 @@ namespace WindBot.Game.AI.Decks
             {
                 if (!Enemy.BattlingMonster.IsDisabled() && Enemy.BattlingMonster.IsCode(_CardId.EaterOfMillions) && Enemy.HasInGraveyard(_CardId.EaterOfMillions))
                 {
-                    AI.SelectCard(Enemy.BattlingMonster);
+                    AI.SelectCard(Enemy.BattlingMonster.Id);
                     return true;
                 }
             }
@@ -1027,17 +1078,13 @@ namespace WindBot.Game.AI.Decks
         public bool Borrelsword_ss()
         {
             if (Duel.Phase != DuelPhase.Main1) return false;
+            if (Duel.Turn == 1) return false;
 
             ClientCard self_best = AI.Utils.GetBestBotMonster(true);
             int self_power = (self_best != null) ? self_best.Attack : 0;
             ClientCard enemy_best = AI.Utils.GetBestEnemyMonster(true);
             int enemy_power = (enemy_best != null) ? enemy_best.GetDefensePower() : 0;
             if (enemy_power < self_power) return false;
-
-            foreach (ClientCard card in Bot.GetMonstersInExtraZone())
-            {
-                if (!card.HasType(CardType.Link)) return false;
-            }
 
             List<ClientCard> material_list = new List<ClientCard>();
             List<ClientCard> bot_monster = Bot.GetMonsters();
@@ -1057,7 +1104,6 @@ namespace WindBot.Game.AI.Decks
             if (link_count >= 4)
             {
                 AI.SelectMaterials(material_list);
-                ss_other_monster = true;
                 return true;
             }
             return false;
@@ -1099,48 +1145,74 @@ namespace WindBot.Game.AI.Decks
             {
                 falcoHitGY = true;
             }
-            else if(!Bot.HasInGraveyard(CardId.Falco))
+            else if (!Bot.HasInGraveyard(CardId.Falco))
             {
                 falcoHitGY = false;
             }
             base.OnChainEnd();
         }
-        public int SelectSetPlace(List<int> avoid_list = null, bool avoid = true)
+
+        public override int OnSelectPlace(int cardId, int player, int location, int available)
         {
-            List<int> list = new List<int>();
-            list.Add(5);
-            list.Add(6);
-            int n = list.Count;
-            while (n-- > 1)
+            if (player == 0)
             {
-                int index = Program.Rand.Next(n + 1);
-                int temp = list[index];
-                list[index] = list[n];
-                list[n] = temp;
-            }
-            foreach (int seq in list)
-            {
-                int zone = (int)System.Math.Pow(2, seq);
-
-                if (Bot.MonsterZone[seq] == null || !avoid)
+                if (location == (int)CardLocation.MonsterZone)
                 {
-                    if (avoid)
+                    if (Bot.GetMonstersInExtraZone().Where(x=>x.Id == CardId.SunlightWolf).Count() > 1)
                     {
-                        if (avoid_list != null && avoid_list.Contains(seq)) continue;
-                        return zone;
-                    }
-                    else
-                    {
-                        if (avoid_list != null && avoid_list.Contains(seq))
+                        for (int i = 0; i < 7; ++i)
                         {
-                            return list.First(x => x == seq);
+                            if (Bot.MonsterZone[i] != null && Bot.MonsterZone[i].IsCode(CardId.SunlightWolf))
+                            {
+                                int next_index = get_Wolf_linkzone();
+                                if (next_index != -1 && (available & (int)(System.Math.Pow(2, next_index))) > 0)
+                                {
+                                    return (int)(System.Math.Pow(2, next_index));
+                                }
+                            }
                         }
-                        continue;
                     }
-
-                };
+                }
             }
-            return 0;
-        }
+            return base.OnSelectPlace(cardId, player, location, available);
     }
+
+    public int SelectSetPlace(List<int> avoid_list = null, bool avoid = true)
+    {
+        List<int> list = new List<int>();
+        list.Add(5);
+        list.Add(6);
+        int n = list.Count;
+        while (n-- > 1)
+        {
+            int index = Program.Rand.Next(n + 1);
+            int temp = list[index];
+            list[index] = list[n];
+            list[n] = temp;
+        }
+        foreach (int seq in list)
+        {
+            int zone = (int)System.Math.Pow(2, seq);
+
+            if (Bot.MonsterZone[seq] == null || !avoid)
+            {
+                if (avoid)
+                {
+                    if (avoid_list != null && avoid_list.Contains(seq)) continue;
+                    return zone;
+                }
+                else
+                {
+                    if (avoid_list != null && avoid_list.Contains(seq))
+                    {
+                        return list.First(x => x == seq);
+                    }
+                    continue;
+                }
+
+            };
+        }
+        return 0;
+    }
+}
 }
