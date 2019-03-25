@@ -49,7 +49,7 @@ namespace WindBot.Game.AI.Decks
             public const int ExcitionKnight = 46772449;
             public const int MirageStallio = 87327776;
             public const int SunlightWolf = 87871125;
-            public const int BorrelloadDragon = 31833038;
+            public const int Borrelload = 31833038;
             public const int HeatLeo = 41463181;
             public const int Veilynx = 14812471;
             public const int Charmer = 48815792;
@@ -181,16 +181,16 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Summon, CardId.JackJaguar);
             AddExecutor(ExecutorType.Summon, CardId.Gazelle);
             AddExecutor(ExecutorType.Summon, CardId.Fowl);
-
             AddExecutor(ExecutorType.Activate, CardId.Spinny, Spinny_activate);
             AddExecutor(ExecutorType.Activate, CardId.HeatLeo, DefaultMysticalSpaceTyphoon);
+
+            AddExecutor(ExecutorType.SpSummon, CardId.Borrelsword, Borrelsword_ss);
             AddExecutor(ExecutorType.SpSummon, CardId.Veilynx, Veilynx_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.MirageStallio, Stallio_summon);
             AddExecutor(ExecutorType.Activate, CardId.MirageStallio, Stallio_activate);
             AddExecutor(ExecutorType.SpSummon, CardId.Charmer, Charmer_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.SunlightWolf, SunlightWolf_summon);
             AddExecutor(ExecutorType.SpSummon, CardId.HeatLeo, HeatLeo_summon);
-            AddExecutor(ExecutorType.SpSummon, CardId.Borrelsword, Borrelsword_ss);
 
             AddExecutor(ExecutorType.SpSummon, CardId.TornadoDragon);
             AddExecutor(ExecutorType.Activate, CardId.TornadoDragon, DefaultMysticalSpaceTyphoon);
@@ -221,7 +221,10 @@ namespace WindBot.Game.AI.Decks
         {
             if (Enemy.Graveyard.Where(x => x.Attribute == (int)CardAttribute.Fire).Count() > 0
                 && (Bot.GetMonstersInExtraZone().Count == 0
-                || Bot.GetMonstersInExtraZone().Where(x=>x.Id == CardId.Veilynx && x.Owner == 0).Count() == 1))
+                || Bot.GetMonstersInExtraZone().Where(x =>
+                (x.Id == CardId.Veilynx
+                || x.Id == CardId.MirageStallio)
+                && x.Owner == 0).Count() == 1))
             {
                 List<ClientCard> material_list = new List<ClientCard>();
                 List<ClientCard> bot_monster = Bot.GetMonsters();
@@ -1104,11 +1107,14 @@ namespace WindBot.Game.AI.Decks
                 {
                     material_list.Add(card);
                     link_count += (card.HasType(CardType.Link)) ? card.LinkCount : 1;
-                    if (link_count >= 4) break;
                 }
             }
             if (link_count >= 4)
             {
+                if (link_count > 4 && material_list.Where(x => x.Id == CardId.MirageStallio).Count() > 0)
+                {
+                    material_list.Remove(material_list.First(x => x.Id == CardId.MirageStallio));
+                }
                 AI.SelectMaterials(material_list);
                 return true;
             }
@@ -1182,6 +1188,18 @@ namespace WindBot.Game.AI.Decks
             }
             return base.OnSelectPlace(cardId, player, location, available);
         }
+        public override CardPosition OnSelectPosition(int cardId, IList<CardPosition> positions)
+        {
+            if (AI.Utils.IsTurn1OrMain2()
+                &&
+                (cardId == CardId.Gazelle
+                || cardId == CardId.Spinny
+                || cardId == CardId.Foxy))
+            {
+                return CardPosition.FaceUpDefence;
+            }
+            return 0;
+        }
 
         public int SelectSetPlace(List<int> avoid_list = null, bool avoid = true)
         {
@@ -1219,6 +1237,26 @@ namespace WindBot.Game.AI.Decks
                 };
             }
             return 0;
+        }
+        public override BattlePhaseAction OnSelectAttackTarget(ClientCard attacker, IList<ClientCard> defenders)
+        {
+            foreach (ClientCard defender in defenders)
+            {
+                attacker.RealPower = attacker.Attack;
+                defender.RealPower = defender.GetDefensePower();
+                if (attacker.IsCode(CardId.Borrelsword) && !attacker.IsDisabled())
+                    return AI.Attack(attacker, defender);
+                if (!OnPreBattleBetween(attacker, defender))
+                    continue;
+
+                if (attacker.RealPower > defender.RealPower || (attacker.RealPower > defender.RealPower && attacker.IsLastAttacker && defender.IsAttack()))
+                    return AI.Attack(attacker, defender);
+            }
+
+            if (attacker.CanDirectAttack)
+                return AI.Attack(attacker, null);
+
+            return null;
         }
     }
 }
