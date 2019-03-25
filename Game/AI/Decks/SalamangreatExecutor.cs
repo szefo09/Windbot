@@ -159,7 +159,6 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.SalamangreatRoar, SolemnJudgment_activate);
             AddExecutor(ExecutorType.Activate, CardId.SolemnStrike, SolemnStrike_activate);
             AddExecutor(ExecutorType.Activate, CardId.SolemnJudgment, SolemnJudgment_activate);
-            AddExecutor(ExecutorType.Activate, CardId.SalamangreatRage, Rage_activate);
             AddExecutor(ExecutorType.Activate, CardId.Sanctuary, Sanctuary_activate);
 
             AddExecutor(ExecutorType.Activate, CardId.Charmer);
@@ -170,7 +169,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Circle, Circle_activate);
             AddExecutor(ExecutorType.Activate, CardId.Borrelsword, Borrelsword_eff);
             AddExecutor(ExecutorType.Activate, CardId.Gazelle, Gazelle_activate);
-
+            AddExecutor(ExecutorType.Activate, CardId.Spinny, Spinny_activate);
             AddExecutor(ExecutorType.Activate, CardId.MirageStallio, Stallio_activate);
             AddExecutor(ExecutorType.Activate, CardId.Veilynx);
 
@@ -195,6 +194,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.SpSummon, CardId.TornadoDragon);
             AddExecutor(ExecutorType.Activate, CardId.TornadoDragon, DefaultMysticalSpaceTyphoon);
 
+            AddExecutor(ExecutorType.Activate, CardId.SalamangreatRage, Rage_activate);
             AddExecutor(ExecutorType.Activate, CardId.Fowl, Fowl_activate);
             AddExecutor(ExecutorType.Activate, CardId.SunlightWolf, Wolf_activate);
             AddExecutor(ExecutorType.Activate, CardId.Gazelle, Gazelle_activate);
