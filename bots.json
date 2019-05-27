@@ -165,6 +165,16 @@
       "name": "Salaman",
       "deck": "Salamangreat",
       "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Orcust",
+      "deck": "Orcust",
+      "dialog": "kagari.en-US"
+    },
+    {
+      "name": "Level8",
+      "deck": "Level VIII",
+      "dialog": "kagari.en-US"
     }
   ]
 }
