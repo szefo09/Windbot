@@ -92,13 +92,13 @@ namespace WindBot.Game.AI.Decks
         private bool ChickenGameEffect()
         {
             updatePotentialDraw(1);
-            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone && Bot.LifePoints>1000 && ActivateDescription == AI.Utils.GetStringId(CardId.ChickenGame, 0))
+            if (!wasChickenGameActivated&&Card.Location==CardLocation.SpellZone && Bot.LifePoints>1000 && ActivateDescription == Util.GetStringId(CardId.ChickenGame, 0))
             {
                 AI.SelectOption(0);
                 wasChickenGameActivated = true;
                 return true;
             }
-            if (!wasChickenGameActivated && Card.Location == CardLocation.SpellZone && Bot.LifePoints > 1000 && ActivateDescription != AI.Utils.GetStringId(CardId.ChickenGame, 0))
+            if (!wasChickenGameActivated && Card.Location == CardLocation.SpellZone && Bot.LifePoints > 1000 && ActivateDescription != Util.GetStringId(CardId.ChickenGame, 0))
             {
                 wasChickenGameActivated = true;
                 chickenGameCantDraw = true;
@@ -310,21 +310,21 @@ namespace WindBot.Game.AI.Decks
 
         private bool HopeForEscapeEffect()
         {
-            int draw = (AI.Utils.Enemy.LifePoints - (Bot.LifePoints - 1000)) / 2000;
+            int draw = (Util.Enemy.LifePoints - (Bot.LifePoints - 1000)) / 2000;
              updatePotentialDraw(draw);
-            if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.Deck.Count >=potentialDraw && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !AI.Utils.ChainContainsCard(CardId.UpstartGoblin)&&!AI.Utils.ChainContainsCard(CardId.ChickenGame)&& !AI.Utils.ChainContainsCard(CardId.PainfulChoice))
+            if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.Deck.Count >=potentialDraw && Bot.LifePoints>1000 && !Bot.HasInHand(CardId.UpstartGoblin)&&!Bot.HasInHand(CardId.ChickenGame) && !Util.ChainContainsCard(CardId.UpstartGoblin)&&!Util.ChainContainsCard(CardId.ChickenGame)&& !Util.ChainContainsCard(CardId.PainfulChoice))
             {
                 if (Bot.HasInSpellZone(CardId.ChickenGame) && (!wasChickenGameActivated || chickenGameCantDraw))
                 {
                     updatePotentialDraw(-draw);
                     return false;
                 }
-                int difference = (AI.Utils.Enemy.LifePoints - Bot.LifePoints) % 2000;
-                if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (difference >= 1000))
+                int difference = (Util.Enemy.LifePoints - Bot.LifePoints) % 2000;
+                if (Util.ChainContainsCard(CardId.HopeForEscape) && (difference >= 1000))
                 {
                     return true;
                 }
-                else if (AI.Utils.ChainContainsCard(CardId.HopeForEscape) && (difference < 1000))
+                else if (Util.ChainContainsCard(CardId.HopeForEscape) && (difference < 1000))
                 {
                     updatePotentialDraw(-draw);
                     return false;
@@ -338,7 +338,7 @@ namespace WindBot.Game.AI.Decks
         private bool SixthSenseEffect()
         {
             updatePotentialDraw(6);
-            if (Bot.Deck.Count >= potentialDraw&&! AI.Utils.ChainContainsCard(CardId.SixthSense))
+            if (Bot.Deck.Count >= potentialDraw&&! Util.ChainContainsCard(CardId.SixthSense))
             {
                 if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone) && Bot.HasInHandOrInSpellZone(CardId.JarOfAvarice))
                 {
@@ -357,7 +357,7 @@ namespace WindBot.Game.AI.Decks
         private bool JarOfAvariceEffect()
         {
             updatePotentialDraw(-4);
-            if (AI.Utils.ChainContainsCard(CardId.SixthSense) || AI.Utils.ChainContainsCard(CardId.PainfulChoice)) { return false; }
+            if (Util.ChainContainsCard(CardId.SixthSense) || Util.ChainContainsCard(CardId.PainfulChoice)) { return false; }
             if ((wasMakyuraUsedThisTurn || Card.Location==CardLocation.SpellZone)&&Bot.HasInGraveyard(CardId.Exodia)||Bot.HasInGraveyard(CardId.LeftArm)||Bot.HasInGraveyard(CardId.RightArm)||Bot.HasInGraveyard(CardId.LeftLeg)||Bot.HasInGraveyard(CardId.RightLeg))
                 {
                 AI.SelectCard(
@@ -393,7 +393,7 @@ namespace WindBot.Game.AI.Decks
         {
             //Prevent AI from discarding exodia pieces during the endphase or via Graceful Charity's effect
             if ((cards[0].Location == CardLocation.Hand && Duel.Phase == DuelPhase.End) 
-               ||(max == 2 && cards[0].Location == CardLocation.Hand && AI.Utils.GetLastChainCard() != null && AI.Utils.GetLastChainCard().IsCode(CardId.GracefulCharity)))
+               ||(max == 2 && cards[0].Location == CardLocation.Hand && Util.GetLastChainCard() != null && Util.GetLastChainCard().IsCode(CardId.GracefulCharity)))
             {
                 List<ClientCard> result = new List<ClientCard>();
                 result.AddRange(cards);
@@ -407,7 +407,7 @@ namespace WindBot.Game.AI.Decks
                         }
                     }
                 }
-                return AI.Utils.CheckSelectCount(result, cards, min, max);
+                return Util.CheckSelectCount(result, cards, min, max);
             }
            return base.OnSelectCard(cards,min,max,hint,cancelable);
         }

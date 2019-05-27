@@ -302,10 +302,6 @@ namespace WindBot.Game.AI.Decks
                 return false;
             return base.DefaultMonsterRepos();
         }
-        public override void OnNewTurn()
-        {
-           EquipUsed = 0;
-        }
 
     }
 }
