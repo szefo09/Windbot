@@ -79,10 +79,9 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Number61Volcasaurus);
 
             // Weapons
-            
-            AddExecutor(ExecutorType.Activate, CardId.ZwTornadoBringer,WasCardUsedMoreThan9Times);
-            AddExecutor(ExecutorType.Activate, CardId.ZwLightningBlade, WasCardUsedMoreThan9Times);
-            AddExecutor(ExecutorType.Activate, CardId.ZwAsuraStrike, WasCardUsedMoreThan9Times);
+            AddExecutor(ExecutorType.Activate, CardId.ZwTornadoBringer, ZwWeapon);
+            AddExecutor(ExecutorType.Activate, CardId.ZwLightningBlade, ZwWeapon);
+            AddExecutor(ExecutorType.Activate, CardId.ZwAsuraStrike, ZwWeapon);
 
 
             // Special summons
@@ -123,6 +122,13 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.SolemnStrike, DefaultSolemnStrike);
         }
 
+        private int ZwCount = 0;
+
+        public override void OnNewTurn()
+        {
+            ZwCount = 0;
+        }
+
         public override bool OnSelectHand()
         {
             return false;
@@ -140,33 +146,39 @@ namespace WindBot.Game.AI.Decks
 
         public override IList<ClientCard> OnSelectXyzMaterial(IList<ClientCard> cards, int min, int max)
         {
-            IList<ClientCard> result = AI.Utils.SelectPreferredCards(new[] {
+            IList<ClientCard> result = Util.SelectPreferredCards(new[] {
                 CardId.StarDrawing,
                 CardId.SolarWindJammer,
                 CardId.Goblindbergh
             }, cards, min, max);
-            return AI.Utils.CheckSelectCount(result, cards, min, max);
+            return Util.CheckSelectCount(result, cards, min, max);
         }
 
         private bool Number39Utopia()
         {
-            if (!AI.Utils.HasChainedTrap(0) && Duel.Player == 1 && Duel.Phase == DuelPhase.BattleStart && Card.HasXyzMaterial(2))
+            if (!Util.HasChainedTrap(0) && Duel.Player == 1 && Duel.Phase == DuelPhase.BattleStart && Card.HasXyzMaterial(2))
                 return true;
             return false;
         }
 
         private bool Number61Volcasaurus()
         {
-            return AI.Utils.IsOneEnemyBetterThanValue(2000, false);
+            return Util.IsOneEnemyBetterThanValue(2000, false);
         }
 
         private bool ZwLionArms()
         {
-            if (ActivateDescription == AI.Utils.GetStringId(CardId.ZwLionArms, 0))
+            if (ActivateDescription == Util.GetStringId(CardId.ZwLionArms, 0))
                 return true;
-            if (ActivateDescription == AI.Utils.GetStringId(CardId.ZwLionArms, 1))
-                return !Card.IsDisabled();
+            if (ActivateDescription == Util.GetStringId(CardId.ZwLionArms, 1))
+                return !Card.IsDisabled() && ZwWeapon();
             return false;
+        }
+
+        private bool ZwWeapon()
+        {
+            ZwCount++;
+            return ZwCount < 10;
         }
 
         private bool ReinforcementOfTheArmy()
@@ -244,7 +256,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool KagetokageEffect()
         {
-            var lastChainCard = AI.Utils.GetLastChainCard();
+            var lastChainCard = Util.GetLastChainCard();
             if (lastChainCard == null) return true;
             return !lastChainCard.IsCode(CardId.Goblindbergh, CardId.TinGoldfish);
         }

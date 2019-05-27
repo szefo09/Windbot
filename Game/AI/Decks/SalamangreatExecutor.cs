@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -230,7 +230,7 @@ namespace WindBot.Game.AI.Decks
             {
                 List<ClientCard> material_list = new List<ClientCard>();
                 List<ClientCard> bot_monster = Bot.GetMonsters();
-                bot_monster.Sort(AIFunctions.CompareCardAttack);
+                bot_monster.Sort(CardContainer.CompareCardAttack);
                 //bot_monster.Reverse();
                 int link_count = 0;
                 foreach (ClientCard card in bot_monster)
@@ -258,9 +258,9 @@ namespace WindBot.Game.AI.Decks
             if (Duel.Phase != DuelPhase.Main1) return false;
             if (wasWolfSummonedUsingItself && Bot.GetMonsters().Count() <= 3) return false;
 
-            ClientCard self_best = AI.Utils.GetBestBotMonster(true);
+            ClientCard self_best = Util.GetBestBotMonster(true);
             int self_power = (self_best != null) ? self_best.Attack : 0;
-            ClientCard enemy_best = AI.Utils.GetBestEnemyMonster(true);
+            ClientCard enemy_best = Util.GetBestEnemyMonster(true);
             int enemy_power = (enemy_best != null) ? enemy_best.GetDefensePower() : 0;
             if (enemy_power < self_power) return false;
 
@@ -268,7 +268,7 @@ namespace WindBot.Game.AI.Decks
             {
                 List<ClientCard> material_list = new List<ClientCard>();
                 List<ClientCard> bot_monster = Bot.GetMonsters();
-                bot_monster.Sort(AIFunctions.CompareCardAttack);
+                bot_monster.Sort(CardContainer.CompareCardAttack);
                 //bot_monster.Reverse();
                 int link_count = 0;
 
@@ -398,9 +398,9 @@ namespace WindBot.Game.AI.Decks
             }
             else
             {
-                if (AI.Utils.GetBestEnemyMonster(canBeTarget: true) != null)
+                if (Util.GetBestEnemyMonster(canBeTarget: true) != null)
                 {
-                    AI.SelectCard(AI.Utils.GetBestEnemyMonster(canBeTarget: true));
+                    AI.SelectCard(Util.GetBestEnemyMonster(canBeTarget: true));
                     return true;
                 }
             }
@@ -436,7 +436,7 @@ namespace WindBot.Game.AI.Decks
                     return false;
                 }
 
-                monsters.Sort(AIFunctions.CompareMonsterLevel);
+                monsters.Sort(CardContainer.CompareCardLevel);
                 monsters.Reverse();
                 AI.SelectMaterials(monsters);
                 return true;
@@ -448,7 +448,7 @@ namespace WindBot.Game.AI.Decks
                 (Bot.GetMonstersInExtraZone().Where(x => x.Owner == 0).Count() == 0))
             {
                 var monsters = Bot.GetMonstersInMainZone();
-                monsters.Sort(AIFunctions.CompareMonsterLevel);
+                monsters.Sort(CardContainer.CompareCardLevel);
                 monsters.Reverse();
                 AI.SelectMaterials(monsters);
                 return true;
@@ -518,11 +518,11 @@ namespace WindBot.Game.AI.Decks
                 }
 
                 if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.Spinny)
-                    && AI.Utils.GetBestBotMonster(true) != null
+                    && Util.GetBestBotMonster(true) != null
                     && !(Bot.GetMonsters().Count == 1
                     && Bot.HasInMonstersZone(CardId.Spinny)))
                 {
-                    AI.SelectCard(AI.Utils.GetBestBotMonster(true));
+                    AI.SelectCard(Util.GetBestBotMonster(true));
                     return true;
                 }
             }
@@ -611,9 +611,9 @@ namespace WindBot.Game.AI.Decks
                             return false;
                         }
                     }
-                    if (AI.Utils.GetBestEnemySpell(true) != null)
+                    if (Util.GetBestEnemySpell(true) != null)
                     {
-                        AI.SelectNextCard(AI.Utils.GetBestEnemySpell(true));
+                        AI.SelectNextCard(Util.GetBestEnemySpell(true));
                         foxyPopEnemySpell = true;
                     }
                     FoxyActivatedThisTurn = true;
@@ -665,7 +665,7 @@ namespace WindBot.Game.AI.Decks
         private bool Circle_activate()
         {
             var x = ActivateDescription;
-            if (ActivateDescription == AI.Utils.GetStringId(CardId.Circle, 0) || ActivateDescription == 0)
+            if (ActivateDescription == Util.GetStringId(CardId.Circle, 0) || ActivateDescription == 0)
             {
                 AI.SelectOption(0);
                 if (!Bot.HasInHand(CardId.Gazelle))
@@ -726,16 +726,16 @@ namespace WindBot.Game.AI.Decks
 
         private bool Rage_activate()
         {
-            if (ActivateDescription == AI.Utils.GetStringId(CardId.SalamangreatRage, 1))
+            if (ActivateDescription == Util.GetStringId(CardId.SalamangreatRage, 1))
             {
                 AI.SelectCard(salamangreat_links);
                 AI.SelectOption(1);
                 IList<ClientCard> targets = new List<ClientCard>();
 
-                ClientCard target1 = AI.Utils.GetBestEnemyMonster(canBeTarget: true);
+                ClientCard target1 = Util.GetBestEnemyMonster(canBeTarget: true);
                 if (target1 != null)
                     targets.Add(target1);
-                ClientCard target2 = AI.Utils.GetBestEnemySpell();
+                ClientCard target2 = Util.GetBestEnemySpell();
                 if (target2 != null)
                     targets.Add(target2);
 
@@ -760,15 +760,15 @@ namespace WindBot.Game.AI.Decks
             }
             else
             {
-                if (AI.Utils.GetProblematicEnemyCard(canBeTarget: true) != null)
+                if (Util.GetProblematicEnemyCard(canBeTarget: true) != null)
                 {
-                    if (AI.Utils.GetBestBotMonster(true) != null)
+                    if (Util.GetBestBotMonster(true) != null)
                     {
-                        AI.SelectCard(AI.Utils.GetProblematicEnemyCard(AI.Utils.GetBestBotMonster(true).Attack, canBeTarget: true));
+                        AI.SelectCard(Util.GetProblematicEnemyCard(Util.GetBestBotMonster(true).Attack, canBeTarget: true));
                     }
                     else
                     {
-                        AI.SelectCard(AI.Utils.GetProblematicEnemyCard(canBeTarget: true));
+                        AI.SelectCard(Util.GetProblematicEnemyCard(canBeTarget: true));
                     }
 
                     return true;
@@ -815,7 +815,7 @@ namespace WindBot.Game.AI.Decks
                 }
             }
 
-            ClientCard LastChainCard = AI.Utils.GetLastChainCard();
+            ClientCard LastChainCard = Util.GetLastChainCard();
 
             // negate spells
             if (Card.Location == CardLocation.SpellZone)
@@ -827,15 +827,15 @@ namespace WindBot.Game.AI.Decks
                     if (Bot.SpellZone[i] == Card) this_seq = i;
                     if (LastChainCard != null
                         && LastChainCard.Controller == 1 && LastChainCard.Location == CardLocation.SpellZone && Enemy.SpellZone[i] == LastChainCard) that_seq = i;
-                    else if (Duel.Player == 0 && AI.Utils.GetProblematicEnemySpell() != null
+                    else if (Duel.Player == 0 && Util.GetProblematicEnemySpell() != null
                         && Enemy.SpellZone[i] != null && Enemy.SpellZone[i].IsFloodgate()) that_seq = i;
                 }
                 if ((this_seq * that_seq >= 0 && this_seq + that_seq == 4)
-                    || (AI.Utils.IsChainTarget(Card))
+                    || (Util.IsChainTarget(Card))
                     || (LastChainCard != null && LastChainCard.Controller == 1 && LastChainCard.IsCode(_CardId.HarpiesFeatherDuster)))
                 {
                     List<ClientCard> enemy_monsters = Enemy.GetMonsters();
-                    enemy_monsters.Sort(AIFunctions.CompareCardAttack);
+                    enemy_monsters.Sort(CardContainer.CompareCardAttack);
                     enemy_monsters.Reverse();
                     foreach (ClientCard card in enemy_monsters)
                     {
@@ -872,7 +872,7 @@ namespace WindBot.Game.AI.Decks
             else
             {
                 List<ClientCard> enemy_monsters = Enemy.GetMonsters();
-                enemy_monsters.Sort(AIFunctions.CompareCardAttack);
+                enemy_monsters.Sort(CardContainer.CompareCardAttack);
                 enemy_monsters.Reverse();
                 foreach (ClientCard card in enemy_monsters)
                 {
@@ -888,7 +888,7 @@ namespace WindBot.Game.AI.Decks
 
         public bool is_should_not_negate()
         {
-            ClientCard last_card = AI.Utils.GetLastChainCard();
+            ClientCard last_card = Util.GetLastChainCard();
             if (last_card != null
                 && last_card.Controller == 1 && last_card.IsCode(should_not_negate))
                 return true;
@@ -903,7 +903,7 @@ namespace WindBot.Game.AI.Decks
 
         public bool SolemnJudgment_activate()
         {
-            return !AI.Utils.IsChainTargetOnly(Card)
+            return !Util.IsChainTargetOnly(Card)
                     &&
                     !(Duel.Player == 0
                     && Duel.LastChainPlayer == -1)
@@ -971,11 +971,11 @@ namespace WindBot.Game.AI.Decks
 
         public override bool OnSelectYesNo(int desc)
         {
-            if (desc == AI.Utils.GetStringId(CardId.Sanctuary, 0))
+            if (desc == Util.GetStringId(CardId.Sanctuary, 0))
             {
                 wasFieldspellUsedThisTurn = true;
             }
-            if (desc == AI.Utils.GetStringId(CardId.Foxy, 3))
+            if (desc == Util.GetStringId(CardId.Foxy, 3))
             {
                 return foxyPopEnemySpell;
             }
@@ -1057,7 +1057,7 @@ namespace WindBot.Game.AI.Decks
                 }
             }
 
-            ClientCard LastChainCard = AI.Utils.GetLastChainCard();
+            ClientCard LastChainCard = Util.GetLastChainCard();
 
             if (LastChainCard != null
                 && LastChainCard.Controller == 1
@@ -1099,7 +1099,7 @@ namespace WindBot.Game.AI.Decks
 
             List<ClientCard> material_list = new List<ClientCard>();
             List<ClientCard> bot_monster = Bot.GetMonsters();
-            bot_monster.Sort(AIFunctions.CompareCardAttack);
+            bot_monster.Sort(CardContainer.CompareCardAttack);
             //bot_monster.Reverse();
             int link_count = 0;
             foreach (ClientCard card in bot_monster)
@@ -1126,10 +1126,10 @@ namespace WindBot.Game.AI.Decks
         public bool Borrelsword_eff()
         {
             if (ActivateDescription == -1) return true;
-            else if ((Duel.Phase > DuelPhase.Main1 && Duel.Phase < DuelPhase.Main2) || AI.Utils.IsChainTarget(Card))
+            else if ((Duel.Phase > DuelPhase.Main1 && Duel.Phase < DuelPhase.Main2) || Util.IsChainTarget(Card))
             {
                 List<ClientCard> enemy_list = Enemy.GetMonsters();
-                enemy_list.Sort(AIFunctions.CompareCardAttack);
+                enemy_list.Sort(CardContainer.CompareCardAttack);
                 enemy_list.Reverse();
                 foreach (ClientCard card in enemy_list)
                 {
@@ -1140,7 +1140,7 @@ namespace WindBot.Game.AI.Decks
                     }
                 }
                 List<ClientCard> bot_list = Bot.GetMonsters();
-                bot_list.Sort(AIFunctions.CompareCardAttack);
+                bot_list.Sort(CardContainer.CompareCardAttack);
                 //bot_list.Reverse();
                 foreach (ClientCard card in bot_list)
                 {
@@ -1166,11 +1166,11 @@ namespace WindBot.Game.AI.Decks
             base.OnChainEnd();
         }
 
-        public override int OnSelectPlace(int cardId, int player, int location, int available)
+        public override int OnSelectPlace(int cardId, int player, CardLocation location, int available)
         {
             if (player == 0)
             {
-                if (location == (int)CardLocation.MonsterZone)
+                if (location == CardLocation.MonsterZone)
                 {
                     if (Bot.GetMonstersInExtraZone().Where(x => x.Id == CardId.SunlightWolf).Count() > 1)
                     {
@@ -1192,7 +1192,7 @@ namespace WindBot.Game.AI.Decks
         }
         public override CardPosition OnSelectPosition(int cardId, IList<CardPosition> positions)
         {
-            if (AI.Utils.IsTurn1OrMain2()
+            if (Util.IsTurn1OrMain2()
                 &&
                 (cardId == CardId.Gazelle
                 || cardId == CardId.Spinny
