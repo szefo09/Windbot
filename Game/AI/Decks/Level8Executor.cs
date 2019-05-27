@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("Level VIII", "AI_Level8")]
+    [Deck("Level8", "AI_Level8")]
     class Level8Executor : DefaultExecutor
     {
         public class CardId
