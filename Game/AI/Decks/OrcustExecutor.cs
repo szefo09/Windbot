@@ -76,7 +76,8 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.ReinforcementofTheArmy, ReinforcementofTheArmyEffect);
             AddExecutor(ExecutorType.Activate, CardId.FoolishBurial, FoolishBurialEffect);
 
-            AddExecutor(ExecutorType.Activate, CardId.TrickstarLightStage, LightStageEffect);
+            AddExecutor(ExecutorType.Activate, CardId.TrickstarLightStage, LightStageTargetEffect);
+            AddExecutor(ExecutorType.Activate, CardId.TrickstarLightStage, LightStageSearchEffect);
 
             AddExecutor(ExecutorType.Activate, CardId.SkyStrikerMobilizeEngage, EngageEffect);
             AddExecutor(ExecutorType.Activate, CardId.SkyStrikerMechaHornetDrones, DronesEffectFirst);
@@ -326,6 +327,15 @@ namespace WindBot.Game.AI.Decks
             }
             return base.OnPreBattleBetween(attacker, defender);
         }
+        
+        private bool SkipSummonforKnightmare()
+        {
+            if (!Bot.HasInHand(CardId.SkyStrikerMechaEagleBooster))
+            {
+                return false;
+            }
+            return (Bot.HasInExtra(CardId.KnightmareMermaid) && (Bot.GetMonsterCount() == 2 || Bot.MonsterZone.GetFirstMatchingCard(card => card.HasSetcode(0x112)) != null));
+        }
 
         private bool TerraformingEffect()
         {
@@ -350,7 +360,19 @@ namespace WindBot.Game.AI.Decks
             return true;
         }
 
-        private bool LightStageEffect()
+        private bool LightStageTargetEffect()
+        {
+            if (Card.Location == CardLocation.Hand || Card.IsFacedown())
+            {
+                return false;
+            }
+            ClientCard target = Enemy.SpellZone.GetFirstMatchingCard(card => card.IsFacedown());
+            LightStageTarget = target;
+            AI.SelectCard(target);
+            return true;
+        }
+
+        private bool LightStageSearchEffect()
         {
             if (Card.Location == CardLocation.Hand || Card.IsFacedown())
             {
@@ -366,9 +388,7 @@ namespace WindBot.Game.AI.Decks
                     AI.SelectCard(CardId.TrickstarCandina);
                 return true;
             }
-            ClientCard target = Enemy.SpellZone.GetFirstMatchingCard(card => card.IsFacedown());
-            AI.SelectCard(target);
-            return true;
+            return false;
         }
 
         private bool CarobeinSummon()
@@ -393,6 +413,8 @@ namespace WindBot.Game.AI.Decks
                 needProtect = true;
             else if (Bot.HasInHand(CardId.TrickstarCandina))
                 needProtect = true;
+            else if (Bot.HasInHand(CardId.SkyStrikerMechaHornetDrones) && Bot.HasInExtra(CardId.SkyStrikerAceKagari))
+                needProtect = true;
             if (needProtect)
                 AI.SelectCard(CardId.SkyStrikerMechaEagleBooster);
             else
@@ -409,10 +431,15 @@ namespace WindBot.Game.AI.Decks
         private bool DronesEffect()
         {
             return !Bot.HasInHand(CardId.ArmageddonKnight) && !Bot.HasInHand(CardId.TrickstarCandina);
+            return !(Bot.HasInHand(CardId.ArmageddonKnight) && !SkipSummonforKnightmare());
         }
 
         private bool CandinaSummon()
         {
+            if (SkipSummonforKnightmare())
+            {
+                return false;
+            }
             NormalSummoned = true;
             return true;
         }
@@ -425,6 +452,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool ArmageddonKnightSummon()
         {
+            if (SkipSummonforKnightmare())
+            {
+                return false;
+            }
             NormalSummoned = true;
             return true;
         }
@@ -440,6 +471,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool ScrapRecyclerSummon()
         {
+            if (SkipSummonforKnightmare())
+            {
+                return false;
+            }
             NormalSummoned = true;
             return true;
         }
@@ -455,6 +490,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool JetSynchronSummon()
         {
+            if (SkipSummonforKnightmare())
+            {
+                return false;
+            }
             if (Bot.GetMonsterCount() > 0)
             {
                 NormalSummoned = true;
@@ -471,6 +510,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool AlmirajSummon()
         {
+            if (SkipSummonforKnightmare())
+            {
+                return false;
+            }
             if (Bot.GetMonsterCount() > 1)
                 return false;
             ClientCard mat = Bot.GetMonsters().First();
@@ -1041,10 +1084,11 @@ namespace WindBot.Game.AI.Decks
                 }
                 return false;
             }
-            return Bot.HasInMonstersZoneOrInGraveyard(new[] {
+            return Bot.HasInGraveyard(new[] {
                 CardId.OrcustCymbalSkeleton,
                 CardId.OrcustHarpHorror,
-                CardId.OrcustKnightmare,
+                CardId.OrcustKnightmare
+            }) || Bot.HasInMonstersZone(new[] {
                 CardId.GalateaTheOrcustAutomaton,
                 CardId.LongirsuTheOrcustOrchestrator,
                 CardId.SheorcustDingirsu
@@ -1053,6 +1097,10 @@ namespace WindBot.Game.AI.Decks
 
         private bool ShadeBrigandineSummonFirst()
         {
+            if (Util.IsChainTarget(Card))
+            {
+                return true;
+            }
             return Bot.GetMonsterCount() < 2;
         }
 
@@ -1088,6 +1136,11 @@ namespace WindBot.Game.AI.Decks
 
         private bool OtherSummon()
         {
+            bool CanSpecialSummonFromEx = Bot.HasInExtra(CardId.CrystronNeedlefiber) || Bot.HasInExtra(CardId.KnightmarePhoenix);
+            if (Card.IsTuner() && (Bot.GetMonsterCount() == 0 || !CanSpecialSummonFromEx))
+            {
+                return false;
+            }
             NormalSummoned = true;
             return true;
         }
