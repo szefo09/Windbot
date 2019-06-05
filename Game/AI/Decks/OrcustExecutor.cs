@@ -182,6 +182,7 @@ namespace WindBot.Game.AI.Decks
         private bool CymbalSkeletonUsed = false;
         private bool BorrelswordDragonUsed = false;
         private ClientCard RustyBardicheTarget = null;
+        private ClientCard LightStageTarget = null;
 
         private int[] HandCosts = new[]
         {
@@ -430,7 +431,6 @@ namespace WindBot.Game.AI.Decks
 
         private bool DronesEffect()
         {
-            return !Bot.HasInHand(CardId.ArmageddonKnight) && !Bot.HasInHand(CardId.TrickstarCandina);
             return !(Bot.HasInHand(CardId.ArmageddonKnight) && !SkipSummonforKnightmare());
         }
 
