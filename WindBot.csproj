@@ -68,6 +68,7 @@
     <Compile Include="Game\AI\DecksManager.cs" />
     <Compile Include="Game\AI\Decks\AltergeistExecutor.cs" />
     <Compile Include="Game\AI\Decks\BlackwingExecutor.cs" />
+    <Compile Include="Game\AI\Decks\PureWindsExecutor.cs" />
     <Compile Include="Game\AI\Decks\Level8Executor.cs" />
     <Compile Include="Game\AI\Decks\SalamangreatExecutor.cs" />
     <Compile Include="Game\AI\Decks\CyberDragonExecutor.cs" />
@@ -144,6 +145,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Decks\AI_Salamangreat.ydk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Decks\AI_PureWinds.ydk">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="sqlite3.dll">

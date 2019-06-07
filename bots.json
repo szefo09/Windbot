@@ -175,6 +175,11 @@
       "name": "Level8",
       "deck": "Level8",
       "dialog": "kagari.en-US"
+    },
+    {
+      "name": "PureWinds",
+      "deck": "PureWinds",
+      "dialog":  "kagari.en-US"
     }
   ]
 }

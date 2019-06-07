@@ -26,7 +26,7 @@ namespace WindBot.Game.AI.Decks
             public const int DarkHole = 53129443;
             public const int Terraforming = 73628505;
             public const int Invocation = 74063034;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int InterruptedKaijuSlumber = 99330325;
             public const int ZoodiacBarrage = 46060017;
             public const int FireFormationTenki = 57103969;
