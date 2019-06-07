@@ -27,6 +27,7 @@ namespace WindBot.Game.AI.Decks
             public const int Raigeki = 12580477;
             public const int MonsterReborn = 83764718;
             public const int Reasoning = 58577036;
+            public const int ElShaddollWinda = 94977269;
 
             public const int QuillPenOfGulldos = 27980138;
             public const int CosmicCyclone = 8267140;
@@ -359,9 +360,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool WindwitchIceBelleff()
         {
-            if (lockbird_used) return false;
             if (Enemy.HasInMonstersZone(CardId.ElShaddollWinda)) return false;
-            if (maxxc_used) return false;
             if (WindwitchGlassBelleff_used) return false;
             //AI.SelectPlace(Zones.z2, 1);
             if (Bot.GetRemainingCount(CardId.WindwitchGlassBell, 3) >= 1)
@@ -373,20 +372,17 @@ namespace WindBot.Game.AI.Decks
         }
         private bool SpeedroidTaketomborgsp()
         {
-            if (speedroidtaketomborgsp_used) return false;
-            else if (Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) &&
-                !Bot.HasInMonstersZone(CardId.WynnTheWindCharmerVerdant))
-            {
+            if (Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) && 
+                !Bot.HasInMonstersZone(CardId.WynnTheWindCharmerVerdant) && 
+                !Bot.HasInMonstersZone(CardId.GreatFly))
                 return false;
-            }
-            else if (Bot.HasInMonsterZone(CardId.WindwitchGlassBell) || 
+            else if (Bot.HasInMonstersZone(CardId.WindwitchGlassBell) || 
                 Bot.HasInMonstersZone(CardId.GustoGulldo) || 
                 Bot.HasInMonstersZone(CardId.GustoEgul) || 
                 Bot.HasInMonstersZone(CardId.SpeedroidRedEyedDice) || 
                 Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
             {
                 AI.SelectPosition(CardPosition.FaceUpDefence);
-                speedroidtaketomborgsp_used = true;
                 return true;
             }
             return false;
@@ -396,21 +392,17 @@ namespace WindBot.Game.AI.Decks
         {
             if (Bot.HasInMonstersZone(CardId.WindwitchIceBell))
             {
-                 int ghost_count = 0;
-                 foreach (ClientCard check in Enemy.Graveyard)
-                 {
-                    if (check.IsCode(CardId.Ghost))
-                         ghost_count++;
-                 }
-                 if (ghost_count != ghost_done)
-                          AI.SelectCard(CardId.WindwitchIceBell);
-                 else
-                         AI.SelectCard(CardId.WindwitchSnowBell);
+                if (Bot.HasInHand(CardId.WindwitchSnowBell))
+                    AI.SelectCard(CardId.WindwitchIceBell);
+                else
+                    AI.SelectCard(CardId.WindwitchSnowBell);
             }
             else
-                 AI.SelectCard(CardId.WindwitchIceBell);
-                    WindwitchGlassBelleff_used = true;
-                     return true;
+            {
+                AI.SelectCard(CardId.WindwitchIceBell);
+                WindwitchGlassBelleff_used = true;
+            }
+          return true;
         }
 
             private bool OldEntityHastorreff()
@@ -431,7 +423,6 @@ namespace WindBot.Game.AI.Decks
             {
                     AI.SelectCard(CardId.SpeedroidTaketomborg);
                     AI.SelectCard(CardId.SpeedroidRedEyedDice);
-                    SpeedroidTerrortop_used = true;
                     return true;
             }
             private bool GreatFlyeff()
@@ -443,7 +434,6 @@ namespace WindBot.Game.AI.Decks
                 AI.SelectCard(CardId.GustoEgul);
                 AI.SelectCard(CardId.WindaPriestessOfGusto);
                 AI.SelectPosition(CardPosition.FaceUpDefence);
-                GreatFlyeff_used = true;
                 return true;
             }
 
@@ -454,7 +444,6 @@ namespace WindBot.Game.AI.Decks
                 AI.SelectCard(CardId.WindwitchSnowBell);
                 AI.SelectCard(CardId.GustoEgul);
                 AI.SelectCard(CardId.SpeedroidRedEyedDice);
-                PilicaDescendantOfGustoeff_used = true;
                 return true;
             }
 
