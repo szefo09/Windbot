@@ -24,7 +24,7 @@ namespace WindBot.Game.AI.Decks
             public const int WindwitchSnowBell = 70117860;
             public const int SpeedroidRedEyedDice = 16725505;
             public const int Raigeki = 12580477;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int Reasoning = 58577036;
             public const int ElShaddollWinda = 94977269;
 
@@ -74,8 +74,6 @@ namespace WindBot.Game.AI.Decks
 
         private bool WindwitchGlassBelleff_used;
         private bool plan_A;
-        private bool lockbird_used;
-        private bool GlassBell_summon;
         //TODO: reset the flags when they should reset ( public override void OnNewTurn() )
         public PureWindsExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
@@ -94,6 +92,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.GreatFly, GreatFlyeff);
             AddExecutor(ExecutorType.Activate, CardId.QuillPenOfGulldos, QuillPenOfGulldoseff);
             AddExecutor(ExecutorType.Activate, CardId.CosmicCyclone, CosmicCycloneeff);
+            AddExecutor(ExecutorType.Activate, CardId.MonsterReborn, Reborneff);
             //plan A             
             AddExecutor(ExecutorType.Activate, CardId.WindwitchIceBell, WindwitchIceBelleff);
             AddExecutor(ExecutorType.Activate, CardId.WindwitchGlassBell, WindwitchGlassBelleff);
@@ -133,7 +132,6 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.SpSummon, CardId.OldEntityHastorr);
             AddExecutor(ExecutorType.SpSummon, CardId.GreatFly, GreatFlysp);
             AddExecutor(ExecutorType.SpSummon, CardId.WynnTheWindCharmerVerdant, WynnTheWindCharmerVerdantsp);
-            AddExecutor(ExecutorType.Activate, CardId.MonsterReborn, Reborneff);
             AddExecutor(ExecutorType.Activate, CardId.Raigeki);
             AddExecutor(ExecutorType.Activate, CardId.GozenMatch);
             AddExecutor(ExecutorType.Activate, CardId.KingsConsonance, KingsConsonanceeff);
@@ -173,7 +171,7 @@ namespace WindBot.Game.AI.Decks
                 return true;
             }
             if (!Util.IsOneEnemyBetter(true)) return false;
-            IList<int> reborn = new[] {
+            List<int> reborn = new List<int>{
                     CardId.ClearWingSynchroDragon,
                     CardId.DaigustoSphreez,
                     CardId.WindwitchWinterBell,
@@ -454,11 +452,15 @@ namespace WindBot.Game.AI.Decks
             if (Bot.GetRemainingCount(CardId.WindwitchGlassBell, 3) >= 1)
             {
                 AI.SelectCard(CardId.WindwitchGlassBell);
-                AI.SelectPosition(CardPosition.FaceUpDefence);
             }
             else if (Bot.HasInHand(CardId.WindwitchGlassBell))
             {
                 AI.SelectCard(CardId.WindwitchSnowBell);
+            }
+            AI.GetSelectedPosition();
+            if (Card.Location == CardLocation.Hand)
+            {
+                AI.SelectPosition(CardPosition.FaceUpDefence);
                 AI.SelectPosition(CardPosition.FaceUpDefence);
             }
             return true;
@@ -523,7 +525,6 @@ namespace WindBot.Game.AI.Decks
         private bool GreatFlyeff()
         {
             AI.SelectCard(CardId.PilicaDescendantOfGusto, CardId.WindwitchIceBell, CardId.SpeedroidTerrortop, CardId.GustoGulldo, CardId.GustoEgul, CardId.WindaPriestessOfGusto);
-            AI.SelectPosition(CardPosition.FaceUpDefence);
             return true;
         }
 
@@ -540,22 +541,22 @@ namespace WindBot.Game.AI.Decks
                     return false;
             if (Bot.HasInGraveyard(CardId.PilicaDescendantOfGusto) && Bot.HasInMonstersZone(CardId.DaigustoSphreez))
             {
-                AI.SelectCard(CardId.DaigustoSphreez, CardId.PilicaDescendantOfGusto);
                 AI.SelectPosition(CardPosition.Attack);
+                AI.SelectCard(CardId.DaigustoSphreez, CardId.PilicaDescendantOfGusto);
                 return true;
             }
 
             else if (Bot.HasInGraveyard(CardId.WindaPriestessOfGusto) && Bot.HasInMonstersZone(CardId.DaigustoSphreez))
             {
-                AI.SelectCard(CardId.DaigustoSphreez, CardId.WindaPriestessOfGusto);
                 AI.SelectPosition(CardPosition.Attack);
+                AI.SelectCard(CardId.DaigustoSphreez, CardId.WindaPriestessOfGusto);
                 return true;
             }
 
             else if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto))
             {
-                AI.SelectCard(CardId.PilicaDescendantOfGusto, CardId.DaigustoSphreez);
                 AI.SelectPosition(CardPosition.Attack);
+                AI.SelectCard(CardId.PilicaDescendantOfGusto, CardId.DaigustoSphreez);
                 return true;
             }
 
@@ -668,8 +669,9 @@ namespace WindBot.Game.AI.Decks
                  Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
             {
                 //AI.SelectPlace(Zones.z5, Zones.ExtraMonsterZones);
+                AI.GetSelectedPosition();
+                AI.SelectPosition(CardPosition.FaceUpAttack);
                 AI.SelectCard(CardId.WindwitchIceBell, CardId.WindwitchGlassBell);
-                AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
 
@@ -794,18 +796,15 @@ namespace WindBot.Game.AI.Decks
         }
         private bool WindwitchGlassBellsummon()
         {
-            if (lockbird_used) return false;
             if (!plan_A && (Bot.HasInGraveyard(CardId.WindwitchGlassBell) || Bot.HasInMonstersZone(CardId.WindwitchGlassBell)))
                 return false;
             //AI.SelectPlace(Zones.z2, 1);
-            if (GlassBell_summon && Bot.HasInMonstersZone(CardId.WindwitchIceBell) &&
+            if (Bot.HasInMonstersZone(CardId.WindwitchIceBell) &&
                 !Bot.HasInMonstersZone(CardId.WindwitchGlassBell))
             {
-                AI.SelectPosition(CardPosition.FaceUpDefence);
                 return true;
             }
             if (WindwitchGlassBelleff_used) return false;
-            if (GlassBell_summon) return true;
             return false;
         }
 

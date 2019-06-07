@@ -25,7 +25,7 @@ namespace WindBot.Game.AI.Decks
             public const int DarkHole = 53129443;
             public const int CardDestruction = 72892473;
             public const int FoolishBurial = 81439173;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int MedallionOfTheIceBarrier = 84206435;
             public const int Salvage = 96947648;
             public const int AquariumStage = 29047353;

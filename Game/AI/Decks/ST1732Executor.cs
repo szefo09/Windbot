@@ -26,7 +26,7 @@ namespace WindBot.Game.AI.Decks
 
             public const int MindControl = 37520316;
             public const int DarkHole = 53129443;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int MysticalSpaceTyphoon = 5318639;
             public const int CosmicCyclone = 8267140;
             public const int BookOfMoon = 14087893;

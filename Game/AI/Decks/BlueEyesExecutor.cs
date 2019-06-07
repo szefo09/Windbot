@@ -28,7 +28,7 @@ namespace WindBot.Game.AI.Decks
             public const int DragonShrine = 41620959;
             public const int MelodyOfAwakeningDragon = 48800175;
             public const int SoulCharge = 54447022;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int SilversCry = 87025064;
 
             public const int Giganticastle = 63422098;

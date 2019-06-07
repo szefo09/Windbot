@@ -22,7 +22,7 @@ namespace WindBot.Game.AI.Decks
             public const int DragonsMirror = 71490127;
             public const int Terraforming = 73628505;
             public const int FoolishBurial = 81439173;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int MysticalSpaceTyphoon = 5318639;
             public const int FireFormationTenki = 57103969;
             public const int DragunitySpearOfDestiny = 60004971;
