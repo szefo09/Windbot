@@ -14,7 +14,7 @@ namespace WindBot.Game.AI.Decks
         public class CardId
         {
             public const int SpeedroidTerrortop = 81275020;
-            public const int WindwitchIceBell = 47322862;
+            public const int WindwitchIceBell = 43722862;
             public const int PilicaDescendantOfGusto = 71175527;
             public const int SpeedroidTaketomborg = 53932291;
             public const int WindaPriestessOfGusto = 54455435;
@@ -180,7 +180,8 @@ namespace WindBot.Game.AI.Decks
         }
         private bool GustoGulldosu()
         {
-            if (Bot.HasInMonstersZone(CardId.DaigustoSphreez))
+            if (Bot.HasInMonstersZone(CardId.DaigustoSphreez) ||
+                Bot.HasInHand(CardId.EmergencyTeleport))
             {
                 return true;
             }
@@ -350,7 +351,8 @@ namespace WindBot.Game.AI.Decks
         }
         private bool SpeedroidTaketomborgeff()
         {
-            if (Bot.GetRemainingCount(CardId.SpeedroidRedEyedDice, 1) >= 1)
+            if ((Bot.GetRemainingCount(CardId.SpeedroidRedEyedDice, 1) >= 1) && 
+                Bot.HasInMonstersZone(CardId.SpeedroidTerrortop))
             {
                 AI.SelectCard(CardId.SpeedroidRedEyedDice);
                 return true;
@@ -385,13 +387,18 @@ namespace WindBot.Game.AI.Decks
         private bool WindwitchIceBelleff()
         {
             if (Enemy.HasInMonstersZone(CardId.ElShaddollWinda)) return false;
-            if (WindwitchGlassBelleff_used) return false;
+            if (WindwitchGlassBelleff_used && !Bot.HasInHand(CardId.WindwitchSnowBell)) return false;
             //AI.SelectPlace(Zones.z2, 1);
             if (Bot.GetRemainingCount(CardId.WindwitchGlassBell, 3) >= 1)
+            {
                 AI.SelectCard(CardId.WindwitchGlassBell);
+                AI.SelectPosition(CardPosition.FaceUpDefence);
+            }
             else if (Bot.HasInHand(CardId.WindwitchGlassBell))
+            {
                 AI.SelectCard(CardId.WindwitchSnowBell);
-            AI.SelectPosition(CardPosition.FaceUpDefence);
+                AI.SelectPosition(CardPosition.FaceUpDefence);
+            }
             return true;
         }
         private bool SpeedroidTaketomborgsp()
@@ -404,7 +411,8 @@ namespace WindBot.Game.AI.Decks
                 Bot.HasInMonstersZone(CardId.GustoGulldo) ||
                 Bot.HasInMonstersZone(CardId.GustoEgul) ||
                 Bot.HasInMonstersZone(CardId.SpeedroidRedEyedDice) ||
-                Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
+                Bot.HasInMonstersZone(CardId.WindwitchSnowBell) ||
+                Bot.HasInMonstersZone(CardId.SpeedroidTerrortop))
             {
                 AI.SelectPosition(CardPosition.FaceUpDefence);
                 return true;
@@ -447,8 +455,7 @@ namespace WindBot.Game.AI.Decks
         }
         private bool SpeedroidTerrortopeff()
         {
-            AI.SelectCard(CardId.SpeedroidTaketomborg);
-            AI.SelectCard(CardId.SpeedroidRedEyedDice);
+            AI.SelectCard(CardId.SpeedroidTaketomborg, CardId.SpeedroidRedEyedDice);
             return true;
         }
         private bool GreatFlyeff()
@@ -558,8 +565,16 @@ namespace WindBot.Game.AI.Decks
 
         private bool WindwitchSnowBellsp()
         {
-            AI.SelectPosition(CardPosition.FaceUpDefence);
-            return true;
+            if (Bot.HasInMonstersZone(CardId.WindwitchSnowBell) &&
+                Bot.HasInMonstersZone(CardId.WindwitchIceBell) &&
+                Bot.HasInMonstersZone(CardId.WindwitchGlassBell))
+                return false;
+            else if (Bot.HasInMonstersZone(CardId.WindwitchWinterBell) &&
+                Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
+                return false;
+            else
+                AI.SelectPosition(CardPosition.FaceUpDefence);
+                return true;
         }
         private bool DaigustoSphreezsp()
         {
@@ -594,7 +609,6 @@ namespace WindBot.Game.AI.Decks
             {
                 //AI.SelectPlace(Zones.z5, Zones.ExtraMonsterZones);
                 AI.SelectCard(CardId.WindwitchIceBell, CardId.WindwitchGlassBell);
-                AI.SelectPosition(CardPosition.FaceUpAttack);
                 return true;
             }
 
@@ -761,7 +775,6 @@ namespace WindBot.Game.AI.Decks
                         return false;
                     }
                 }
-                    
             }
             if (Card.IsFacedown())
                 return true;
