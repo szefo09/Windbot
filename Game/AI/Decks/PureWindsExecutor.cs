@@ -291,6 +291,23 @@ namespace WindBot.Game.AI.Decks
                 return false;
             return true;
         }
+        private bool EmergencyTeleporteff()
+        {
+            if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
+                Bot.HasInMonstersZone(CardId.MistWurm)) &&
+                !Bot.HasInMonstersZone(CardId.WynnTheWindCharmerVerdant) &&
+                !Bot.HasInMonstersZone(CardId.GreatFly))
+                return false;
+            else if (!Bot.HasInMonstersZoneOrInGraveyard(CardId.GustoGulldo)
+                && !Bot.HasInMonstersZoneOrInGraveyard(CardId.SpeedroidRedEyedDice)
+                && !Bot.HasInMonstersZoneOrInGraveyard(CardId.GustoEgul)
+                && !Bot.HasInMonstersZoneOrInGraveyard(CardId.WindwitchGlassBell)
+                && !Bot.HasInMonstersZoneOrInGraveyard(CardId.WindwitchSnowBell))
+                return false;
+            AI.SelectCard(CardId.PilicaDescendantOfGusto);
+            AI.SelectPosition(CardPosition.FaceUpDefence);
+            return true;
+        }
         private bool SpeedroidRedEyedDiceeff()
         {
             if (Bot.HasInMonstersZone(CardId.SpeedroidTerrortop))
