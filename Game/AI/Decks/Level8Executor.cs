@@ -34,7 +34,7 @@ namespace WindBot.Game.AI.Decks
             public const int HarpiesFeatherDuster = 18144506;
             public const int ReinforcementofTheArmy = 32807846;
             public const int FoolishBurial = 81439173;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int ChargeofTheLightBrigade = 94886282;
             public const int CalledbyTheGrave = 24224830;
             public const int SolemnStrike = 40605147;

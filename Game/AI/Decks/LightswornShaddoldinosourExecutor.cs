@@ -42,7 +42,7 @@ namespace WindBot.Game.AI.Decks
             public const int ShaddollFusion = 44394295;
             public const int PotOfAvarice = 67169062;
             public const int FoolishBurial = 81439173;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int ChargeOfTheLightBrigade = 94886282;
             public const int InterruptedKaijuSlumber = 99330325;
             //public const int ElShaddollFusion = 6417578;
