@@ -174,6 +174,11 @@ namespace WindBot.Game.AI.Decks
             CardId.DaigustoGulldos,
             CardId.DaigustoSphreez
         };
+        List<int> ET = new List<int>
+        {
+            CardId.ClearWingSynchroDragon,
+            CardId.WindwitchWinterBell
+        };
 
         private bool WindwitchGlassBelleff_used;
         private bool Summon_used;
@@ -453,6 +458,8 @@ namespace WindBot.Game.AI.Decks
             else if (Bot.HasInMonstersZone(tuner) && Bot.HasInMonstersZone(level3))
                 return false;
             else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(tuner))
+                return false;
+            else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(level1) && Bot.HasInMonstersZone(ET))
                 return false;
             AI.SelectCard(CardId.PilicaDescendantOfGusto);
             AI.SelectPosition(CardPosition.FaceUpDefence);
