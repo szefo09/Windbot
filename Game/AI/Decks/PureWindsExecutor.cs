@@ -452,7 +452,7 @@ namespace WindBot.Game.AI.Decks
                 return false;
             else if (Bot.HasInMonstersZone(tuner) && Bot.HasInMonstersZone(level3))
                 return false;
-            else if (!Bot.HasInGraveyard(tuner) || !Bot.HasInMonstersZone(tuner))
+            else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(tuner))
                 return false;
             AI.SelectCard(CardId.PilicaDescendantOfGusto);
             AI.SelectPosition(CardPosition.FaceUpDefence);
