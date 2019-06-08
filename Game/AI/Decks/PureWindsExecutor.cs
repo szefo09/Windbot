@@ -53,6 +53,7 @@ namespace WindBot.Game.AI.Decks
             public const int WynnTheWindCharmerVerdant = 30674956;
             public const int GreatFly = 90512490;
             public const int KnightmareIblee = 10158145;
+            public const int ChaosMax = 55410871;
         }
 
         List<int> ReposTargets = new List<int>
@@ -173,6 +174,11 @@ namespace WindBot.Game.AI.Decks
             CardId.DaigustoGulldos,
             CardId.DaigustoSphreez
         };
+        List<int> ET = new List<int>
+        {
+            CardId.ClearWingSynchroDragon,
+            CardId.WindwitchWinterBell
+        };
 
         private bool WindwitchGlassBelleff_used;
         private bool Summon_used;
@@ -210,7 +216,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.MistWurm, MistWurmeff);
             AddExecutor(ExecutorType.Activate, CardId.DaigustoGulldos, DaigustoGulldoseff);
             AddExecutor(ExecutorType.Activate, CardId.EmergencyTeleport, EmergencyTeleporteff);
-            AddExecutor(ExecutorType.Activate, CardId.Reasoning);
+            AddExecutor(ExecutorType.Activate, CardId.Reasoning, Reasoningeff);
             AddExecutor(ExecutorType.SpSummon, CardId.WindwitchWinterBell, WindwitchWinterBellsp);
 
             AddExecutor(ExecutorType.SpSummon, CardId.CrystalWingSynchroDragon, CrystalWingSynchroDragonsp);
@@ -246,9 +252,9 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.SpellSet, CardId.ForbiddenChalice);
             AddExecutor(ExecutorType.SpellSet, CardId.SuperTeamBuddyForceUnite);
             AddExecutor(ExecutorType.SpellSet, CardId.GozenMatch);
-            AddExecutor(ExecutorType.MonsterSet, CardId.GustoGulldo);
-            AddExecutor(ExecutorType.MonsterSet, CardId.GustoEgul);
-            AddExecutor(ExecutorType.MonsterSet, CardId.WindaPriestessOfGusto);
+            AddExecutor(ExecutorType.MonsterSet, CardId.GustoGulldo, gulldoset);
+            AddExecutor(ExecutorType.MonsterSet, CardId.GustoEgul, egulset);
+            AddExecutor(ExecutorType.MonsterSet, CardId.WindaPriestessOfGusto, windaset);
             AddExecutor(ExecutorType.Summon, CardId.WindwitchGlassBell, WindwitchGlassBellsummonfirst);
             AddExecutor(ExecutorType.Summon, CardId.WindwitchGlassBell, WindwitchGlassBellsummon);
             AddExecutor(ExecutorType.MonsterSet, CardId.SpeedroidRedEyedDice, SpeedroidRedEyedDiceset);
@@ -256,7 +262,30 @@ namespace WindBot.Game.AI.Decks
 
             AddExecutor(ExecutorType.Repos, MonsterRepos);
         }
+        private bool windaset()
+        {
+            if (Enemy.HasInMonstersZoneOrInGraveyard(CardId.ChaosMax))
+                return false;
+            return true;
+        }
+        private bool egulset()
+        {
+            if (Enemy.HasInMonstersZoneOrInGraveyard(CardId.ChaosMax))
+                return false;
+            return true;
+        }
+        private bool gulldoset()
+        {
+            if (Enemy.HasInMonstersZoneOrInGraveyard(CardId.ChaosMax))
+                return false;
+            return true;
+        }
 
+        private bool Reasoningeff()
+        {
+            AI.SelectPosition(CardPosition.FaceUpDefence);
+            return true;
+        }
         private bool KingsConsonanceeff()
         {
             AI.SelectCard(CardId.CrystalWingSynchroDragon,
@@ -284,19 +313,19 @@ namespace WindBot.Game.AI.Decks
 
         private bool SpeedroidRedEyedDiceset()
         {
+            if (Enemy.HasInMonstersZone(CardId.ChaosMax))
+                return false;
             if (Bot.GetMonsterCount() < 1)
-            {
                 return true;
-            }
             return false;
         }
 
         private bool WindwitchSnowBellset()
         {
+            if (Enemy.HasInMonstersZone(CardId.ChaosMax))
+                return false;
             if (Bot.GetMonsterCount() < 1)
-            {
                 return true;
-            }
             return false;
         }
 
@@ -427,6 +456,10 @@ namespace WindBot.Game.AI.Decks
                 !Bot.HasInMonstersZone(CardId.GreatFly))
                 return false;
             else if (Bot.HasInMonstersZone(tuner) && Bot.HasInMonstersZone(level3))
+                return false;
+            else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(tuner))
+                return false;
+            else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(level1) && Bot.HasInMonstersZone(ET))
                 return false;
             AI.SelectCard(CardId.PilicaDescendantOfGusto);
             AI.SelectPosition(CardPosition.FaceUpDefence);
@@ -680,7 +713,8 @@ namespace WindBot.Game.AI.Decks
         private bool WindwitchSnowBellsp()
         {
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
-                Bot.HasInMonstersZone(CardId.DaigustoSphreez))&&
+                Bot.HasInMonstersZone(CardId.DaigustoSphreez) ||
+                Bot.HasInMonstersZone(CardId.MistWurm)) &&
                 !Bot.HasInMonstersZone(CardId.WynnTheWindCharmerVerdant) &&
                 !Bot.HasInMonstersZone(CardId.GreatFly))
                 return false;
@@ -730,6 +764,9 @@ namespace WindBot.Game.AI.Decks
 
         private bool WindwitchWinterBellsp()
         {
+            if (Bot.HasInHandOrInSpellZone(CardId.SuperTeamBuddyForceUnite) || 
+                Bot.HasInHandOrInSpellZone(CardId.MonsterReborn))
+                return false;
             if (Bot.HasInMonstersZone(CardId.WindwitchIceBell) &&
                  Bot.HasInMonstersZone(CardId.WindwitchGlassBell) &&
                  Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
