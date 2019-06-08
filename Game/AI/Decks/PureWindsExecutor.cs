@@ -210,7 +210,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.MistWurm, MistWurmeff);
             AddExecutor(ExecutorType.Activate, CardId.DaigustoGulldos, DaigustoGulldoseff);
             AddExecutor(ExecutorType.Activate, CardId.EmergencyTeleport, EmergencyTeleporteff);
-            AddExecutor(ExecutorType.Activate, CardId.Reasoning);
+            AddExecutor(ExecutorType.Activate, CardId.Reasoning, Reasoningeff);
             AddExecutor(ExecutorType.SpSummon, CardId.WindwitchWinterBell, WindwitchWinterBellsp);
 
             AddExecutor(ExecutorType.SpSummon, CardId.CrystalWingSynchroDragon, CrystalWingSynchroDragonsp);
@@ -257,6 +257,11 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Repos, MonsterRepos);
         }
 
+        private bool Reasoningeff()
+        {
+            AI.SelectPosition(CardPosition.FaceUpDefence);
+            return true;
+        }
         private bool KingsConsonanceeff()
         {
             AI.SelectCard(CardId.CrystalWingSynchroDragon,
@@ -427,6 +432,8 @@ namespace WindBot.Game.AI.Decks
                 !Bot.HasInMonstersZone(CardId.GreatFly))
                 return false;
             else if (Bot.HasInMonstersZone(tuner) && Bot.HasInMonstersZone(level3))
+                return false;
+            else if (!Bot.HasInGraveyard(tuner) || !Bot.HasInMonstersZone(tuner))
                 return false;
             AI.SelectCard(CardId.PilicaDescendantOfGusto);
             AI.SelectPosition(CardPosition.FaceUpDefence);
@@ -680,7 +687,8 @@ namespace WindBot.Game.AI.Decks
         private bool WindwitchSnowBellsp()
         {
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
-                Bot.HasInMonstersZone(CardId.DaigustoSphreez))&&
+                Bot.HasInMonstersZone(CardId.DaigustoSphreez) ||
+                Bot.HasInMonstersZone(CardId.MistWurm)) &&
                 !Bot.HasInMonstersZone(CardId.WynnTheWindCharmerVerdant) &&
                 !Bot.HasInMonstersZone(CardId.GreatFly))
                 return false;
@@ -730,6 +738,9 @@ namespace WindBot.Game.AI.Decks
 
         private bool WindwitchWinterBellsp()
         {
+            if (Bot.HasInHandOrInSpellZone(CardId.SuperTeamBuddyForceUnite) || 
+                Bot.HasInHandOrInSpellZone(CardId.MonsterReborn))
+                return false;
             if (Bot.HasInMonstersZone(CardId.WindwitchIceBell) &&
                  Bot.HasInMonstersZone(CardId.WindwitchGlassBell) &&
                  Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
