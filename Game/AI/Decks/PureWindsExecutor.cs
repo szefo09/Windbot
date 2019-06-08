@@ -53,6 +53,7 @@ namespace WindBot.Game.AI.Decks
             public const int WynnTheWindCharmerVerdant = 30674956;
             public const int GreatFly = 90512490;
             public const int KnightmareIblee = 10158145;
+            public const int ChaosMax = 55410871;
         }
 
         List<int> ReposTargets = new List<int>
@@ -246,15 +247,33 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.SpellSet, CardId.ForbiddenChalice);
             AddExecutor(ExecutorType.SpellSet, CardId.SuperTeamBuddyForceUnite);
             AddExecutor(ExecutorType.SpellSet, CardId.GozenMatch);
-            AddExecutor(ExecutorType.MonsterSet, CardId.GustoGulldo);
-            AddExecutor(ExecutorType.MonsterSet, CardId.GustoEgul);
-            AddExecutor(ExecutorType.MonsterSet, CardId.WindaPriestessOfGusto);
+            AddExecutor(ExecutorType.MonsterSet, CardId.GustoGulldo, gulldoset);
+            AddExecutor(ExecutorType.MonsterSet, CardId.GustoEgul, egulset);
+            AddExecutor(ExecutorType.MonsterSet, CardId.WindaPriestessOfGusto, windaset);
             AddExecutor(ExecutorType.Summon, CardId.WindwitchGlassBell, WindwitchGlassBellsummonfirst);
             AddExecutor(ExecutorType.Summon, CardId.WindwitchGlassBell, WindwitchGlassBellsummon);
             AddExecutor(ExecutorType.MonsterSet, CardId.SpeedroidRedEyedDice, SpeedroidRedEyedDiceset);
             AddExecutor(ExecutorType.MonsterSet, CardId.WindwitchSnowBell, WindwitchSnowBellset);
 
             AddExecutor(ExecutorType.Repos, MonsterRepos);
+        }
+        private bool windaset()
+        {
+            if (Enemy.HasInMonstersZoneOrInGraveyard(CardId.ChaosMax))
+                return false;
+            return true;
+        }
+        private bool egulset()
+        {
+            if (Enemy.HasInMonstersZoneOrInGraveyard(CardId.ChaosMax))
+                return false;
+            return true;
+        }
+        private bool gulldoset()
+        {
+            if (Enemy.HasInMonstersZoneOrInGraveyard(CardId.ChaosMax))
+                return false;
+            return true;
         }
 
         private bool Reasoningeff()
@@ -289,19 +308,19 @@ namespace WindBot.Game.AI.Decks
 
         private bool SpeedroidRedEyedDiceset()
         {
+            if (Enemy.HasInMonstersZone(CardId.ChaosMax))
+                return false;
             if (Bot.GetMonsterCount() < 1)
-            {
                 return true;
-            }
             return false;
         }
 
         private bool WindwitchSnowBellset()
         {
+            if (Enemy.HasInMonstersZone(CardId.ChaosMax))
+                return false;
             if (Bot.GetMonsterCount() < 1)
-            {
                 return true;
-            }
             return false;
         }
 
