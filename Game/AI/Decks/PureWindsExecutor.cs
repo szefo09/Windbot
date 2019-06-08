@@ -414,7 +414,7 @@ namespace WindBot.Game.AI.Decks
                 return false;
             else if (!Bot.HasInMonstersZoneOrInGraveyard(tuner))
                 return false;
-            {
+            else {
                 Summon_used = true;
                 return true;
             }
