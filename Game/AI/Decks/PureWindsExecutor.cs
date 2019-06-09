@@ -54,6 +54,10 @@ namespace WindBot.Game.AI.Decks
             public const int GreatFly = 90512490;
             public const int KnightmareIblee = 10158145;
             public const int ChaosMax = 55410871;
+            public const int SkillDrain = 82732705;
+            public const int SoulDrain = 73599290;
+            public const int Rivalry = 90846359;
+            public const int OnlyOne = 24207889;
         }
 
         List<int> ReposTargets = new List<int>
@@ -79,6 +83,13 @@ namespace WindBot.Game.AI.Decks
             CardId.WindwitchSnowBell
         };
 
+        List<int> Pilica = new List<int>
+        { 
+            CardId.ClearWingSynchroDragon,
+            CardId.WindwitchWinterBell,
+            CardId.StardustChargeWarrior
+        };
+
         List<int> level3 = new List<int>
         { CardId.PilicaDescendantOfGusto,
             CardId.WindwitchIceBell,
@@ -91,6 +102,13 @@ namespace WindBot.Game.AI.Decks
             CardId.WindwitchWinterBell,
             CardId.GreatFly,
             CardId.WynnTheWindCharmerVerdant
+        };
+        List<int> KeepSynchro2 = new List<int>
+        { 
+            CardId.CrystalWingSynchroDragon,
+            CardId.DaigustoSphreez,
+            CardId.ClearWingSynchroDragon,
+            CardId.WindwitchWinterBell
         };
         List<int> reborn = new List<int>
         { CardId.ClearWingSynchroDragon,
@@ -140,7 +158,6 @@ namespace WindBot.Game.AI.Decks
         {
             CardId.SpeedroidTerrortop,
             CardId.PilicaDescendantOfGusto,
-            CardId.WindaPriestessOfGusto,
             CardId.WindwitchIceBell,
             CardId.SpeedroidTaketomborg,
             CardId.OldEntityHastorr,
@@ -150,7 +167,20 @@ namespace WindBot.Game.AI.Decks
             CardId.StardustChargeWarrior,
             CardId.WindwitchWinterBell,
             CardId.ClearWingSynchroDragon,
-            CardId.CrystalWingSynchroDragon
+            CardId.CrystalWingSynchroDragon,
+            CardId.MistWurm
+        };
+        List<int> SynchroFull = new List<int>
+        {
+            CardId.OldEntityHastorr,
+            CardId.HiSpeedroidChanbara,
+            CardId.DaigustoGulldos,
+            CardId.DaigustoSphreez,
+            CardId.StardustChargeWarrior,
+            CardId.WindwitchWinterBell,
+            CardId.ClearWingSynchroDragon,
+            CardId.CrystalWingSynchroDragon,
+            CardId.MistWurm
         };
         List<int> LinkList = new List<int>
         {
@@ -182,6 +212,7 @@ namespace WindBot.Game.AI.Decks
 
         private bool WindwitchGlassBelleff_used;
         private bool Summon_used;
+        private bool Pilica_eff;
         private bool plan_A;
         //TODO: reset the flags when they should reset ( public override void OnNewTurn() )
         public PureWindsExecutor(GameAI ai, Duel duel)
@@ -242,7 +273,6 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Raigeki);
             AddExecutor(ExecutorType.Activate, CardId.GozenMatch);
             AddExecutor(ExecutorType.Activate, CardId.KingsConsonance, KingsConsonanceeff);
-            AddExecutor(ExecutorType.Activate, CardId.SuperTeamBuddyForceUnite, SuperTeamBuddyForceUniteeff);
             //trap set
             AddExecutor(ExecutorType.SpellSet, CardId.KingsConsonance);
             AddExecutor(ExecutorType.SpellSet, CardId.SolemnStrike);
@@ -259,6 +289,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.MonsterSet, CardId.WindwitchSnowBell, WindwitchSnowBellset);
             AddExecutor(ExecutorType.Activate, CardId.EmergencyTeleport, EmergencyTeleporteff);
             AddExecutor(ExecutorType.Activate, CardId.Reasoning, Reasoningeff);
+            AddExecutor(ExecutorType.Activate, CardId.SuperTeamBuddyForceUnite, SuperTeamBuddyForceUniteeff);
 
             AddExecutor(ExecutorType.Repos, MonsterRepos);
         }
@@ -285,7 +316,7 @@ namespace WindBot.Game.AI.Decks
         {
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
                 Bot.HasInMonstersZone(CardId.MistWurm)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
             if (Bot.HasInMonstersZone(level3) &&
                 Bot.HasInMonstersZone(CardId.WindwitchGlassBell) &&
@@ -305,9 +336,9 @@ namespace WindBot.Game.AI.Decks
         }
         private bool Reborneff()
         {
-            if (Bot.HasInGraveyard(CardId.CrystalWingSynchroDragon))
+            if (Bot.HasInGraveyard(KeepSynchro2))
             {
-                AI.SelectCard(CardId.CrystalWingSynchroDragon);
+                AI.SelectCard(KeepSynchro2);
                 return true;
             }
             if (!Util.IsOneEnemyBetter(true)) return false;
@@ -323,7 +354,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Enemy.HasInMonstersZone(CardId.ChaosMax))
                 return false;
-            if (Bot.GetMonsterCount() < 1)
+            if ((Bot.GetMonstersInMainZone().Count + Bot.GetMonstersInExtraZone().Count) == 0)
                 return true;
             return false;
         }
@@ -332,7 +363,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Enemy.HasInMonstersZone(CardId.ChaosMax))
                 return false;
-            if (Bot.GetMonsterCount() < 1)
+            if ((Bot.GetMonstersInMainZone().Count + Bot.GetMonstersInExtraZone().Count) == 0)
                 return true;
             return false;
         }
@@ -343,6 +374,8 @@ namespace WindBot.Game.AI.Decks
                 return false;
             if (Bot.HasInMonstersZone(CardId.HiSpeedroidChanbara))
                 return false;
+            if (Bot.HasInMonstersZone(CardId.WynnTheWindCharmerVerdant))
+                return false;
             return true;
         }
         private bool WynnTheWindCharmerVerdantsp()
@@ -351,17 +384,21 @@ namespace WindBot.Game.AI.Decks
                 return false;
             if (Bot.HasInMonstersZone(CardId.HiSpeedroidChanbara))
                 return false;
+            if (Bot.HasInMonstersZone(CardId.GreatFly))
+                return false;
             return true;
         }
         private bool MistWurmeff()
         {
             AI.SelectCard(Util.GetBestEnemyMonster());
+            AI.SelectNextCard(Util.GetProblematicEnemyCard());
+            AI.SelectThirdCard(Util.GetProblematicEnemyCard());
             return true;
         }
         private bool GustoGulldosu()
         {
             if (Bot.HasInMonstersZone(Gulldosulist) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
             {
                 return false;
             }
@@ -371,7 +408,7 @@ namespace WindBot.Game.AI.Decks
                 Summon_used = true;
                 return true;
             }
-            else if (Bot.HasInMonstersZone(Gulldosulist2))
+            else if (Bot.HasInMonstersZone(Gulldosulist2) || Bot.HasInHand(CardId.SpeedroidTaketomborg))
             {
                 Summon_used = true;
                 return true;
@@ -391,9 +428,9 @@ namespace WindBot.Game.AI.Decks
             }
             else if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
                 Bot.HasInMonstersZone(CardId.MistWurm)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
-            else if (Bot.HasInMonstersZone(EgulsuList))
+            else if (Bot.HasInMonstersZone(EgulsuList) || Bot.HasInHand(CardId.SpeedroidTaketomborg))
             {
                 Summon_used = true;
                 return true;
@@ -409,15 +446,12 @@ namespace WindBot.Game.AI.Decks
                 Summon_used = true;
                 return true;
             }
-            else if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
-                Bot.HasInMonstersZone(CardId.MistWurm)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
-                return false;
             else if (Bot.HasInMonstersZone(CardId.GustoGulldo) ||
                 Bot.HasInMonstersZone(CardId.WindwitchGlassBell) ||
                 ((Bot.HasInMonstersZone(level3) || Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto)) &&
                 Bot.HasInMonstersZone(tuner)) ||
-                (Bot.HasInMonstersZone(CardId.OldEntityHastorr) && Bot.HasInMonstersZone(level1)))
+                (Bot.HasInMonstersZone(CardId.OldEntityHastorr) && Bot.HasInMonstersZone(level1)) &&
+                (Util.GetBotAvailZonesFromExtraDeck() >= 1))
             {
                 Summon_used = true;
                 return true;
@@ -429,7 +463,7 @@ namespace WindBot.Game.AI.Decks
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
                 Bot.HasInMonstersZone(CardId.MistWurm) ||
                 Bot.HasInMonstersZone(CardId.DaigustoSphreez)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
             else if (Bot.HasInMonstersZone(EgulsuList))
             {
@@ -442,7 +476,11 @@ namespace WindBot.Game.AI.Decks
         {
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
                 Bot.HasInMonstersZone(CardId.MistWurm)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
+                return false;
+            else if (Bot.HasInMonstersZone(Pilica) &&
+                !Bot.HasInGraveyard(level1) &&
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
             else if (!Bot.HasInMonstersZoneOrInGraveyard(tuner))
                 return false;
@@ -455,7 +493,7 @@ namespace WindBot.Game.AI.Decks
         {
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
                 Bot.HasInMonstersZone(CardId.MistWurm)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
             else if (Bot.HasInMonstersZone(level3) &&
                 Bot.HasInMonstersZone(CardId.WindwitchGlassBell) &&
@@ -466,6 +504,8 @@ namespace WindBot.Game.AI.Decks
             else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(tuner))
                 return false;
             else if (!Bot.HasInHandOrInMonstersZoneOrInGraveyard(level1) && Bot.HasInMonstersZone(ET))
+                return false;
+            if (Pilica_eff == true)
                 return false;
             AI.SelectCard(CardId.PilicaDescendantOfGusto);
             AI.SelectPosition(CardPosition.FaceUpDefence);
@@ -518,10 +558,10 @@ namespace WindBot.Game.AI.Decks
                 {
                     AI.SelectNextCard(CardId.OldEntityHastorr);
                 }
-                else if (Util.GetBestEnemyMonster() != null)
+                else if (Util.GetProblematicEnemyCard() != null)
                 {
 
-                    AI.SelectNextCard(Util.GetBestEnemyMonster());
+                    AI.SelectNextCard(Util.GetProblematicEnemyCard());
                 }
                 else
                 {
@@ -555,13 +595,11 @@ namespace WindBot.Game.AI.Decks
         }
         private bool SpeedroidTaketomborgsp()
         {
-            if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
-                Bot.HasInMonstersZone(CardId.DaigustoSphreez)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+            if (Util.GetBotAvailZonesFromExtraDeck() == 0)
                 return false;
             if (Bot.HasInMonstersZone(CardId.DaigustoSphreez))
                 return false;
-            else if (Bot.HasInMonstersZone(taketomborgSpList))
+            if (Bot.HasInMonstersZone(taketomborgSpList))
             {
                 AI.SelectPosition(CardPosition.FaceUpDefence);
                 return true;
@@ -610,6 +648,7 @@ namespace WindBot.Game.AI.Decks
         private bool PilicaDescendantOfGustoeff()
         {
             AI.SelectCard(CardId.GustoGulldo, CardId.WindwitchGlassBell, CardId.WindwitchSnowBell, CardId.GustoEgul, CardId.SpeedroidRedEyedDice);
+            Pilica_eff = true;
             return true;
         }
 
@@ -625,80 +664,88 @@ namespace WindBot.Game.AI.Decks
                 return true;
             }
 
-            else if (Bot.HasInGraveyard(CardId.WindaPriestessOfGusto) && Bot.HasInMonstersZone(CardId.DaigustoSphreez))
+            if (Bot.HasInGraveyard(CardId.WindaPriestessOfGusto) && Bot.HasInMonstersZone(CardId.DaigustoSphreez))
             {
                 AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.DaigustoSphreez, CardId.WindaPriestessOfGusto);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
 
-            else if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto))
+            if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto))
             {
                 AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.PilicaDescendantOfGusto, CardId.DaigustoSphreez);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
 
-            else if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
+            if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
             {
                 AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.WindaPriestessOfGusto, CardId.DaigustoSphreez);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.DaigustoGulldos) && Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
+            if (Bot.HasInGraveyard(CardId.DaigustoGulldos) && Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
             {
                 AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.WindaPriestessOfGusto, CardId.DaigustoGulldos);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.DaigustoGulldos) && Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto))
+            if (Bot.HasInGraveyard(CardId.DaigustoGulldos) && Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto))
             {
                 AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.DaigustoGulldos, CardId.PilicaDescendantOfGusto);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.DaigustoGulldos))
+            if (Bot.HasInGraveyard(CardId.DaigustoSphreez) && Bot.HasInMonstersZone(CardId.DaigustoGulldos))
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.DaigustoGulldos, CardId.DaigustoSphreez);
+                AI.SelectCard(CardId.DaigustoGulldos, CardId.DaigustoSphreez);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.CrystalWingSynchroDragon))
+            if (Bot.HasInGraveyard(CardId.CrystalWingSynchroDragon))
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite);
-                AI.SelectNextCard(CardId.CrystalWingSynchroDragon);
+                AI.SelectCard(CardId.CrystalWingSynchroDragon);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.CrystalWingSynchroDragon))
+            if (Bot.HasInGraveyard(CardId.CrystalWingSynchroDragon))
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite);
-                AI.SelectNextCard(CardId.ClearWingSynchroDragon);
+                AI.SelectCard(CardId.ClearWingSynchroDragon);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.WindwitchWinterBell))
+            if (Bot.HasInGraveyard(SynchroList))
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite);
-                AI.SelectCard(CardId.WindwitchWinterBell);
+                AI.SelectCard(SynchroList);
                 AI.SelectPosition(CardPosition.Attack);
                 return true;
             }
-            else if (Bot.HasInGraveyard(CardId.WindwitchSnowBell) && Bot.HasInMonstersZone(CardId.WindwitchIceBell))
+            if (Bot.HasInGraveyard(CardId.PilicaDescendantOfGusto) && Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.WindwitchIceBell, CardId.WindwitchSnowBell);
+                AI.SelectCard(CardId.WindaPriestessOfGusto, CardId.PilicaDescendantOfGusto);
                 AI.SelectPosition(CardPosition.FaceUpDefence);
                 return true;
             }
-
-            else if (Bot.HasInGraveyard(CardId.PilicaDescendantOfGusto) && Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
+            if (Util.GetBotAvailZonesFromExtraDeck() >= 1)
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.WindaPriestessOfGusto, CardId.PilicaDescendantOfGusto);
-                AI.SelectPosition(CardPosition.FaceUpDefence);
+                if ((Bot.HasInMonstersZone(CardId.SpeedroidTerrortop) ||
+                Bot.HasInMonstersZone(CardId.SpeedroidRedEyedDice) ||
+                Bot.HasInMonstersZone(CardId.HiSpeedroidChanbara)) &&
+                !Bot.HasInHand(CardId.SpeedroidTaketomborg))
+                {
+                    AI.SelectCard(CardId.SpeedroidRedEyedDice, CardId.SpeedroidTerrortop, CardId.SpeedroidTaketomborg);
+                    return true;
+                }
+                if ((Bot.HasInMonstersZone(CardId.SpeedroidTerrortop) ||
+                    Bot.HasInMonstersZone(CardId.SpeedroidRedEyedDice) ||
+                    Bot.HasInMonstersZone(CardId.HiSpeedroidChanbara)) &&
+                    Bot.HasInHand(CardId.SpeedroidTaketomborg))
+                    return false;
             }
-            else if (Bot.HasInGraveyard(CardId.SuperTeamBuddyForceUnite))
+            if (Bot.HasInGraveyard(CardId.SuperTeamBuddyForceUnite))
             {
-                AI.SelectCard(CardId.SuperTeamBuddyForceUnite, CardId.SuperTeamBuddyForceUnite);
+                AI.SelectCard(CardId.SuperTeamBuddyForceUnite);
+                return true;
             }
             return false;
         }
@@ -708,21 +755,16 @@ namespace WindBot.Game.AI.Decks
             if ((Bot.HasInMonstersZone(CardId.CrystalWingSynchroDragon) ||
                 Bot.HasInMonstersZone(CardId.DaigustoSphreez) ||
                 Bot.HasInMonstersZone(CardId.MistWurm)) &&
-                (Bot.GetMonstersExtraZoneCount() < 1))
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
-            if (Bot.HasInMonstersZone(CardId.WindwitchSnowBell) &&
-                Bot.HasInMonstersZone(level3) &&
-                Bot.HasInMonstersZone(CardId.WindwitchGlassBell))
-                return false;
-            if (Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto) &&
-                Bot.HasInMonstersZone(CardId.GustoGulldo))
-                return false;
-            if (Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto) &&
-                Bot.HasInMonstersZone(CardId.PilicaDescendantOfGusto) &&
+            if (Bot.HasInMonstersZone(level3) &&
+                Bot.HasInMonstersZone(CardId.WindwitchGlassBell) &&
                 Bot.HasInMonstersZone(level1))
                 return false;
-            if (Bot.HasInMonstersZone(CardId.WindwitchWinterBell) &&
-                Bot.HasInMonstersZone(CardId.WindwitchSnowBell))
+            if ((Bot.HasInMonstersZone(CardId.ClearWingSynchroDragon) ||
+                Bot.HasInMonstersZone(CardId.WindwitchWinterBell)) &&
+                Bot.HasInMonstersZone(CardId.WindwitchSnowBell) &&
+                (Util.GetBotAvailZonesFromExtraDeck() == 0))
                 return false;
                 AI.SelectPosition(CardPosition.FaceUpDefence);
             return true;
@@ -821,6 +863,14 @@ namespace WindBot.Game.AI.Decks
             foreach (ClientCard card in Duel.CurrentChain)
                 if (card.IsCode(_CardId.CosmicCyclone))
                     return false;
+            if ((Enemy.HasInSpellZone(CardId.SkillDrain) ||
+                Enemy.HasInSpellZone(CardId.Rivalry) ||
+                Enemy.HasInSpellZone(CardId.OnlyOne)) &&
+                (Bot.LifePoints > 1000))
+            {
+                AI.SelectCard(CardId.SkillDrain, CardId.SoulDrain, CardId.Rivalry, CardId.OnlyOne);
+                return true;
+            }
             if (Bot.HasInSpellZone(CardId.OldEntityHastorr) && (Bot.LifePoints > 1000))
             {
                 AI.SelectCard(CardId.OldEntityHastorr);
@@ -909,11 +959,16 @@ namespace WindBot.Game.AI.Decks
         {
             if (Card.IsCode(CardId.CrystalWingSynchroDragon) || Card.IsCode(CardId.DaigustoSphreez))
                 return (!Card.HasPosition(CardPosition.Attack));
-            if (Bot.HasInMonstersZone(CardId.DaigustoSphreez) && !Card.IsFacedown())
+            if (Card.IsCode(SynchroFull))
             {
-                if (ReposTargets.Contains(Card.Id))
+                if (Card.IsFacedown() || Card.IsDefense())
+                   return true;
+            }     
+            if (Bot.HasInMonstersZone(CardId.DaigustoSphreez))
+            {
+                if (Card.IsCode(gusto))
                 {
-                    if (Card.IsDefense())
+                    if (Card.IsFacedown() || Card.IsDefense())
                     {
                         return true;
                     }
@@ -923,22 +978,41 @@ namespace WindBot.Game.AI.Decks
                     }
                 }
             }
-            if (Bot.HasInMonstersZone(CardId.DaigustoSphreez))
+
+            if ((Util.GetBotAvailZonesFromExtraDeck() >= 1) &&
+                ((Bot.GetMonsterCount() - Bot.GetMonstersInExtraZone().Count) >= 2))
             {
-                if (Bot.HasInMonstersZone(gusto))
+                if (Bot.HasInMonstersZone(tuner) &&
+                    (Bot.HasInMonstersZone(level3) ||
+                    Bot.HasInMonstersZone(CardId.WindwitchGlassBell)))
+                {
+                    if (Card.IsFacedown())
+                        return true;
+                }
+                if (Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto) &&
+                    (Bot.HasInMonstersZone(CardId.GustoGulldo) ||
+                    Bot.HasInMonstersZone(CardId.WindwitchGlassBell)))
+                {
+                    if (Card.IsFacedown())
+                        return true;
+                }
+                if (((Bot.GetMonsterCount() - Bot.GetMonstersInExtraZone().Count) >= 3) &&
+                    Bot.HasInMonstersZone(level1) &&
+                    (Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto) ||
+                    Bot.HasInMonstersZone(level3)))
+                {
+                    if (Card.IsFacedown())
+                        return true;
+                }
+                if (((Bot.GetMonsterCount() - Bot.GetMonstersInExtraZone().Count) >= 2) &&
+                    (Bot.HasInMonstersZone(CardId.GustoGulldo) || Bot.HasInMonstersZone(CardId.WindwitchGlassBell)) &&
+                    Bot.HasInMonstersZone(CardId.WindaPriestessOfGusto))
                 {
                     if (Card.IsFacedown())
                         return true;
                 }
             }
-            if (Bot.GetMonstersExtraZoneCount() < 1)
-            {
-                if(Bot.GetMonsterCount() > 1)
-                {
-                    if (Card.IsFacedown())
-                        return true;
-                }
-            }
+            
             if (Card.IsFacedown())
                 return false;
             return base.DefaultMonsterRepos();
