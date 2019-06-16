@@ -390,9 +390,15 @@ namespace WindBot.Game.AI.Decks
         }
         private bool MistWurmeff()
         {
-            AI.SelectCard(Util.GetBestEnemyMonster());
-            AI.SelectNextCard(Util.GetProblematicEnemyCard());
-            AI.SelectThirdCard(Util.GetProblematicEnemyCard());
+            AI.SelectCard(Util.GetBestEnemyCard(false, true));
+            if (Util.GetBestEnemyCard(false, true) != null)
+                Logger.DebugWriteLine("*************SelectCard= " + Util.GetBestEnemyCard(false, true).Id);
+            AI.SelectNextCard(Util.GetBestEnemyCard(false, true));
+            if (Util.GetBestEnemyCard(false, true) != null)
+                Logger.DebugWriteLine("*************SelectCard= " + Util.GetBestEnemyCard(false, true).Id);
+            AI.SelectThirdCard(Util.GetBestEnemyCard(false, true));
+            if (Util.GetBestEnemyCard(false, true) != null)
+                Logger.DebugWriteLine("*************SelectCard= " + Util.GetBestEnemyCard(false, true).Id);
             return true;
         }
         private bool GustoGulldosu()
