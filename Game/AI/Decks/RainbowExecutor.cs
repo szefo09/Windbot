@@ -23,7 +23,7 @@ namespace WindBot.Game.AI.Decks
             public const int UnexpectedDai = 911883;
             public const int HarpiesFeatherDuster = 18144506;
             public const int PotOfDesires = 35261759;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int SmashingGround = 97169186;
 
             public const int QuakingMirrorForce = 40838625;

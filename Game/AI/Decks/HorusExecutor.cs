@@ -26,7 +26,7 @@ namespace WindBot.Game.AI.Decks
             public const int Fissure = 66788016;
             public const int StampingDestruction = 81385346;
             public const int FoolishBurial = 81439173;
-            public const int MonsterReborn = 83764718;
+            public const int MonsterReborn = 83764719;
             public const int MysticalSpaceTyphoon = 5318639;
             public const int BellowOfTheSilverDragon = 80600103;
             public const int Mountain = 50913601;
