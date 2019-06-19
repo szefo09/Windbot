@@ -210,6 +210,7 @@ namespace WindBot.Game.AI.Decks
             CardId.AngelTrumpeter,
             CardId.MaskedChameleon
         };
+        private int shootingRiserDragonLimitCounter = 0;
 
         public override void OnNewTurn()
         {
@@ -217,6 +218,7 @@ namespace WindBot.Game.AI.Decks
             JetSynchronUsed = false;
             ScrapWyvernUsed = false;
             MaskedChameleonUsed = false;
+            shootingRiserDragonLimitCounter = 0;
         }
 
         public override void OnChainEnd()
@@ -843,12 +845,20 @@ namespace WindBot.Game.AI.Decks
             }
             else
             {
-                AI.SelectCard(new[] {
+                if (shootingRiserDragonLimitCounter >= 5)
+                {
+                    return false;
+                }
+                else
+                {
+                    shootingRiserDragonLimitCounter++;
+                    AI.SelectCard(new[] {
                     CardId.BlackRoseMoonlightDragon,
                     CardId.ScrapDragon,
                     CardId.PSYFramelordOmega
                 });
-                return Duel.LastChainPlayer != 0;
+                    return Duel.LastChainPlayer != 0;
+                }
             }
         }
 
