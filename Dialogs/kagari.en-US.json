@@ -14,7 +14,7 @@
   ],
   "deckerror": [
     "It seems I cannot use my {0} with this banlist..., Do something about this!",
-    "I usually don't play by the rules, and now I can't use {0} becase of them."
+    "I usually don't play with a banlist, but you invited me to a room with one and I can't use {0} becase of this. Apologize!"
   ],
   "duelstart": [
     "Let's see how well you can entertain me.",
