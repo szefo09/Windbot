@@ -153,7 +153,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.HarpieFeatherDuster);
             AddExecutor(ExecutorType.Activate, CardId.MaxxC, G_activate);
             AddExecutor(ExecutorType.Activate, CardId.CalledByTheGrave, Called_activate);
-            AddExecutor(ExecutorType.Activate, CardId.AshBlossom, Hand_act_eff);
+            AddExecutor(ExecutorType.Activate, CardId.AshBlossom, DefaultAshBlossomAndJoyousSpring);
             AddExecutor(ExecutorType.Activate, CardId.EffectVeiler, DefaultBreakthroughSkill);
             AddExecutor(ExecutorType.Activate, CardId.Impermanence, Impermanence_activate);
             AddExecutor(ExecutorType.Activate, CardId.SalamangreatRoar, SolemnJudgment_activate);
