@@ -180,6 +180,11 @@
       "name": "PureWinds",
       "deck": "PureWinds",
       "dialog":  "kagari.en-US"
+    },
+    {
+      "name": "Dragun",
+      "deck": "Dragun",
+      "dialog":  "kagari.en-US"
     }
   ]
 }
