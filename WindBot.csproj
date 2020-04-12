@@ -70,6 +70,8 @@
     <Compile Include="Game\AI\Decks\BlackwingExecutor.cs" />
     <Compile Include="Game\AI\Decks\DragunExecutor.cs" />
     <Compile Include="Game\AI\Decks\Level8Executor.cs" />
+    <Compile Include="Game\AI\Decks\NewMathMechExecutor.cs" />
+    <Compile Include="Game\AI\Decks\NewTimeThiefExecutor.cs" />
     <Compile Include="Game\AI\Decks\SalamangreatExecutor.cs" />
     <Compile Include="Game\AI\Decks\CyberDragonExecutor.cs" />
     <Compile Include="Game\AI\Decks\DarkMagicianExecutor.cs" />
