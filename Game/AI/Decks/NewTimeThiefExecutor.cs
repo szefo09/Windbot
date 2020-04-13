@@ -227,7 +227,6 @@ namespace WindBot.Game.AI.Decks
 
         private bool RetrograteEffect()
         {
-            System.Console.Write(Card.Owner);
             if (Card.Owner== 1)
             {
                 return true;
