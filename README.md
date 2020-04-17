@@ -116,6 +116,12 @@ WindBot can run as a "server", provide a http interface to create bot.
 
 * Zoodiac
 
+* PureWinds
+
+* Timethief
+
+* MathMech
+
 ### Unfinished decks
 
 * Blackwing
