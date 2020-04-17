@@ -183,12 +183,12 @@
     },
     {
       "name": "MathMech",
-      "deck": "NewMathMech",
+      "deck": "MathMech",
       "dialog":  "kagari.en-US"
     }, 
     {
       "name": "Timethief",
-      "deck": "NewTimeThief",
+      "deck": "TimeThief",
       "dialog":  "kagari.en-US"
     }
   ]

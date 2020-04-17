@@ -10,8 +10,8 @@ using System.Reflection;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("NewTimeThief", "AI_TimeThief")]
-    public class NewTimeThiefExecutor : DefaultExecutor
+    [Deck("TimeThief", "AI_Timethief")]
+    public class TimeThiefExecutor : DefaultExecutor
     {
         public class Monsters
         {
@@ -39,7 +39,7 @@ namespace WindBot.Game.AI.Decks
             public const int XyzReborn = 26708437;
             public const int XyzExtreme = 57319935;
             public const int TimeThiefRetrograte = 76587747;
-            public const int PhantomKnightsShade = 0;
+            public const int PhantomKnightsShade = 98827725;
             public const int TimeThiefFlyBack = 18678554;
         }
         public class XYZs
@@ -52,7 +52,7 @@ namespace WindBot.Game.AI.Decks
         
 
         
-        public NewTimeThiefExecutor(GameAI ai, Duel duel)
+        public TimeThiefExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
             // executors
@@ -69,17 +69,9 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.SpellSet,Traps.TimeThiefRetrograte);
             AddExecutor(ExecutorType.SpellSet,Traps.TimeThiefFlyBack);
             
-            //special summons
-            AddExecutor(ExecutorType.SpSummon,Monsters.PhotonTrasher ,SummonToDef);
-            AddExecutor(ExecutorType.SpSummon,Monsters.TimeThiefRegulator, SummonToDef);
-            AddExecutor(ExecutorType.SpSummon,Monsters.TimeThiefWinder, SummonToDef);
-            AddExecutor(ExecutorType.SpSummon,Monsters.PerformTrickClown, SummonToDef);
-            AddExecutor(ExecutorType.SpSummon,Monsters.TimeThiefCronocorder, SummonToDef);
-            AddExecutor(ExecutorType.SpSummon,Monsters.TimeThiefBezelShip, SummonToDef);
-            AddExecutor(ExecutorType.SpSummon,Traps.PhantomKnightsShade, SummonToDef);
-            
             //normal summons
             AddExecutor(ExecutorType.Summon,Monsters.TimeThiefRegulator  );
+            AddExecutor(ExecutorType.SpSummon, Monsters.PhotonTrasher, SummonToDef );
             AddExecutor(ExecutorType.Summon,Monsters.TimeThiefWinder );
             AddExecutor(ExecutorType.Summon,Monsters.TimeThiefBezelShip );
             AddExecutor(ExecutorType.Summon,Monsters.PerformTrickClown );
@@ -101,18 +93,9 @@ namespace WindBot.Game.AI.Decks
             //monster effects
             AddExecutor(ExecutorType.Activate,Monsters.TimeThiefRegulator , RegulatorEffect);
             AddExecutor(ExecutorType.Activate,Monsters.TimeThiefWinder);
-            AddExecutor(ExecutorType.Activate,Monsters.PhotonTrasher);
             AddExecutor(ExecutorType.Activate,Monsters.TimeThiefCronocorder);
-            AddExecutor(ExecutorType.Activate,Monsters.PerformTrickClown);
-            AddExecutor(ExecutorType.Activate,Monsters.TimeThiefBezelShip);
-                  
-            
-        }
-
-        private List<FieldInfo> GetCardIds(Type type)
-        {
-            FieldInfo[] fieldInfos = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            return fieldInfos.Where(x => x.IsLiteral && x.IsInitOnly).ToList();
+            AddExecutor(ExecutorType.Activate,Monsters.PerformTrickClown, TrickClownEffect);
+            AddExecutor(ExecutorType.Activate,Monsters.TimeThiefBezelShip);   
         }
 
         private bool SummonToDef()
@@ -285,8 +268,18 @@ namespace WindBot.Game.AI.Decks
             return true;
         }
         
+        private bool TrickClownEffect()
+        {
+            if (Bot.LifePoints <= 1000)
+            {
+                return false;
+            }
+            AI.SelectPosition(CardPosition.FaceUpDefence);
+            return true;
+        }
 
-        
+
+
     }
 
 }

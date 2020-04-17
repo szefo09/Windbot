@@ -9,8 +9,8 @@ using System.Linq;
 
 namespace WindBot.Game.AI.Decks
 {
-    [Deck("NewMathMech", "AI_Mathmech")]
-    public class NewMathmechExecutor : DefaultExecutor
+    [Deck("MathMech", "AI_Mathmech")]
+    public class MathmechExecutor : DefaultExecutor
     {
         public class CardID
         {
@@ -42,7 +42,7 @@ namespace WindBot.Game.AI.Decks
             public const int securitytoken = 93104633;
 
         }
-        public NewMathmechExecutor(GameAI ai, Duel duel)
+        public MathmechExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
             AddExecutor(ExecutorType.Activate, CardID.raigeki ,when_raigeki);
@@ -362,6 +362,16 @@ namespace WindBot.Game.AI.Decks
             {
                 return true;
             }
+        }
+
+        public override int OnSelectPlace(int cardId, int player, CardLocation location, int available)
+        {
+            if (cardId == CardID.MathmechFinalSigma)
+            {
+                if ((Zones.z5 & available) > 0) return Zones.z5;
+                if ((Zones.z6 & available) > 0) return Zones.z6;
+            }
+            return base.OnSelectPlace(cardId, player, location, available);
         }
 
     }
